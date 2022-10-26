@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="text-center mb-5 mt-5">
+            <img src="{% static "img/Yu.eat-logo_cream.png" %}" alt="logo_yueat" style="width: 50%"/>
+        </div>
+        <div class="card text-center col-6 mx-auto bg-cream login">
+            <div class="card-header">
+                Werubin - Connexion
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <label for="id_username" class="col-4 form-label">Nom d'utilisateur :</label>
+                        <input class="form-control bg-cream" id="id_username" type="text" name="username" required="">
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="id_password" class="col-4 form-label">Mot de passe :</label>
+                        <input class="form-control bg-cream" id="id_password" type="password" name="password" autocomplete="current-password" required="">
+                    </div>
+                    <button type="submit" class="btn btn-danger">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        body {
+            background-color: #d60029;
+        }
+    </style>
+{% endblock %}
