@@ -41,6 +41,7 @@ CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS]
 
 ROOT_URLCONF = "werubin.urls"
 LOGIN_URL = "users:login"
+AUTH_USER_MODEL = 'users.User'
 
 # Application definition
 
@@ -126,6 +127,9 @@ STATICFILES_DIRS = [
     BASE_DIR / "werubin/assets",
     # BASE_DIR / "frontend/dist",
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
