@@ -1,10 +1,19 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView
 from users.forms import RegistrationForm
+from django.http import HttpResponseRedirect
+
 
 # Sign Up View
-class RegistrationView(CreateView):
-    form_class = RegistrationForm
-    success_url = reverse_lazy('login')
-    template_name = 'registration/registration.html'
+def registration(request):
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            print("form is valid")
+        return HttpResponseRedirect(reverse("front_feed"))
+
+    register_form = RegistrationForm()
+    return render(request, 'registration/registration.html', locals())
+
+
