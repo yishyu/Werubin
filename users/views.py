@@ -14,6 +14,9 @@ def registration(request):
         return HttpResponseRedirect(reverse("front_feed"))
 
     register_form = RegistrationForm()
+    print("here")
     return render(request, 'registration/registration.html', locals())
 
 
+def forgotpass(request):
+    return render(request, 'registration/forgotpass.html', locals())

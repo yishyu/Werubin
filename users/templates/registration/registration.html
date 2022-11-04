@@ -1,34 +1,136 @@
-{% extends "base.html" %}
+{% extends "registration/users.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}Registration Page{% endblock title %}
 
-{% block content %}
-    <div class="container">
-        <div class="text-center mb-5 mt-5">
-            <img src="{% static " img/Yu.eat-logo_cream.png" %}" alt="logo_yueat" style="width: 50%" />
-        </div>
-        <div class="card text-center col-6 mx-auto bg-cream login">
-            <div class="card-header">
-                Registration Page
+{% block second_part %}
+<div class="caption">
+    {% if request.user_agent.is_mobile %}
+
+            <div class="text-center">
+                <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
+                <h1 style="color: #FFBA34;font-weight:600">REGISTRATION</h1>
             </div>
-            <div class="card-body" style="text-align: left">
-                <form method="post" action="">
-                    {% csrf_token %}
-                    {{ register_form|crispy }}
-                    <button type="submit" class="btn btn-secondary">Register</button>
-                    <br><br>
-                </form>
-            </div>
+            <form method="post" style="text-align:left">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="id_username" class=" form-label yellow-text">@ E-mail*</label>
+                    <input class="form-control" id="id_username" type="email" name="username" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="id_password" class="form-label yellow-text">Password*</label>
+                    <input class="form-control" id="id_password" type="password" name="password" required>
+                </div>
+                <div class="text-center mt-5">
+                    <a href="{% url 'users:login' %}">
+                        <button
+                            class="btn yellow-bg text-light"
+                            type="button"
+                            style="width:80%;font-weight: bold;font-size:1.2em">
+                            REGISTER
+                        </button>
+                    </a>
+                </div>
+                <div class="text-center mt-5">
+                    <a class="yellow-text" href="{% url 'users:login' %}">
+                        I already have an account
+                    </a>
+                </div>
+
+            </form>
+    </div>
+    {% else %}
+            <h1 style="color: #FFBA34;font-weight:600;font-size:5em">Werubin</h1>
+            <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
+
+
         </div>
     </div>
-    <style>
-        body {
-            background-color: #d60029;
-        }
-    </style>
+    <div class="col text-start align-items-xl-end" >
+            <div class="container" style="padding:10%">
 
+                <div class="text-center mb-5 mt-5">
+                    <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
+                    <h1 style="color: #FFBA34;font-weight:600">REGISTRATION</h1>
+                </div>
+                <form method="post" class="ml-5 mr-5">
+                    {% csrf_token %}
+                    <div class="row">
 
+                        <div class="form-group mb-3 col-md-6">
+                            <label for="id_username" class="form-label yellow-text">Username* </label>
+                            <input class="form-control" id="id_username" type="text" name="username"  placeholder="@zoroxat" required>
+                        </div>
+                        <div class="form-group mb-3 col-md-6">
+                            <label for="id_username" class="form-label yellow-text">@E-mail*</label>
+                            <input class="form-control" id="id_username" type="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group mb-3 col-md-6">
+                            <label for="firstname" class="form-label yellow-text">Firstname*</label>
+                            <input class="form-control" id="firstname" type="text" name="firstname" required>
+                        </div>
+                        <div class="form-group mb-3 col-md-6">
+                            <label for="lastname" class="form-label yellow-text">Lastname*</label>
+                            <input class="form-control" id="lastname" type="text" name="lastname" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <fieldset class='yellow-text form-group mb-3 col-md-6' required>
+                            <legend>Gender*</legend>
 
-{% endblock content %}
+                            <div>
+                            <input type="radio" id="Male" name="Male" value="Male"
+                                    checked>
+                            <label for="Male">Male</label>
+                            </div>
+
+                            <div>
+                            <input type="radio" id="Female" name="Female" value="Female">
+                            <label for="Female">Female</label>
+                            </div>
+
+                            <div>
+                            <input type="radio" id="Other" name="Other" value="Other">
+                            <label for="Other">Other</label>
+                            </div>
+                        </fieldset>
+                        <div class="form-group mb-3 col-md-6">
+                            <label for="datepicker" class="form-label yellow-text"><i class="bi bi-calendar yellow-text"></i> Birthdate*</label>
+                            <input class="form-control" type="date" id="datepicker" name="birthdate" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group mb-3 col-md-6">
+                            <label for="id_password" class="form-label yellow-text">Password*</label>
+                            <input class="form-control" id="id_password" type="password" name="password" required>
+                        </div>
+                        <div class="form-group mb-3 col-md-6">
+                            <label for="conf_password" class="form-label yellow-text">Confirm Password*</label>
+                            <input class="form-control" id="conf_password" type="password" name="conf_password" required>
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="{% url 'users:login' %}">
+                            <button
+                                class="btn yellow-bg text-light"
+                                type="submit"
+                                style="width:80%;font-weight: bold;font-size:1.2em">
+                                REGISTER
+                            </button>
+                        </a>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a class="yellow-text" href="{% url 'users:login' %}">
+                            I already have an account
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+    {% endif %}
+</div>
+
+{% endblock %}

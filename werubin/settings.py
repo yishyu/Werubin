@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'users',
     'werubin',
     'rest_framework',
+    'django_user_agents',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 
