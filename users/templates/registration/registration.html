@@ -6,49 +6,16 @@
 
 {% block second_part %}
 <div class="caption">
-    {% if request.user_agent.is_mobile %}
-
-            <div class="text-center">
-                <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
-                <h1 style="color: #FFBA34;font-weight:600">REGISTRATION</h1>
-            </div>
-            <form method="post" style="text-align:left">
-                {% csrf_token %}
-                <div class="form-group mb-3">
-                    <label for="id_username" class=" form-label yellow-text">@ E-mail*</label>
-                    <input class="form-control" id="id_username" type="email" name="username" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="id_password" class="form-label yellow-text">Password*</label>
-                    <input class="form-control" id="id_password" type="password" name="password" required>
-                </div>
-                <div class="text-center mt-5">
-                    <a href="{% url 'users:login' %}">
-                        <button
-                            class="btn yellow-bg text-light"
-                            type="button"
-                            style="width:80%;font-weight: bold;font-size:1.2em">
-                            REGISTER
-                        </button>
-                    </a>
-                </div>
-                <div class="text-center mt-5">
-                    <a class="yellow-text" href="{% url 'users:login' %}">
-                        I already have an account
-                    </a>
-                </div>
-
-            </form>
-    </div>
-    {% else %}
+    {%include 'message.html'%}
+    {% if not request.user_agent.is_mobile %}
             <h1 style="color: #FFBA34;font-weight:600;font-size:5em">Werubin</h1>
             <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
-
-
         </div>
     </div>
+    {% endif %}
+
     <div class="col text-start align-items-xl-end" >
-            <div class="container" style="padding:10%">
+            <div class="container" style="padding-left:10%;padding-right:10%">
 
                 <div class="text-center mb-5 mt-5">
                     <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
@@ -60,21 +27,25 @@
 
                         <div class="form-group mb-3 col-md-6">
                             <label for="id_username" class="form-label yellow-text">Username* </label>
-                            <input class="form-control" id="id_username" type="text" name="username"  placeholder="@zoroxat" required>
+                            <input class="form-control {% if form.errors.username %} border border-danger {% endif %}" id="id_username" type="text" name="username"  placeholder="@zoroxat" required>
+                            <span class="text-danger">{{form.errors.username}}</span>
                         </div>
                         <div class="form-group mb-3 col-md-6">
                             <label for="id_username" class="form-label yellow-text">@E-mail*</label>
-                            <input class="form-control" id="id_username" type="email" name="email" required>
+                            <input class="form-control {% if form.errors.email %} border border-danger {% endif %}" id="id_username" type="email" name="email" required>
+                            <span class="text-danger">{{form.errors.email}}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group mb-3 col-md-6">
                             <label for="firstname" class="form-label yellow-text">Firstname*</label>
-                            <input class="form-control" id="firstname" type="text" name="firstname" required>
+                            <input class="form-control {% if form.errors.first_name %} border border-danger {% endif %}" id="firstname" type="text" name="first_name" required>
+                            <span class="text-danger">{{form.errors.first_name}}</span>
                         </div>
                         <div class="form-group mb-3 col-md-6">
                             <label for="lastname" class="form-label yellow-text">Lastname*</label>
-                            <input class="form-control" id="lastname" type="text" name="lastname" required>
+                            <input class="form-control {% if form.errors.last_name %} border border-danger {% endif %}" id="lastname" type="text" name="last_name" required>
+                            <span class="text-danger">{{form.errors.last_name}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -82,34 +53,38 @@
                             <legend>Gender*</legend>
 
                             <div>
-                            <input type="radio" id="Male" name="Male" value="Male"
+                            <input type="radio" id="Male" name="gender" value="M"
                                     checked>
                             <label for="Male">Male</label>
                             </div>
 
                             <div>
-                            <input type="radio" id="Female" name="Female" value="Female">
+                            <input type="radio" id="Female" name="gender" value="F">
                             <label for="Female">Female</label>
                             </div>
 
                             <div>
-                            <input type="radio" id="Other" name="Other" value="Other">
+                            <input type="radio" id="Other" name="gender" value="O">
                             <label for="Other">Other</label>
                             </div>
                         </fieldset>
+                        <span class="text-danger">{{form.errors.gender}}</span>
                         <div class="form-group mb-3 col-md-6">
-                            <label for="datepicker" class="form-label yellow-text"><i class="bi bi-calendar yellow-text"></i> Birthdate*</label>
+                            <label for="datepicker" class="form-label yellow-text {% if form.errors.birthdate %} border border-danger {% endif %}"><i class="bi bi-calendar yellow-text"></i> Birthdate*</label>
                             <input class="form-control" type="date" id="datepicker" name="birthdate" required>
+                            <span class="text-danger">{{form.errors.birthdate}}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group mb-3 col-md-6">
                             <label for="id_password" class="form-label yellow-text">Password*</label>
-                            <input class="form-control" id="id_password" type="password" name="password" required>
+                            <input class="form-control {% if form.errors.password1 %} border border-danger {% endif %}" id="id_password" type="password" name="password1" required>
+                            <span class="text-danger">{{form.errors.password1}}</span>
                         </div>
                         <div class="form-group mb-3 col-md-6">
                             <label for="conf_password" class="form-label yellow-text">Confirm Password*</label>
-                            <input class="form-control" id="conf_password" type="password" name="conf_password" required>
+                            <input class="form-control {% if form.errors.password2 %} border border-danger {% endif %}" id="conf_password" type="password" name="password2" required>
+                            <span class="text-danger">{{form.errors.password2}}</span>
                         </div>
                     </div>
                     <div class="text-center mt-5">
@@ -130,7 +105,9 @@
 
                 </form>
             </div>
-    {% endif %}
+{% if request.user_agent.is_mobile %}
+        </div>
+        {%endif%}
 </div>
 
 {% endblock %}

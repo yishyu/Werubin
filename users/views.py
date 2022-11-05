@@ -11,10 +11,13 @@ def registration(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             print("form is valid")
-        return HttpResponseRedirect(reverse("front_feed"))
-
-    register_form = RegistrationForm()
-    print("here")
+            user = form.save()
+            user.set_password(form.cleaned_data['password1'])
+            user.email =
+            user.save()
+            return HttpResponseRedirect(reverse("feeds:front_feed"))
+        else:
+            print(form.errors.items())
     return render(request, 'registration/registration.html', locals())
 
 
