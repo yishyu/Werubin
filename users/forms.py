@@ -25,5 +25,5 @@ class RegistrationForm(UserCreationForm):
         email = cleaned_data.get("email").lower()
 
         if User.objects.filter(email=email).count() > 0:
-            msg = "this email is already in use"
+            msg = "This email is already in use"
             self.add_error('email', msg)
