@@ -24,27 +24,29 @@
                 <form method="post" class="ml-5 mr-5">
                     {% csrf_token %}
                     <div class="row">
-
+                        {% comment %}
+                        https://stackoverflow.com/questions/2236691/how-do-i-display-the-value-of-a-django-form-field-in-a-template
+                        {% endcomment %}
                         <div class="form-group mb-3 col-md-6">
                             <label for="id_username" class="form-label yellow-text">Username* </label>
-                            <input class="form-control {% if form.errors.username %} border border-danger {% endif %}" id="id_username" type="text" name="username"  placeholder="@zoroxat" required>
+                            <input class="form-control {% if form.errors.username %} border border-danger {% endif %}" id="id_username" type="text" name="username"  placeholder="@zoroxat" value="{{form.username.value|default_if_none:''}}" required>
                             <span class="text-danger">{{form.errors.username}}</span>
                         </div>
                         <div class="form-group mb-3 col-md-6">
                             <label for="id_username" class="form-label yellow-text">@E-mail*</label>
-                            <input class="form-control {% if form.errors.email %} border border-danger {% endif %}" id="id_username" type="email" name="email" required>
+                            <input class="form-control {% if form.errors.email %} border border-danger {% endif %}" id="id_username" type="email" name="email" value="{{form.email.value|default_if_none:''}}" required>
                             <span class="text-danger">{{form.errors.email}}</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group mb-3 col-md-6">
                             <label for="firstname" class="form-label yellow-text">Firstname*</label>
-                            <input class="form-control {% if form.errors.first_name %} border border-danger {% endif %}" id="firstname" type="text" name="first_name" required>
+                            <input class="form-control {% if form.errors.first_name %} border border-danger {% endif %}" id="firstname" type="text" name="first_name" value="{{form.first_name.value|default_if_none:''}}" required>
                             <span class="text-danger">{{form.errors.first_name}}</span>
                         </div>
                         <div class="form-group mb-3 col-md-6">
                             <label for="lastname" class="form-label yellow-text">Lastname*</label>
-                            <input class="form-control {% if form.errors.last_name %} border border-danger {% endif %}" id="lastname" type="text" name="last_name" required>
+                            <input class="form-control {% if form.errors.last_name %} border border-danger {% endif %}" id="lastname" type="text" name="last_name"  value="{{form.last_name.value|default_if_none:''}}"required>
                             <span class="text-danger">{{form.errors.last_name}}</span>
                         </div>
                     </div>
@@ -54,24 +56,26 @@
 
                             <div>
                             <input type="radio" id="Male" name="gender" value="M"
-                                    checked>
+                            {% if form.gender.value == 'M' or not form.gender.value  %} checked {% endif %}>
                             <label for="Male">Male</label>
                             </div>
 
                             <div>
-                            <input type="radio" id="Female" name="gender" value="F">
+                            <input type="radio" id="Female" name="gender" value="F"
+                            {% if form.gender.value == 'F' %} checked {% endif %}>
                             <label for="Female">Female</label>
                             </div>
 
                             <div>
-                            <input type="radio" id="Other" name="gender" value="O">
+                            <input type="radio" id="Other" name="gender" value="O"
+                            {% if form.gender.value == 'O' %} checked {% endif %}>
                             <label for="Other">Other</label>
                             </div>
                         </fieldset>
                         <span class="text-danger">{{form.errors.gender}}</span>
                         <div class="form-group mb-3 col-md-6">
                             <label for="datepicker" class="form-label yellow-text {% if form.errors.birthdate %} border border-danger {% endif %}"><i class="bi bi-calendar yellow-text"></i> Birthdate*</label>
-                            <input class="form-control" type="date" id="datepicker" name="birthdate" required>
+                            <input class="form-control" type="date" id="datepicker" name="birthdate" value="{{form.birthdate.value|default_if_none:''}}" required>
                             <span class="text-danger">{{form.errors.birthdate}}</span>
                         </div>
                     </div>
