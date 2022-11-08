@@ -7,4 +7,5 @@ urlpatterns = [
     path('logout/', dviews.LogoutView.as_view(), name='logout'),
     path('register/', views.registration, name='register'),
     path('forgotpass/', views.forgotpass, name='forgotpass'),
+    path('reset-password/<str:key>/', views.resetpass, name='resetpass'),
 ]

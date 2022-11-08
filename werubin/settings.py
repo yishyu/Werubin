@@ -43,6 +43,12 @@ ROOT_URLCONF = "werubin.urls"
 LOGIN_URL = "users:login"
 AUTH_USER_MODEL = 'users.User'
 
+EMAIL_HOST = "ssl0.ovh.net"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "werubin@yueat.be"
+EMAIL_HOST_PASSWORD = "AC%*H4TThAB&p&^wsb@*a%6N"
+EMAIL_USE_TLS = True
+
 # Application definition
 
 INSTALLED_APPS = [
