@@ -4,91 +4,51 @@
 
 {% block second_part %}
 <div class="caption">
-    {%include 'message.html'%}
-    {% if request.user_agent.is_mobile %}
-
-            <div class="text-center">
-                <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
-                <h1 style="color: #FFBA34;font-weight:600">LOGIN</h1>
-            </div>
-            <form method="post" style="text-align:left">
-                {% csrf_token %}
-                <div class="form-group mb-3">
-                    <label for="id_username" class=" form-label yellow-text">@ E-mail*</label>
-                    <input class="form-control" id="id_username" type="email" name="username" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="id_password" class="form-label yellow-text">Password*</label>
-                    <input class="form-control" id="id_password" type="password" name="password" required>
-                    <div style="text-align:right">
-                        <a class="yellow-text" href="{% url 'users:login' %}">Forgot Password ?</a>
-                    </div>
-                </div>
-                <div class="text-center mt-5">
-                    <a href="{% url 'users:login' %}">
-                        <button
-                            class="btn yellow-bg text-light"
-                            type="button"
-                            style="width:80%;font-weight: bold;font-size:1.2em">
-                            LOGIN
-                        </button>
-                    </a>
-                </div>
-                <div class="text-center mt-5">
-                    <a class="yellow-text" href="{% url 'users:register' %}">
-                        Create an account
-                    </a>
-                </div>
-
-            </form>
-    </div>
-    {% else %}
-            <h1 style="color: #FFBA34;font-weight:600;font-size:5em">Werubin</h1>
-            <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
-
-
-        </div>
-    </div>
-    <div class="col text-start align-items-xl-end" >
+    {% if not request.user_agent.is_mobile %}
+        <h1 style="color: #FFBA34;font-weight:600;font-size:5em">Werubin</h1>
+                <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
+            </div> {% comment %} close caption {% endcomment %}
+        </div> {% comment %} close thumbnail {% endcomment %}
+        <div class="col text-start align-items-xl-end" >
             <div class="container" style="padding:20%">
-
-                <div class="text-center mb-5 mt-5">
-                    <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
-                    <h1 style="color: #FFBA34;font-weight:600">LOGIN</h1>
-                </div>
-                <form method="post" class="ml-5 mr-5">
-                    {% csrf_token %}
-
-                    <div class="form-group mb-3">
-                        <label for="id_username" class="col-4 form-label yellow-text">Username*</label>
-                        <input class="form-control" id="id_username" type="text" name="username" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="id_password" class="col-4 form-label yellow-text">Password*</label>
-                        <input class="form-control" id="id_password" type="password" name="password" required>
-                        <div style="text-align:right">
-                            <a class="yellow-text" href="{% url 'users:forgotpass' %}">Forgot Password ?</a>
-                        </div>
-                    </div>
-                    <div class="text-center mt-5">
-                        <a href="{% url 'users:login' %}">
-                            <button
-                                class="btn yellow-bg text-light"
-                                type="submit"
-                                style="width:80%;font-weight: bold;font-size:1.2em">
-                                LOGIN
-                            </button>
-                        </a>
-                    </div>
-                    <div class="text-center mt-5">
-                        <a class="yellow-text" href="{% url 'users:register' %}">
-                            Create an account
-                        </a>
-                    </div>
-
-                </form>
-            </div>
     {% endif %}
-</div>
+
+        <div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5" {%endif%}>
+            <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
+            <h1 style="color: #FFBA34;font-weight:600">LOGIN</h1>
+        </div>
+        <form method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
+            {%include 'message.html'%}
+            {% csrf_token %}
+
+            <div class="form-group mb-3">
+                <label for="id_username" class=" form-label yellow-text">Username*</label>
+                <input class="form-control" id="id_username" type="text" name="username" required>
+                <span class="text-danger">{{form.errors.username}}</span>
+            </div>
+            <div class="form-group mb-3">
+                <label for="id_password" class="form-label yellow-text">Password*</label>
+                <input class="form-control" id="id_password" type="password" name="password" required>
+                <span class="text-danger">{{form.errors.password}}</span>
+                <div style="text-align:right">
+                    <a class="yellow-text" href="{% url 'users:forgotpass' %}">Forgot Password ?</a>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <button
+                    class="btn yellow-bg text-light"
+                    type="submit"
+                    style="width:80%;font-weight: bold;font-size:1.2em">
+                    LOGIN
+                </button>
+            </div>
+            <div class="text-center mt-5">
+                <a class="yellow-text" href="{% url 'users:register' %}">
+                    Create an account
+                </a>
+            </div>
+
+        </form>
+        </div></div></div> {% comment %} close desktop container & parent div & users.html div OR close mobile caption & thumbnail & users.html{% endcomment %}
 
 {% endblock %}

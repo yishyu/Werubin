@@ -12,16 +12,15 @@
             <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
         </div>
     </div>
+    <div class="col text-start align-items-xl-end" >
+        <div class="container" style="padding-left:10%;padding-right:10%">
     {% endif %}
 
-    <div class="col text-start align-items-xl-end" >
-            <div class="container" style="padding-left:10%;padding-right:10%">
-
-                <div class="text-center mb-5 mt-5">
+                <div class="text-center" style="padding-top:15vh;">
                     <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
                     <h1 style="color: #FFBA34;font-weight:600">REGISTRATION</h1>
                 </div>
-                <form method="post" class="ml-5 mr-5">
+                <form method="post" {% if not request.user_agent.is_mobile %} class="ml-5 mr-5" {%endif %}>
                     {% csrf_token %}
                     <div class="row">
                         {% comment %}
@@ -108,10 +107,7 @@
                     </div>
 
                 </form>
-            </div>
-{% if request.user_agent.is_mobile %}
-        </div>
-        {%endif%}
-</div>
+            </div></div></div> {% comment %} close desktop container & parent div & users.html div OR close mobile caption & thumbnail & users.html{% endcomment %}
+
 
 {% endblock %}

@@ -1,80 +1,44 @@
 {% extends 'registration/users.html' %}
 {% load static %}
-{% block title %}Login Page{% endblock title %}
+{% block title %}Forgot Password Page{% endblock title %}
 
 {% block second_part %}
 <div class="caption">
-    {%include 'message.html'%}
-    {% if request.user_agent.is_mobile %}
-
-            <div class="text-center">
-                <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
-                <h1 style="color: #FFBA34;font-weight:600">LOGIN</h1>
-            </div>
-            <form method="post" style="text-align:left">
-                {% csrf_token %}
-                <div class="form-group mb-3">
-                    <label for="id_username" class=" form-label yellow-text">@ E-mail*</label>
-                    <input class="form-control" id="id_username" type="email" name="username" required>
-                </div>
-                <div class="text-center mt-5">
-                    <a href="{% url 'users:forgotpass' %}">
-                        <button
-                            class="btn yellow-bg text-light"
-                            type="button"
-                            style="width:80%;font-weight: bold;font-size:1.2em">
-                            Send
-                        </button>
-                    </a>
-                </div>
-                <div class="text-center mt-5">
-                    <a class="yellow-text" href="{% url 'users:register' %}">
-                        I remembered it
-                    </a>
-                </div>
-
-            </form>
-    </div>
-    {% else %}
-            <h1 style="color: #FFBA34;font-weight:600;font-size:5em">Werubin</h1>
-            <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
-
-
-        </div>
-    </div>
-    <div class="col text-start align-items-xl-end" >
+    {% if not request.user_agent.is_mobile %}
+        <h1 style="color: #FFBA34;font-weight:600;font-size:5em">Werubin</h1>
+                <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
+            </div> {% comment %} close caption {% endcomment %}
+        </div> {% comment %} close thumbnail {% endcomment %}
+        <div class="col text-start align-items-xl-end" >
             <div class="container" style="padding:20%">
-
-                <div class="text-center mb-5 mt-5">
-                    <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
-                    <h1 style="color: #FFBA34;font-weight:600">FORGOT PASSWORD</h1>
-                </div>
-                <form method="post" class="ml-5 mr-5">
-                    {% csrf_token %}
-
-                    <div class="form-group mb-3">
-                        <label for="email" class="orm-label yellow-text">@E-mail*</label>
-                        <input class="form-control" id="email" type="email" name="email" required>
-                    </div>
-                    <div class="text-center mt-5">
-                        <a href="{% url 'users:forgotpass' %}">
-                            <button
-                                class="btn yellow-bg text-light"
-                                type="submit"
-                                style="width:80%;font-weight: bold;font-size:1.2em">
-                                Send
-                            </button>
-                        </a>
-                    </div>
-                    <div class="text-center mt-5">
-                        <a class="yellow-text" href="{% url 'users:login' %}">
-                            I remembered it
-                        </a>
-                    </div>
-
-                </form>
-            </div>
     {% endif %}
-</div>
+
+        <div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5" {%endif%}>
+            <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
+            <h1 style="color: #FFBA34;font-weight:600">FORGOT PASSWORD</h1>
+        </div>
+        <form method="POST" style="text-align:left">
+            {%include 'message.html'%}
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="id_username" class=" form-label yellow-text">@ E-mail*</label>
+                <input class="form-control" id="id_username" type="email" name="email" required>
+            </div>
+            <div class="text-center mt-5">
+                <button
+                    class="btn yellow-bg text-light"
+                    type="submit"
+                    style="width:80%;font-weight: bold;font-size:1.2em">
+                    Send
+                </button>
+            </div>
+            <div class="text-center mt-5">
+                <a class="yellow-text" href="{% url 'users:login' %}">
+                    I remembered it
+                </a>
+            </div>
+
+        </form>
+        </div></div></div> {% comment %} close desktop container & parent div & users.html div OR close mobile caption & thumbnail & users.html{% endcomment %}
 
 {% endblock %}
