@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import hashlib
 
 
 class User(AbstractUser):
@@ -15,3 +16,13 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class PasswordForgottenRequest(models.Model):
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    validity_end = models.DateTimeField("validity", auto_now=False, auto_now_add=False)
+    link = models.CharField("link", max_length=300)
+
+    def save(self, *args, **kwargs):
+        self.link = hashlib.sha256((self.user.email + str(self.validity_end)).encode("utf-8")).hexdigest()
+        super().save(*args, **kwargs)

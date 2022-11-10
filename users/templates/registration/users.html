@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="text-center text-white masthead" style="background: #ffffff;height:100vh">
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 front" >
+
+            <div class="thumbnail">
+                <div
+                class="col order-first order-sm-first order-md-first order-lg-first order-xl-first order-xxl-first"
+                style="background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);min-height:100vh;filter: brightness(50%);display:block"
+                >
+                </div>
+            {% block second_part %}
+            {% endblock %}
+
+
+    </section>
+
+
+    <style>
+        {%comment%}
+            https://stackoverflow.com/questions/43333495/text-over-image-responsive
+        {%endcomment%}
+        body{
+            overflow:hidden !important;
+
+        }
+
+        .thumbnail {
+            position: relative;
+            display: inline-block;
+            margin: 0;
+        }
+
+        .caption {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate( -50%, -50% );
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
