@@ -1,0 +1,15 @@
+{% comment %}
+Variables used:
+
+-username
+-profilepicture
+-commenttext
+-commenttime
+
+{% endcomment %}
+
+<div class="d-flex flex-row mb-2"> <img src={{profilepicture}} width="40" class="rounded-image">
+    <div class="d-flex flex-column ml-2"> <span class="name">{{username}}</span> <small class="comment-text">{{commenttext}}</small>
+        <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small>Reply</small> <small>Translate</small> <small>{{commenttime}}</small> </div>
+    </div>
+</div>

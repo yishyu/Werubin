@@ -7,25 +7,35 @@
 
             <div class="thumbnail">
                 <div
-                class="col order-first order-sm-first order-md-first order-lg-first order-xl-first order-xxl-first"
-                style="background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);min-height:100vh;filter: brightness(50%);display:block"
-                >
+                    class="col order-first order-sm-first order-md-first order-lg-first order-xl-first order-xxl-first"
+                    style="background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);min-height:100vh;filter: brightness(50%);display:block"
+                ></div>
+
+                <div class="caption">
+    
+            {% if not request.user_agent.is_mobile %}
+                
+                    <h1 style="color: #FFBA34;font-weight:600;font-size:5em">Werubin</h1>
+                    <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
+                </div> {% comment %} close caption {% endcomment %}
+            </div> {% comment %} close thumbnail {% endcomment %}
+                
+            <div class="col text-start align-items-xl-end" style="height:80%">
+                <div class="container" style="padding-left:10%;padding-right:10%;width:80%;height:50%;box-sizing:unset">
+                
+            {% endif %}
+                    
+                    {% block second_part %}
+                    {% endblock %}
                 </div>
-            {% block second_part %}
-            {% endblock %}
-
-
+            </div>
+        </div>
     </section>
-
 
     <style>
         {%comment%}
             https://stackoverflow.com/questions/43333495/text-over-image-responsive
         {%endcomment%}
-        body{
-            overflow:hidden !important;
-
-        }
 
         .thumbnail {
             position: relative;
@@ -35,9 +45,10 @@
 
         .caption {
             position: absolute;
-            top: 50%;
+            bottom: 20%;
+            top: 20%;
             left: 50%;
-            transform: translate( -50%, -50% );
+            transform: translate( -50%, 0% );
             text-align: center;
             color: white;
             font-weight: bold;
