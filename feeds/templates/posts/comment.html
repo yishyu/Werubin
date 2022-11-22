@@ -9,7 +9,12 @@ Variables used:
 {% endcomment %}
 
 <div class="d-flex flex-row mb-2"> <img src={{profilepicture}} width="40" class="rounded-image">
-    <div class="d-flex flex-column ml-2"> <span class="name">{{username}}</span> <small class="comment-text">{{commenttext}}</small>
-        <div class="d-flex flex-row align-items-center status"> <small>Like</small> <small>Reply</small> <small>Translate</small> <small>{{commenttime}}</small> </div>
+    <div class="d-flex flex-column ml-2"> <span class="name yellow-text"><u>{{username}}</u></span> <small class="comment-text yellow-darker-text">{{commenttext}}</small>
+        <div class="d-flex flex-row align-items-center status yellow-text"> 
+            <small><i class="bi bi-hand-thumbs-up-fill"></i> Like</small>
+            <small><i class="bi bi-chat-dots-fill"></i> Comment</small>
+
+            <small class="yellow-darker-text">{{commenttime}}</small> 
+        </div>
     </div>
 </div>

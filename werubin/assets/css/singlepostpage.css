@@ -6,10 +6,6 @@ body {
     font-weight: 300
 }
 
-.card {
-    border: none
-}
-
 .ellipsis {
     color: #a09c9c
 }
@@ -28,19 +24,6 @@ hr {
 .ellipsis i {
     margin-top: 3px;
     cursor: pointer
-}
-
-.icons i {
-    font-size: 25px
-}
-
-.icons .fa-heart {
-    color: red
-}
-
-.icons .fa-smile-o {
-    color: yellow;
-    font-size: 29px
 }
 
 .rounded-image {
@@ -62,7 +45,6 @@ hr {
 
 .status small {
     margin-right: 10px;
-    color: blue
 }
 
 .form-control {
@@ -87,3 +69,29 @@ hr {
     outline: 0;
     box-shadow: none
 }
+
+.post-picture {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    border-radius: 4px;
+}
+
+.location {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    border-radius: 40px;
+}
+
+.card {
+    border-radius: 10px !important;
+}
+
+.media-buttons {
+    font-size: 20px;
+}
+
+

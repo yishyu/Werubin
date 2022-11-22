@@ -33,17 +33,6 @@
             https://stackoverflow.com/questions/43333495/text-over-image-responsive
         {% endcomment %}
 
-        .users-section {
-            background: #ffffff;
-            height:100%;
-        }
-
-        .users-section .left-panel {
-            position: relative;
-            display: inline-block;
-            margin: 0;
-            
-        }
         /*IF NOT ON MOBILE!*/
         .users-section .left-panel .thumbnail {
             background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);
@@ -56,43 +45,6 @@
             top: 0;
             left: 0;
         }
-
-        .users-section .left-panel .caption {
-            position: fixed;
-            min-width:50vw;
-            min-height:100vh;
-            position: fixed;
-            bottom: 20%;
-            top: 20%;
-            left: 0;
-
-            /*transform: translate( -50%, 0% );*/
-            text-align: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .users-section .left-panel .caption .werubin-title {
-            font-weight:600;
-            font-size:5em;
-        }
-        
-        .users-section .left-panel .caption .werubin-subtitle {
-            font-weight:400;
-            font-size:2em;
-            margin-top:25vh;
-        }
-        
-        .users-section .desktop-right-panel {
-            height:80%
-        }
-
-        .users-section .desktop-right-panel .container {
-            width:80%;
-            height:100vh;
-            box-sizing:unse;
-        }
-
 
     </style>
 {% endblock %}
