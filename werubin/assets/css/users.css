@@ -1,0 +1,17 @@
+.users-section .bi-person-fill {
+    font-size:4em;
+}
+
+.users-section .right-column-title {
+    font-weight:600;
+}
+
+.users-section .forgot-pass-form {
+    text-align: left;
+}
+
+.users-section .submit-button {
+    width:80%;
+    font-weight: bold;
+    font-size:1.2em
+}

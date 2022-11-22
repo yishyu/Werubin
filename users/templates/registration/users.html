@@ -1,30 +1,26 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-    <section class="text-center text-white masthead" style="background: #ffffff;height:100vh">
-        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 front" >
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'css/users.css'%}?v=1">
+{% endblock %}
 
-            <div class="thumbnail">
-                <div
-                    class="col order-first order-sm-first order-md-first order-lg-first order-xl-first order-xxl-first"
-                    style="background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);min-height:100vh;filter: brightness(50%);display:block"
-                ></div>
+{% block content %}
+    <section class="users-section text-center text-white masthead">
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 front">
+            <div class="left-panel">
+                <div class="thumbnail col order-first order-sm-first order-md-first order-lg-first order-xl-first order-xxl-first">
+                </div>
 
                 <div class="caption">
-    
             {% if not request.user_agent.is_mobile %}
-                
-                    <h1 style="color: #FFBA34;font-weight:600;font-size:5em">Werubin</h1>
-                    <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
-                </div> {% comment %} close caption {% endcomment %}
-            </div> {% comment %} close thumbnail {% endcomment %}
-                
-            <div class="col text-start align-items-xl-end" style="height:80%">
-                <div class="container" style="padding-left:10%;padding-right:10%;width:80%;height:50%;box-sizing:unset">
-                
+                    <h1 class="werubin-title yellow-text">Werubin</h1>
+                    <h1 class="werubin-subtitle yellow-text">Connect By Traveling</h1>
+                </div>
+            </div>
+            <div class="desktop-right-panel col text-start align-items-xl-end">
+                <div class="container">
             {% endif %}
-                    
                     {% block second_part %}
                     {% endblock %}
                 </div>
@@ -33,25 +29,70 @@
     </section>
 
     <style>
-        {%comment%}
+        {% comment %}
             https://stackoverflow.com/questions/43333495/text-over-image-responsive
-        {%endcomment%}
+        {% endcomment %}
 
-        .thumbnail {
+        .users-section {
+            background: #ffffff;
+            height:100%;
+        }
+
+        .users-section .left-panel {
             position: relative;
             display: inline-block;
             margin: 0;
+            
+        }
+        /*IF NOT ON MOBILE!*/
+        .users-section .left-panel .thumbnail {
+            background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);
+            filter: brightness(50%);
+            display:float;
+
+            min-width:50vw;
+            min-height:100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
-        .caption {
-            position: absolute;
+        .users-section .left-panel .caption {
+            position: fixed;
+            min-width:50vw;
+            min-height:100vh;
+            position: fixed;
             bottom: 20%;
             top: 20%;
-            left: 50%;
-            transform: translate( -50%, 0% );
+            left: 0;
+
+            /*transform: translate( -50%, 0% );*/
             text-align: center;
             color: white;
             font-weight: bold;
         }
+
+        .users-section .left-panel .caption .werubin-title {
+            font-weight:600;
+            font-size:5em;
+        }
+        
+        .users-section .left-panel .caption .werubin-subtitle {
+            font-weight:400;
+            font-size:2em;
+            margin-top:25vh;
+        }
+        
+        .users-section .desktop-right-panel {
+            height:80%
+        }
+
+        .users-section .desktop-right-panel .container {
+            width:80%;
+            height:100vh;
+            box-sizing:unse;
+        }
+
+
     </style>
 {% endblock %}

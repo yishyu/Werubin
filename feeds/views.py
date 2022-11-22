@@ -19,14 +19,4 @@ def singlePost(request, postID):
     numberofcomments=1
     posttime="20 mins"
 
-    return render(request, 'posts/singlepostpage.html', 
-        { "username": username,
-          "postID": postID, 
-          "location": location,
-          "profilepicture": profilepicture,
-          "picturelink": picturelink,
-          "posttext": posttext,
-          "numberofcomments": numberofcomments,
-          "posttime": posttime
-        }
-    )
+    return render(request, 'posts/singlepostpage.html', locals())

@@ -5,8 +5,8 @@
 {% block second_part %}
 
 <div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5 {%endif%}" >
-    <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
-    <h1 style="color: #FFBA34;font-weight:600">LOGIN</h1>
+    <i class="bi bi-person-fill yellow-text"></i>
+    <h1 class="right-column-title yellow-text">LOGIN</h1>
 </div>
 <form method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
     {%include 'message.html'%}
@@ -26,10 +26,7 @@
         </div>
     </div>
     <div class="text-center mt-5">
-        <button
-            class="btn yellow-bg text-light"
-            type="submit"
-            style="width:80%;font-weight: bold;font-size:1.2em">
+        <button class="submit-button btn yellow-bg text-light" type="submit">
             LOGIN
         </button>
     </div>

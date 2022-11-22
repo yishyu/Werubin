@@ -6,8 +6,8 @@
 {% block second_part %}
 
 <div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5 {%endif%}">
-    <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
-    <h1 style="color: #FFBA34;font-weight:600">REGISTRATION</h1>
+    <i class="bi bi-person-fill yellow-text"></i>
+    <h1 class="right-column-title yellow-text">REGISTRATION</h1>
 </div>
 <form method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
     {% csrf_token %}
@@ -38,7 +38,7 @@
             <span class="text-danger">{{form.errors.last_name}}</span>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-bottom: 0px">
         <fieldset class='yellow-text form-group mb-3 col-md-6' required>
             <legend>Gender*</legend>
 
@@ -46,9 +46,7 @@
             <input type="radio" id="Male" name="gender" value="M"
             {% if form.gender.value == 'M' or not form.gender.value  %} checked {% endif %}>
             <label for="Male">Male</label>
-            </div>
-
-            <div>
+            <br>
             <input type="radio" id="Female" name="gender" value="F"
             {% if form.gender.value == 'F' %} checked {% endif %}>
             <label for="Female">Female</label>
@@ -60,8 +58,8 @@
             <label for="Other">Other</label>
             </div>
         </fieldset>
-        <span class="text-danger">{{form.errors.gender}}</span>
         <div class="form-group mb-3 col-md-6">
+            <span class="text-danger">{{form.errors.gender}}</span>
             <label for="datepicker" class="form-label yellow-text {% if form.errors.birthdate %} border border-danger {% endif %}"><i class="bi bi-calendar yellow-text"></i> Birthdate*</label>
             <input class="form-control" type="date" id="datepicker" name="birthdate" value="{{form.birthdate.value|default_if_none:''}}" required>
             <span class="text-danger">{{form.errors.birthdate}}</span>
@@ -81,10 +79,7 @@
     </div>
     <div class="text-center mt-5">
         <a href="{% url 'users:login' %}">
-            <button
-                class="btn yellow-bg text-light"
-                type="submit"
-                style="width:80%;font-weight: bold;font-size:1.2em">
+            <button class="submit-button btn yellow-bg text-light" type="submit">
                 REGISTER
             </button>
         </a>
