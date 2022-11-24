@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% comment %}
+Variables used:
+
+-filters (for the type of posts to query)
+
+{% endcomment %}
+
+{% block extrahead %}
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{% static 'css/singlepostpage.css' %}">
+
+<!-- CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+{% endblock %}
+
+{% block content %}
+
+This is the feeds page
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-xs-12">
+            <div class="feeds-buttons row justify-content-center">
+                <div class="for-you col-4 text-center">#For you</div>
+                <div class="explore col-4 text-center">#Explore</div>
+                <div class="friends col-4 text-center">#Friends</div>
+            </div>
+            <div class="post-li">
+                {% include 'posts/post.html' with username="Tristan Cazier" postID=1000 location="Egypt" hashtags="#Egypt, #Mummy, #Pyramids" profilepicture="https://cdn.discordapp.com/avatars/238355399634321408/a_0deed0f2ae15f2c36417675403066ddf.gif?size=1024" picturelink="https://i.pinimg.com/736x/90/6f/99/906f99062b11c79e64f30c4a6be37ba3.jpg" map="" posttext="Looking for mummies" numberofcomments=1 posttime="2 November 2022, 22:12"%}
+            </div>
+            <div class="post-li">
+                {% include 'posts/post.html' with username="Tristan Cazier" postID=1000 location="Egypt" hashtags="#Egypt, #Mummy, #Pyramids" profilepicture="https://cdn.discordapp.com/avatars/238355399634321408/a_0deed0f2ae15f2c36417675403066ddf.gif?size=1024" picturelink="https://i.pinimg.com/736x/90/6f/99/906f99062b11c79e64f30c4a6be37ba3.jpg" map="" posttext="Looking for mummies" numberofcomments=1 posttime="2 November 2022, 22:12"%}
+            </div>
+            <div class="post-li">
+                {% include 'posts/post.html' with username="Tristan Cazier" postID=1000 location="Egypt" hashtags="#Egypt, #Mummy, #Pyramids" profilepicture="https://cdn.discordapp.com/avatars/238355399634321408/a_0deed0f2ae15f2c36417675403066ddf.gif?size=1024" picturelink="https://i.pinimg.com/736x/90/6f/99/906f99062b11c79e64f30c4a6be37ba3.jpg" map="" posttext="Looking for mummies" numberofcomments=1 posttime="2 November 2022, 22:12"%}
+            </div>
+         </div>
+    </div>
+</div>
+
+{% endblock %}

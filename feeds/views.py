@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def front_feed(request):
-    return render(request, 'base.html')
+    return render(request, 'feeds/feed.html', locals())
 
 @login_required
 def singlePost(request, postID):
