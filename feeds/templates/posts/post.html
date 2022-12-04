@@ -33,10 +33,7 @@ Variables used:
                                     shared post <a href="#">{{post.shares.id}}</a> from {{post.author.username}}
                                 {% else %}
                                     was in
-                                    {%comment%}
-                                    TODO
-                                    <b class="yellow-text"><u>{{post.location}}</u></b>
-                                    {%endcomment%}
+                                    <b class="yellow-text"><u>{{post.location.name}}</u></b>
                                 {% endif %}
                             </span>
                             {% for tag in post.tags.all %}
@@ -46,10 +43,9 @@ Variables used:
                     </div>
                     <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2 yellow-darker-text">{{post.time_ago}}</small> <i class="fa fa-ellipsis-h"></i> </div>
                 </div>
-                {% comment %}
-                make a map and pin lat and lng on it
-                <img class="img-fluid location" src="{% static 'img/map.png' %}">
-                {% endcomment %}
+                {% if post.location %}
+                    <div class="map" id="map{{post.id}}"></div>
+                {% endif %}
                 <div class="p-2">
                     <p class="text-justify yellow-darker-text">{{post.content}}</p>
                     {%for picture in post.postimage_set.all%}
@@ -104,6 +100,7 @@ Variables used:
                     </div>
                 </div>
             </div>
+
 {% comment %}
         </div>
     </div>

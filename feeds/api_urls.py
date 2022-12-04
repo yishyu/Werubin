@@ -1,4 +1,3 @@
-
 from django.urls import path
 import feeds.api_views as views
 

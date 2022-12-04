@@ -49,6 +49,8 @@ EMAIL_HOST_USER = "werubin@yueat.be"
 EMAIL_HOST_PASSWORD = "AC%*H4TThAB&p&^wsb@*a%6N"
 EMAIL_USE_TLS = True
 
+MAPS_API_KEY = env("MAPS_API_KEY")
+
 # Application definition
 
 INSTALLED_APPS = [

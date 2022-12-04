@@ -55,5 +55,43 @@ Variables used:
     </div>
 </div>
 {% include "posts/likes_shares_modal.html" %}
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDssMnFaUqhs1fC3iVP4dr4T5a8Qxecaws&callback=initMap&v=weekly"
+defer
+></script>
+<script>
+    // Initialize and add the map
+    function initMap() {
+        {% for post in posts %}
+            {% if post.location %}
+                var position = {
+                    lat: {{post.location.lat}},
+                    lng: {{post.location.lng}}
+                }
+                // The map, centered at Lessines
+                var map = new google.maps.Map(
+                    document.getElementById("map"+{{post.id}}),
+                    {
+                        zoom: 12,
+                        center: position,
+                        disableDefaultUI: true,
+                    }
+                );
+                var infoWindow = new google.maps.InfoWindow();
+                var markers = [];
 
+                // The marker, positioned at Lessines
+                markers.push(new google.maps.Marker({
+                    id: {{post.id}},
+                    position: position,
+                    title: "{{post.location.name}}",
+                    map: map,
+                }));
+            {% endif %}
+        {% endfor %}
+
+    }
+    window.initMap = initMap;
+
+</script>
 {% endblock %}

@@ -37,3 +37,7 @@ a:hover{
 .bg-grey{
     background: #f8f9fa !important;
 }
+
+.map {
+    height: 20vh;
+  }
