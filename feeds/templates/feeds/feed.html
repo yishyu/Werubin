@@ -26,9 +26,9 @@ Variables used:
     <div class="row justify-content-center">
         <div class="col-md-7 col-xs-12">
             <div class="feeds-buttons row justify-content-center">
-                <div class="for-you col-4 text-center">#For you</div>
-                <div class="explore col-4 text-center">#Explore</div>
-                <div class="friends col-4 text-center">#Friends</div>
+                <a href="{% url 'feeds:front_feed'%}?type=ForYou" class="col-4 text-center {% if feed == 'ForYou' %}blue-text {%else%}yellow-text{%endif %}"><h4> #For you</h4></a>
+                <a href="{% url 'feeds:front_feed'%}?type=Explore" class="col-4 text-center {% if feed == 'Explore' %}blue-text {%else%}yellow-text{%endif %}"><h4> #Explore</h4></a>
+                <a href="{% url 'feeds:front_feed'%}?type=Followers" class="col-4 text-center {% if feed == 'Followers' %}blue-text {%else%}yellow-text{%endif %}"><h4> #Friends</h4></a>
             </div>
             {% for post in posts%}
                 <div class="post-li">

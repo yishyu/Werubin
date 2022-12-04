@@ -1,27 +1,34 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from travels.models import Post
+from travels.models import Post, Tag
 
 
 @login_required
 def front_feed(request):
-    posts = Post.objects.order_by("-creation_date")
+    if len(request.GET) > 0:
+        feed_type = request.GET.get('type')
+        if feed_type == "Followers":
+            feed = "Followers"
+            posts = Post.objects.filter(author__in=request.user.followers.all())
+        elif feed_type == "Explore":
+            feed = "Explore"
+            posts = Post.objects.all()
+        elif feed_type == "ForYou":
+            feed = "ForYou"
+            posts = Post.objects.filter(tags__in=request.user.tags.all())
+        elif feed_type == "SingleTag":
+            feed = "SingleTag"
+            posts = Post.objects.filter(tags__name=request.GET.get("tag"))
+    else:  # ForYou by Default
+        # ForYou
+        feed = "ForYou"
+        posts = Post.objects.filter(tags__in=request.user.tags.all())
+
+    posts = posts.order_by("-creation_date")
     return render(request, 'feeds/feed.html', locals())
 
 
 @login_required
 def singlePost(request, postID):
-
-    # example variables
-    # username = "Tristan Cazier"
-    # postID=1000
-    # location="Egypt"
-    # hashtags="#Egypt, #Mummy, #Pyramids"
-    # profilepicture="https://cdn.discordapp.com/avatars/238355399634321408/a_0deed0f2ae15f2c36417675403066ddf.gif?size=1024"
-    # picturelink="https://i.pinimg.com/736x/90/6f/99/906f99062b11c79e64f30c4a6be37ba3.jpg"
-    # map=""
-    # posttext="Looking for mummies"
-    # numberofcomments=1
-    # posttime="2 November 2022, 22:12"
     post = Post.objects.get(id=postID)
     return render(request, 'posts/singlepostpage.html', locals())
