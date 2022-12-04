@@ -33,3 +33,7 @@ a:hover{
 .blue-text{
     color: #249EA0
 }
+
+.bg-grey{
+    background: #f8f9fa !important;
+}
