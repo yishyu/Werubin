@@ -1,3 +1,4 @@
+{% load static %}
 {% comment %}
 Variables used:
 
@@ -7,14 +8,15 @@ Variables used:
 -commenttime
 
 {% endcomment %}
+    <div class="d-flex flex-row mb-2"> <img src="{{comment.author.profile_picture.url}}" width="40" class="rounded-image">
+        <div class="d-flex flex-column ml-2">
+            <span class="name"><a href="#"class="yellow-link"><u>{{comment.author.username}}</u></a></span>
+            <small class="comment-text yellow-darker-text">{{comment.content}}</small>
+            <div class="d-flex flex-row align-items-center status yellow-text">
+                <small><a href="#"class="yellow-link"><i class="bi bi-hand-thumbs-up-fill"></i> Like</a></small>
+                <small><a href="#"class="yellow-link"><i class="bi bi-chat-dots-fill"></i> Comment</a></small>
 
-<div class="d-flex flex-row mb-2"> <img src={{profilepicture}} width="40" class="rounded-image">
-    <div class="d-flex flex-column ml-2"> <span class="name yellow-text"><u>{{username}}</u></span> <small class="comment-text yellow-darker-text">{{commenttext}}</small>
-        <div class="d-flex flex-row align-items-center status yellow-text"> 
-            <small><i class="bi bi-hand-thumbs-up-fill"></i> Like</small>
-            <small><i class="bi bi-chat-dots-fill"></i> Comment</small>
-
-            <small class="yellow-darker-text">{{commenttime}}</small> 
+                <small class="yellow-darker-text">{{comment.time_ago}}</small>
+            </div>
         </div>
     </div>
-</div>

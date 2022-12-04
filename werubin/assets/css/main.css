@@ -13,3 +13,19 @@
 .yellow-bg{
     background:#FFBA34 !important
 }
+
+a{
+    text-decoration: None;
+}
+a:hover{
+    text-decoration: underline;
+}
+
+.yellow-link{
+    text-decoration: None;
+    color:#FFBA34;
+}
+
+.yellow-link:hover{
+    color:#e19600;
+}
