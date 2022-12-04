@@ -13,6 +13,7 @@ class User(AbstractUser):
     birthdate = models.DateField('Birthdate', auto_now=False, auto_now_add=False, null=True, blank=True)
     profile_picture = models.ImageField("Profile Picture", upload_to='profile/images', height_field=None, width_field=None, max_length=None, blank=True, null=True)
     followers = models.ManyToManyField("self", verbose_name="Followers", blank=True)
+    tags = models.ManyToManyField("travels.Tag", verbose_name="Preferred tags")
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

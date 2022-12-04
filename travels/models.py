@@ -1,6 +1,8 @@
 from django.db import models
 # https://stackoverflow.com/questions/15285740/make-django-admin-to-display-no-more-than-100-characters-in-list-results
 from django.template.defaultfilters import truncatechars  # or truncatewords
+import datetime
+from django.utils import timezone
 
 
 class Post(models.Model):
@@ -61,7 +63,13 @@ class Comment(models.Model):
         '''
         TODO method return now - creation_date => min if < 1h, hour if < 1 day, day
         '''
-        return "8 min"
+        time = datetime.datetime.now() - self.creation_date
+        if time.days > 0:
+            return f"{time.days}day" if time.days == 1 else f"{time.days}days"
+        if time.total_seconds() // 3600 > 0:
+            return f"{int(time.total_seconds() // 3600)}h ago"
+        else:
+            return f"{int(time.total_seconds() // 60)}min ago"
 
 
 class PostImage(models.Model):
