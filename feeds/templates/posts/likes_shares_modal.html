@@ -1,0 +1,57 @@
+<div class="modal" id="likes_shares" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+              <div class="modal-header">
+                <h5 id = "head" class="modal-title"></h5>
+                <button type="button" class="close" onclick="closeModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="body" >
+              </div>
+              <div class="modal-footer" id = "footerAdresse">
+              </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function closeModal(){
+        $("#likes_shares").modal('hide');
+
+    }
+    function toggleModal(modal_type, users){
+        for (user of users){
+            console.log(user)
+        }
+
+        document.getElementById('head').innerHTML = 'Shares'
+        document.getElementById('body').innerHTML = `
+        <div class="row">
+            <div class="col-2">
+                <img src="{{comment.author.profile_picture.url}}" class="rounded-image">
+
+            </div>
+            <div class="col-6">
+                <span>Yishen Yu</span>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-outline-warning"> Follow</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img src="{{comment.author.profile_picture.url}}"  class="rounded-image">
+
+            </div>
+            <div class="col-6">
+                Yishen Yu
+            </div>
+            <div class="col-2">
+                <button class="btn btn-outline-warning"> Follow</button>
+            </div>
+        </div>
+        `
+        $("#likes_shares").modal('show');
+    }
+</script>
