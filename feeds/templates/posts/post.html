@@ -29,14 +29,18 @@ Variables used:
                         <div class="d-flex flex-column ml-2">
                             <span class="yellow-darker-text">
                                 <b><a href="#"class="yellow-link"><u>{{post.author.username}}</u></a></b>
-                                was in
-                                {%comment%}
-                                TODO
-                                <b class="yellow-text"><u>{{post.location}}</u></b>
-                                {%endcomment%}
+                                {% if post.shares %}
+                                    shared post <a href="#">{{post.shares.id}}</a> from {{post.author.username}}
+                                {% else %}
+                                    was in
+                                    {%comment%}
+                                    TODO
+                                    <b class="yellow-text"><u>{{post.location}}</u></b>
+                                    {%endcomment%}
+                                {% endif %}
                             </span>
                             {% for tag in post.tags.all %}
-                                <small><a href="#"class="yellow-link"><u>#{{tag}}</u></a></small>
+                                <small><a href="{% url 'feeds:front_feed' %}?type=SingleTag&tag={{tag.name}}" class="yellow-link"><u>#{{tag}}</u></a></small>
                             {% endfor %}
                         </div>
                     </div>
@@ -52,6 +56,28 @@ Variables used:
                         <img class="img-fluid post-picture" src={{picture.image.url}}>
                     {% endfor %}
                     <hr>
+                    <div class="row">
+                        <div class="yellow-text col-3">
+                            5 Likes
+                        </div>
+                        <div class="col-9 d-flex flex-row muted-color justify-content-end">
+                            {%if post.comment_set.all.count > 0%}
+                                <span>
+                                    <a class="yellow-link" data-toggle="collapse" href="#collapseComment" role="button" aria-expanded="false" aria-controls="collapseComment">
+                                        {{post.comment_set.all.count}} comment{% if post.comment_set.all.count > 1 %}s{% endif %}
+                                    </a>
+                                </span>
+                            {%endif %}
+                            {%if post.post_set.all.count > 0%}
+                                <span>
+                                    {{post.post_set.all.count}} share{% if post.post_set.all.count > 1 %}s{% endif %}
+                                </span>
+                            {%endif %}
+
+                        </div>
+                    </div>
+
+                    <hr>
                     <div class="d-flex justify-content-between align-items-center yellow-text">
                         <div class="row media-buttons d-flex align-items-center text-center">
                             <span class="col"><a href="#"class="col yellow-link"><i class="bi bi-hand-thumbs-up-fill"></i> Like</span></a>
@@ -60,19 +86,7 @@ Variables used:
                         </div>
                     </div>
                     <hr>
-                    <div class="d-flex flex-row muted-color justify-content-end">
-                        <span class="yellow-darker-text">
-                    {%if post.comment_set.all.count > 0%}
-                        <a class="yellow-link" data-toggle="collapse" href="#collapseComment" role="button" aria-expanded="false" aria-controls="collapseComment">
-                            {{post.comment_set.all.count}} comment{% if post.comment_set.all.count > 1 %}s{% endif %}
-                        </a>
-                    {% else %}
-                        no comment
-                    {%endif %}
-                        </span>
-                    </div>
 
-                    <hr>
                     <div class="collapse" id="collapseComment">
 
                         {%for comment in post.comment_set.all %}
@@ -80,11 +94,11 @@ Variables used:
 
                             {% include 'posts/comment.html' with comment=comment%}
 
-                            <div class="comment-input"> <input type="text" class="form-control">
-                                <div class="fonts"> <i class="fa fa-camera"></i> </div>
-                            </div>
                         </div>
                         {% endfor %}
+                        <div class="comment-input"> <input type="text" class="form-control">
+                            <div class="fonts"> <i class="fa fa-camera"></i> </div>
+                        </div>
                     </div>
                 </div>
             </div>
