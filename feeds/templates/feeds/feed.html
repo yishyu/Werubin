@@ -25,6 +25,22 @@ Variables used:
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-7 col-xs-12">
+
+            <div class="card mt-4 mb-5" style="background: #f8f9fa">
+                <div class="d-flex justify-content-between p-3 px-3">
+                    <div class="row">
+                        <div class="col-3">
+                        </div>
+                        <div class="col-6 text-center">
+                            <button class="btn yellow-bg text-light p-3 px-5"> Post Your Trip <i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-3">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <div class="feeds-buttons row justify-content-center">
                 <a href="{% url 'feeds:front_feed'%}?type=ForYou" class="col-4 text-center {% if feed == 'ForYou' %}blue-text {%else%}yellow-text{%endif %}"><h4> #For you</h4></a>
                 <a href="{% url 'feeds:front_feed'%}?type=Explore" class="col-4 text-center {% if feed == 'Explore' %}blue-text {%else%}yellow-text{%endif %}"><h4> #Explore</h4></a>
@@ -38,5 +54,6 @@ Variables used:
          </div>
     </div>
 </div>
+{% include "posts/likes_shares_modal.html" %}
 
 {% endblock %}

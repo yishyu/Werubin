@@ -8,7 +8,7 @@ Variables used:
 -commenttime
 
 {% endcomment %}
-    <div class="d-flex flex-row mb-2"> <img src="{{comment.author.profile_picture.url}}" width="40" class="rounded-image">
+    <div class="d-flex flex-row mb-2"> <img src="{{comment.author.profile_picture.url}}" class="rounded-image">
         <div class="d-flex flex-column ml-2">
             <span class="name"><a href="#"class="yellow-link"><u>{{comment.author.username}}</u></a></span>
             <small class="comment-text yellow-darker-text">{{comment.content}}</small>

@@ -31,6 +31,18 @@ class Post(models.Model):
     def short_description(self):
         return truncatechars(self.content, 100)
 
+    @property
+    def time_ago(self):
+        time = datetime.datetime.now() - self.creation_date
+        if time.days > 0:
+            if time.days > 7:
+                return self.creation_date
+            return f"{time.days}day" if time.days == 1 else f"{time.days}days"
+        if time.total_seconds() // 3600 > 0:
+            return f"{int(time.total_seconds() // 3600)}h ago"
+        else:
+            return f"{int(time.total_seconds() // 60)}min ago"
+
 
 class Tag(models.Model):
     name = models.CharField("name", max_length=50)
@@ -60,11 +72,10 @@ class Comment(models.Model):
 
     @property
     def time_ago(self):
-        '''
-        TODO method return now - creation_date => min if < 1h, hour if < 1 day, day
-        '''
         time = datetime.datetime.now() - self.creation_date
         if time.days > 0:
+            if time.days > 7:
+                return self.creation_date
             return f"{time.days}day" if time.days == 1 else f"{time.days}days"
         if time.total_seconds() // 3600 > 0:
             return f"{int(time.total_seconds() // 3600)}h ago"
