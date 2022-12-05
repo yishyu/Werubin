@@ -8,6 +8,7 @@ from users.models import User, PasswordForgottenRequest
 from django.core.mail import send_mail
 import datetime as dt
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 
 # Sign Up View
@@ -72,3 +73,8 @@ def resetpass(request, key):
 
     form = ResetPasswordForm(user)
     return render(request, 'registration/resetpass.html', locals())
+
+
+@login_required
+def profile(request):
+    return render(request, 'self_profile.html', locals())
