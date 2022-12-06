@@ -40,4 +40,51 @@ a:hover{
 
 .map {
     height: 20vh;
-  }
+}
+
+.rounded-image {
+    border-radius: 50% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav .align-self-center {
+    text-align: center;
+}
+
+.left {
+    display: flex !important;
+    justify-content: left;
+    align-self: center;
+}
+
+.right {
+    display: flex !important;
+    justify-content: right;
+    align-self: center;
+}
+
+.center {
+    display: flex !important;
+    justify-content: center;
+    align-self: center;
+}
+
+@media (max-width:768px) {
+    nav form button {
+        height: 40px;
+        width: 100% !important
+    }
+}
+
+@media (min-width:768px) {
+    nav form button {
+        height: 40px;
+        width: fit-content !important
+    }
+}
+
+nav form input {
+    height: 40px
+}
