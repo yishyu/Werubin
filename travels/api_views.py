@@ -18,7 +18,7 @@ def add_post(request):
         print("ratio")
         formA = form.save()
         print("works")
-        serializer = PostSerializer([formA], context={'request': request}, many=True)
+        serializer = PostSerializer(formA, context={'request': request})
         return Response(serializer.data)
     return Response(
             status=status.HTTP_400_BAD_REQUEST
@@ -29,7 +29,7 @@ def add_comment(request):
     form = CommentForm(request.data)
     if form.is_valid():
         formA = form.save()
-        serializer = CommentSerializer([formA], context={'request': request}, many=True)
+        serializer = CommentSerializer(formA, context={'request': request})
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 

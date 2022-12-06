@@ -7,6 +7,6 @@ from travels.serializers import PostSerializer, CommentSerializer, AlbumSerializ
 
 @api_view(['GET'])
 def all_posts(request):
-    post_qs = Post.objets.order_by("-creation_date")
+    post_qs = Post.objects.order_by("-creation_date")
     serializer = PostSerializer(post_qs, context={'request': request}, many=True)
     return Response(serializer.data)
