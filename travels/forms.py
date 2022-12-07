@@ -37,9 +37,10 @@ class CommentForm(ModelForm):
 
     def clean(self, admin=False):
         cleaned_data = super().clean()
-        if admin:
-            return
         content = cleaned_data.get('content')
+        post_id = cleaned_data.get('post-id', None)
         if len(content) > 150:
             msg = "The content of this comment is superior to 150 characters."
             self.add_error('content', msg)
+        if Post.objects.filter(id=post_id).count() == 0:
+            self.add_error('post-id', f"Post with id {post_id} does not exist")

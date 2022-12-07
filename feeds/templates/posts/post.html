@@ -17,93 +17,91 @@ Variables used:
 
 {% endcomment %}
 
-{% comment %}
-<div class="container mt-5 mb-5">
-    <div class="row d-flex align-items-center justify-content-center">
-        <div class="col-md-8">
-
-{% endcomment %}
-            <div class="card bg-grey">
-                <div class="d-flex justify-content-between p-2 px-3">
-                    <div class="d-flex flex-row align-items-center">
-                        <img src={{post.author.profile_picture.url}} class="rounded-image">
-                        <div class="d-flex flex-column ml-2">
-                            <span class="yellow-darker-text">
-                                <b><a href="#"class="yellow-link"><u>{{post.author.username}}</u></a></b>
-                                {% if post.shares %}
-                                    shared post <a href="#">{{post.shares.id}}</a> from {{post.author.username}}
-                                {% else %}
-                                    was in
-                                    <b class="yellow-text"><u>{{post.location.name}}</u></b>
-                                {% endif %}
-                            </span>
-                            {% for tag in post.tags.all %}
-                                <small><a href="{% url 'feeds:front_feed' %}?type=SingleTag&tag={{tag.name}}" class="yellow-link">#{{tag}}</a></small>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2 yellow-darker-text">{{post.time_ago}}</small> <i class="fa fa-ellipsis-h"></i> </div>
-                </div>
-                {% if post.location %}
-                    <div class="map" id="map{{post.id}}"></div>
-                {% endif %}
-                <div class="p-2">
-                    <p class="text-justify yellow-darker-text">{{post.content}}</p>
-                    {%for picture in post.postimage_set.all%}
-                        <img class="img-fluid post-picture" src={{picture.image.url}}>
-                    {% endfor %}
-                    <hr>
-                    <div class="row">
-                        <div class="yellow-text col-3">
-                            {{post.likes.all.count}} like{% if post.lieks.all.count > 1 %}s{% endif %}
-                        </div>
-                        <div class="col-9 d-flex flex-row muted-color justify-content-end">
-                            {%if post.comment_set.all.count > 0%}
-                                <span>
-                                    <a class="yellow-link" data-toggle="collapse" href="#collapseComment{{post.id}}" role="button" aria-expanded="false" aria-controls="collapseComment">
-                                        {{post.comment_set.all.count}} comment{% if post.comment_set.all.count > 1 %}s{% endif %}
-                                    </a>
-                                </span>
-                            {%endif %}
-                            {%if post.post_set.all.count > 0%}
-                                <span>
-                                    <a class="yellow-link" onclick="toggleModal('share', '{{post.id}}')" href="javascript:void(0);">
-                                    {{post.post_set.all.count}} share{% if post.post_set.all.count > 1 %}s{% endif %}
-                                    <a/>
-                                </span>
-                            {%endif %}
-
-                        </div>
-                    </div>
-
-                    <hr>
-                    <div class="d-flex justify-content-between align-items-center yellow-text">
-                        <div class="row media-buttons d-flex align-items-center text-center">
-                            <span class="col"><a href="#"class="col yellow-link"><i class="bi bi-hand-thumbs-up-fill"></i> Like</span></a>
-                            <span class="col"><a class="col yellow-link" data-toggle="collapse" href="#collapseComment{{post.id}}" role="button" aria-expanded="false" aria-controls="collapseComment"><i class="bi bi-chat-dots-fill"></i> Comment</span></a>
-                            <span class="col"><a href="#"class="col yellow-link"><i class="fa fa-share"></i>Share</span></a>
-                        </div>
-                    </div>
-                    <hr>
-
-                    <div class="collapse" id="collapseComment{{post.id}}">
-
-                        {%for comment in post.comment_set.all %}
-                        <div class="comments">
-
-                            {% include 'posts/comment.html' with comment=comment%}
-
-                        </div>
-                        {% endfor %}
-                        <div class="comment-input"> <input type="text" class="form-control">
-                            <div class="fonts"> <i class="fa fa-camera"></i> </div>
-                        </div>
-                    </div>
-                </div>
+<div class="card bg-grey">
+    <div class="d-flex justify-content-between p-2 px-3">
+        <div class="d-flex flex-row align-items-center">
+            {%if post.author.profile_picture %}
+                <img src={{post.author.profile_picture.url}} width=50 height=50 class="rounded-image">
+            {% else %}
+                <img src={%static 'img/profile_default.jpg' %} width=50 height=50 class="rounded-image">
+            {% endif %}
+            <div class="d-flex flex-column ml-2">
+                <span class="yellow-darker-text">
+                    <b><a href="#"class="yellow-link"><u>{{post.author.username}}</u></a></b>
+                    {% if post.shares %}
+                        shared post <a href="#">{{post.shares.id}}</a> from {{post.author.username}}
+                    {% else %}
+                        was in
+                        <b class="yellow-text"><u>{{post.location.name}}</u></b>
+                    {% endif %}
+                </span>
+                {% for tag in post.tags.all %}
+                    <small><a href="{% url 'feeds:front_feed' %}?type=SingleTag&tag={{tag.name}}" class="yellow-link">#{{tag}}</a></small>
+                {% endfor %}
             </div>
+        </div>
+        <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2 yellow-darker-text">{{post.time_ago}}</small> <i class="fa fa-ellipsis-h"></i> </div>
+    </div>
+    {% if post.location %}
+        <div class="map" id="map{{post.id}}"></div>
+    {% endif %}
+    <div class="p-2">
+        <p class="text-justify yellow-darker-text">{{post.content}}</p>
 
-{% comment %}
+        {%for picture in post.postimage_set.all%}
+        {% if forloop.counter0 < 4 %}
+            <img width=49% src={{picture.image.url}}>
+            <img width=49% src={{picture.image.url}}>
+        {% elif forloop.counter0 == 4 %}
+            <img width=49% src={{picture.image.url}}>
+        {% endif %}
+        {% endfor %}
+        <hr>
+        <div class="row">
+            <div class="yellow-text col-3">
+                {{post.likes.all.count}} like{% if post.likes.all.count > 1 %}s{% endif %}
+            </div>
+            <div class="col-9 d-flex flex-row muted-color justify-content-end">
+                {%if post.comment_set.all.count > 0%}
+                    <span>
+                        <a class="yellow-link" data-toggle="collapse" href="#collapseComment{{post.id}}" role="button" aria-expanded="false" aria-controls="collapseComment">
+                            {{post.comment_set.all.count}} comment{% if post.comment_set.all.count > 1 %}s{% endif %}
+                        </a>
+                    </span>
+                {%endif %}
+                {%if post.post_set.all.count > 0%}
+                    <span>
+                        <a class="yellow-link" onclick="toggleModal('share', '{{post.id}}')" href="javascript:void(0);">
+                        {{post.post_set.all.count}} share{% if post.post_set.all.count > 1 %}s{% endif %}
+                        <a/>
+                    </span>
+                {%endif %}
+
+            </div>
+        </div>
+
+        <hr>
+        <div class="d-flex justify-content-between align-items-center yellow-text">
+            <div class="row media-buttons d-flex align-items-center text-center">
+                <span class="col"><a href="#"class="col yellow-link"><i class="bi bi-hand-thumbs-up-fill"></i> Like</span></a>
+                <span class="col"><a class="col yellow-link" data-toggle="collapse" href="#collapseComment{{post.id}}" role="button" aria-expanded="false" aria-controls="collapseComment"><i class="bi bi-chat-dots-fill"></i> Comment</span></a>
+                <span class="col"><a href="#"class="col yellow-link"><i class="fa fa-share"></i>Share</span></a>
+            </div>
+        </div>
+        <hr>
+
+        <div class="collapse" id="collapseComment{{post.id}}">
+
+            {%for comment in post.comment_set.all %}
+            <div class="comments">
+
+                {% include 'posts/comment.html' with comment=comment%}
+
+            </div>
+            {% endfor %}
+            <div class="comment-input"> <input type="text" class="form-control">
+                <div class="fonts"> <i class="fa fa-camera"></i> </div>
+            </div>
         </div>
     </div>
 </div>
-{% endcomment %}

@@ -26,15 +26,6 @@ hr {
     cursor: pointer
 }
 
-.rounded-image {
-    border-radius: 50% !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    width: 50px
-}
-
 .name {
     font-weight: 600
 }
@@ -71,10 +62,10 @@ hr {
 }
 
 .post-picture {
-    padding-top: 5px;
+    /*padding-top: 5px;
     padding-right: 5px;
     padding-left: 5px;
-    padding-bottom: 5px;
+    padding-bottom: 5px;*/
     border-radius: 4px;
 }
 
