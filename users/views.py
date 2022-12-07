@@ -77,4 +77,11 @@ def resetpass(request, key):
 
 @login_required
 def profile(request):
+    username="Sugar Baby"
+    fn="Tristan"
+    ln="Cazier"
+    nbfollowers=2
+    nbfollows=5
+    membersince="20 January 2022"
+    userprofilepicture="https://media.tenor.com/AMT0GjJy83QAAAAC/dancing-dance.gif"
     return render(request, 'self_profile.html', locals())

@@ -18,7 +18,15 @@
 
     This is the page for displaying a single post
 
-    {% include "posts/post.html" with post=post %}
-    {% include "posts/likes_shares_modal.html" %}
+    <div class="container mt-5 mb-5">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-md-8">
+    
+            {% include "posts/post.html" with post=post %}
+            {% include "posts/likes_shares_modal.html" %}
+
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

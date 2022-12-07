@@ -2,17 +2,76 @@
 {% load static %}
 {% block extrahead %}
 
+{% comment %}
+
+Variables used:
+
+-userprofilepicture
+-username
+-fn
+-ln
+-nbfollowers
+-nbfollows
+-membersince
+
+{% endcomment %}
+
 <!-- CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<link rel="stylesheet" href="{% static 'css/userprofile.css' %}">
+
 {% endblock %}
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-7 col-xs-12">
+        <div class="row col-12 col-md-5">
+            <div class="my-3 py-3 card">
+                <div class="row">
+                    <div class="col-6">
+                        <img class="rounded-image" width=100% src={{userprofilepicture}}>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="yellow-darker-text">{{username}}</h3>
+                        <h6 class="yellow-darker-text">{{fn}} {{ln}}</h6>
+                        <p class="yellow-darker-text">
+                            Member since 
+                            <br>
+                            {{membersince}}
+                            <br>
+                            <br>
+                            <a class="yellow-text" href="#">{{nbfollowers}} follower{% if nbfollowers > 1 %}s{% endif %}</a>
+                            <br>
+                            <a class="yellow-text" href="#">{{nbfollows}} follow{% if nbfollows > 1 %}s{% endif %}</a>
+                            <br>
+                        </p>
+                        <button class="center btn btn-outline-warning" type="submit">Follow</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-0">
+                <div class="card-header d-block d-md-none">
+                    <h2>
+                        <button id="albumButton" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <i id="caret-icon" class="bi bi-caret-down"></i> Albums
+                        </button>
+                    </h2>
+                </div>
+                    
+                <div class="collapse dont-collapse-sm" id="collapseExample">
+                    <div class="card-body">
+                        {{username}}'s Albums
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="col-12 col-md-7">
 
             <div class="card mt-4 mb-5 bg-grey">
                 <div class="d-flex justify-content-between p-3 px-3">
@@ -29,8 +88,22 @@
                 </div>
             </div>
             {% include 'google_search.html' %}
-
          </div>
     </div>
 </div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+    $('#albumButton').click(function(){
+            if ($('#caret-icon').hasClass("bi-caret-down")) {
+                $('#caret-icon').removeClass("bi-caret-down").addClass("bi-caret-up")
+            } else {
+                $('#caret-icon').removeClass("bi-caret-up").addClass("bi-caret-down")
+            }
+    });
+</script>
+
 {% endblock %}
