@@ -2,9 +2,6 @@ from rest_framework import serializers
 from travels.models import Post, Comment, PostImage, Album, Tag, Location
 
 
-
-
-
 class PostImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostImage
@@ -28,24 +25,27 @@ class LocationSerializer(serializers.ModelSerializer):
         model = Location
         fields = "__all__"
 
-"""
-Care not all the fields are present.
-Still works on the website.
-"""
+
 class PostSerializer(serializers.ModelSerializer):
+    """
+    Care not all the fields are present.
+    Still works on the website.
+    """
     location = LocationSerializer()
     tags = TagSerializer()
+
     class Meta:
         model = Post
-        fields = ['content','author','location','tags']
+        fields = ['content', 'author', 'location', 'tags']
 
 
-"""
-Care not all the fields are present.
-Still works on the website.
-"""
 class CommentSerializer(serializers.ModelSerializer):
+    """
+    Care not all the fields are present.
+    Still works on the website.
+    """
     post = PostSerializer()
+
     class Meta:
         model = Comment
-        fields = ['author','content','post','likes']
+        fields = ['author', 'content', 'post', 'likes']
