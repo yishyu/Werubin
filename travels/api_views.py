@@ -9,20 +9,13 @@ from travels.forms import PostForm, CommentForm
 
 @api_view(['POST'])
 def add_post(request):
-    print(request.POST)
-    print(request.GET)
-    print(request.data)
     form = PostForm(request.data)
-    print(form.errors)
-    if form.is_valid() :
-        print("ratio")
+    if form.is_valid():
         formA = form.save()
-        print("works")
         serializer = PostSerializer(formA, context={'request': request})
         return Response(serializer.data)
-    return Response(
-            status=status.HTTP_400_BAD_REQUEST
-)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def add_comment(request):
@@ -33,8 +26,8 @@ def add_comment(request):
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 def delete_post(request):
     inst = Post.objects.get(id=request['post-id'])
     inst.delete()
-
