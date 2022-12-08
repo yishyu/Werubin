@@ -23,18 +23,26 @@
 
     }
 
-    function openModal({ baseUrl, modalType, postID }) {
+    function openModal({ baseUrl, modalType, id, username }) {
         let modalTitle;
         let url = baseUrl;
 
         switch (modalType) {
             case "shared":
                 modalTitle = "Shared by"
-                url += "?type=shared&id=" + postID
+                url += "?type=shared&id=" + id
                 break;
             case "liked":
                 modalTitle = "Liked by"
-                url += "?type=liked&id=" + postID
+                url += "?type=liked&id=" + id
+                break;
+            case "following":
+                modalTitle = "Users following " + username
+                url += "?type=following&id=" + id
+                break;
+            case "followers":
+                modalTitle = "Users " + username + " follows"
+                url += "?type=followers&id=" + id
                 break;
             default:
                 console.log("woops")

@@ -78,6 +78,7 @@ def resetpass(request, key):
 @login_required
 def profile(request):
     username="Sugar Baby"
+    userid=1
     fn="Tristan"
     ln="Cazier"
     nbfollowers=2
