@@ -65,9 +65,11 @@ def toggle_like_post(request, postId):
     post = get_object_or_404(Post, id=postId)  # test if the post exists
     if Post.objects.filter(id=post.id, likes=request.user).count() == 0:  # the user has not already liked the post
         post.likes.add(request.user)
+        data = {"like-status": 1}
     else:
         post.likes.remove(request.user)
-    return Response(status=status.HTTP_200_OK)
+        data = {"like-status": 0}
+    return Response(status=status.HTTP_200_OK, data=data)
 
 
 @login_required
@@ -96,6 +98,3 @@ def add_comment(request):
         serializer = CommentSerializer(formA, context={'request': request})
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-
