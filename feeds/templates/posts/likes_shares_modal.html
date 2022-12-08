@@ -1,15 +1,17 @@
+{% load static %}
+
 <div class="modal" id="likes_shares" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
               <div class="modal-header">
-                <h5 id = "head" class="modal-title"></h5>
+                <h5 id="modal-title" class="modal-title"></h5>
                 <button type="button" class="close" onclick="closeModal()">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body" id="body" >
+              <div class="modal-body" id="modal-body" >
               </div>
-              <div class="modal-footer" id = "footerAdresse">
+              <div class="modal-footer" id="modal-footer">
               </div>
         </div>
     </div>
@@ -20,38 +22,74 @@
         $("#likes_shares").modal('hide');
 
     }
-    function toggleModal(modal_type, users){
-        for (user of users){
-            console.log(user)
+
+    function openModal({ baseUrl, modalType, postID }) {
+        let modalTitle;
+        let url = baseUrl;
+
+        switch (modalType) {
+            case "shared":
+                modalTitle = "Shared by"
+                url += "?type=shared&id=" + postID
+                break;
+            case "liked":
+                modalTitle = "Liked by"
+                url += "?type=liked&id=" + postID
+                break;
+            default:
+                console.log("woops")
+                break;
         }
 
-        document.getElementById('head').innerHTML = 'Shares'
-        document.getElementById('body').innerHTML = `
-        <div class="row">
-            <div class="col-2">
-                <img src="{{comment.author.profile_picture.url}}" class="rounded-image">
+        $.get({
+              url: url
+            , success: function(data) {
+                toggleModal({ modalTitle: modalTitle, modalType: modalType, data: data })
+            }
+        })
+    }
 
-            </div>
-            <div class="col-6">
-                <span>Yishen Yu</span>
-            </div>
-            <div class="col-2">
-                <button class="btn btn-outline-warning"> Follow</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-2">
-                <img src="{{comment.author.profile_picture.url}}"  class="rounded-image">
+    function toggleModal({ modalTitle, modal_type, data }){
+        let output = ""
 
-            </div>
-            <div class="col-6">
-                Yishen Yu
-            </div>
-            <div class="col-2">
-                <button class="btn btn-outline-warning"> Follow</button>
-            </div>
-        </div>
-        `
+        for (user of data){
+            let picture = user.profile_picture ? user.profile_picture : "{% static 'img/profile_default.jpg' %}"
+            let followed = "notFollowed" // user.followers.contains un truc du genre
+            let userID = "modal-user-button-" + user.username
+
+            output += `
+                <div class="row justify-content-around">
+                    <div class="col-2">
+                        <img src=${picture} height=50px width=50px class="rounded-image">
+                    </div>
+                    <div class="col-6 center">
+                        <span>${user.first_name} ${user.last_name}</span>
+                    </div>
+                    <div class="col-2 center">
+                        <button id="${userID}" class="followButton ${followed} btn btn-outline-warning" onClick="onFollowClick('${userID}')"> Follow</button>
+                    </div>
+                </div>
+            `
+        }
+        if (data.length == 0) { output = `<p class="center">Nobody yet!</p>`}
+
+        document.getElementById('modal-title').innerHTML = modalTitle
+        document.getElementById('modal-body').innerHTML = output
         $("#likes_shares").modal('show');
+    }
+
+    function onFollowClick(userID) {
+        let u = document.getElementById(userID)
+        console.log("x")
+        
+        if (u.classList.contains("notFollowed")) {
+            u.classList.remove("notFollowed")
+            u.classList.add("followed")
+            u.innerHTML = "Unfollow"
+        } else {
+            u.classList.remove("followed")
+            u.classList.add("notFollowed")
+            u.innerHTML = "Follow"
+        }
     }
 </script>
