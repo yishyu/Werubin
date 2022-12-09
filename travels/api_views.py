@@ -58,10 +58,11 @@ def update_post(request):
 
 @login_required
 @api_view(['PUT'])  # Put: Update/Replace
-def toggle_like_post(request, postId):
+def toggle_like_post(request):
     """
         Like a post and Cancel a like
     """
+    postId = request.data["post-id"]
     post = get_object_or_404(Post, id=postId)  # test if the post exists
     if Post.objects.filter(id=post.id, likes=request.user).count() == 0:  # the user has not already liked the post
         post.likes.add(request.user)

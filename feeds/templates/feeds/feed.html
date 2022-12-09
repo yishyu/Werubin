@@ -42,56 +42,196 @@ Variables used:
             </div>
 
             <div class="feeds-buttons row justify-content-center">
-                <a href="{% url 'feeds:front_feed'%}?type=ForYou" class="col-4 text-center {% if feed == 'ForYou' %}blue-text {%else%}yellow-text{%endif %}"><h4> #For you</h4></a>
-                <a href="{% url 'feeds:front_feed'%}?type=Explore" class="col-4 text-center {% if feed == 'Explore' %}blue-text {%else%}yellow-text{%endif %}"><h4> #Explore</h4></a>
-                <a href="{% url 'feeds:front_feed'%}?type=Followers" class="col-4 text-center {% if feed == 'Followers' %}blue-text {%else%}yellow-text{%endif %}"><h4> #Friends</h4></a>
+                <a id="ForYou" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #For you</h4></a>
+                <a id="Explore" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #Explore</h4></a>
+                <a id="Followers" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #Followers</h4></a>
             </div>
-            {% for post in posts%}
-                <div class="post-li">
-                    {% include 'posts/post.html' with post=post%}
-                </div>
-            {%endfor%}
+            <div id="posts">
+            </div>
+
          </div>
     </div>
 </div>
 {% include "posts/likes_shares_modal.html" %}
 <script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDssMnFaUqhs1fC3iVP4dr4T5a8Qxecaws&callback=initMap&v=weekly"
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDssMnFaUqhs1fC3iVP4dr4T5a8Qxecaws&v=weekly"
 defer
 ></script>
 <script>
+
     // Initialize and add the map
-    function initMap() {
-        {% for post in posts %}
-            {% if post.location %}
-                var position = {
-                    lat: {{post.location.lat}},
-                    lng: {{post.location.lng}}
-                }
-                // The map, centered at Lessines
-                var map = new google.maps.Map(
-                    document.getElementById("map"+{{post.id}}),
-                    {
-                        zoom: 12,
-                        center: position,
-                        disableDefaultUI: true,
-                    }
-                );
-                var infoWindow = new google.maps.InfoWindow();
-                var markers = [];
+    function initMap(post) {
+        var position = {
+            lat: parseFloat(post.location.lat),
+            lng: parseFloat(post.location.lng)
+        }
+        // The map, centered at Lessines
+        var map = new google.maps.Map(
+            document.getElementById("map"+post.id),
+            {
+                zoom: 12,
+                center: position,
+                disableDefaultUI: true,
+            }
+        );
+        var infoWindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+            id: post.id,
+            position: position,
+            title: post.location.name,
+            map: map,
+        })
 
-                // The marker, positioned at Lessines
-                markers.push(new google.maps.Marker({
-                    id: {{post.id}},
-                    position: position,
-                    title: "{{post.location.name}}",
-                    map: map,
-                }));
-            {% endif %}
-        {% endfor %}
-
+        marker.addListener("click", () => {
+            map.setZoom(16)
+            map.panTo(marker.getPosition())
+            infoWindow.close();
+            infoWindow.setContent(marker.getTitle());
+            infoWindow.open(marker.getMap(), marker);
+          });
     }
-    window.initMap = initMap;
+    function feed(feed_type){
+        $(".feed").removeClass('blue-text').addClass('yellow-text')
+        $(`#${feed_type}`).removeClass('yellow-text').addClass('blue-text')
+        $.getJSON({
+            url: `{% url 'feeds:api:feed' %}?type=${feed_type}`,
+            success: function(data){
+                $("#posts").empty()
+                for (var post of data){
+                    var picture  = post.author.profile_picture ? post.author.profile_picture: {% static 'img/profile_default.jpg' %}
+                    var description = post.shares.id ? `shared post <a href="#">${post.shares.id}</a> from ${post.author.username}`: `was in <b class="yellow-text"><u>${post.location.name}</u></b>`
+                    var tags_html = ""
+                    for( var tag of post.tags){
+                        tags_html += `<small><a href="{% url 'feeds:front_feed' %}?type=SingleTag&tag=${tag.name}" class="yellow-link">#${tag.name}</a></small>`
+                    }
+                    var location_html = post.location.lat != "" ? `<div class="map" id="map${post.id}"></div>`: ``
+                    var images_html = ""
+                    for (var image of post.images){
+                        images_html += `<img width=49% src=${image.image}>`
+                    }
+                    var like_text = post.likes.length > 1 ? `${post.likes.length} likes`: `${post.likes.length} like`
+                    var comment_text = post.comments > 1?  `${post.comments} comments`: `${post.comments} comment`
+                    var share_text = post.shared_amount > 1?  `${post.shared_amount} shares`: `${post.shared_amount} share`
+                    var like_color =  post.likes.includes({{request.user.id}}) ? 'blue-text':'yellow-link'
+                    var post_html =
+                    `
+                    <div class="post-li">
+                    <div class="card bg-grey">
+                        <div class="d-flex justify-content-between p-2 px-3">
+                            <div class="d-flex flex-row align-items-center">
+                                    <img src=${picture} width=50 height=50 class="rounded-image">
+                                <div class="d-flex flex-column ml-2">
+                                    <span class="yellow-darker-text">
+                                        <b><a href="#"class="yellow-link"><u>${post.author.username}</u></a></b>
+                                        ${description}
+                                    </span>
+                                    ${tags_html}
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2 yellow-darker-text">${post.time_ago}</small> <i class="fa fa-ellipsis-h"></i> </div>
+                        </div>
+                        ${location_html}
+                        <div class="p-2">
+                            <p class="text-justify yellow-darker-text">${post.content}</p>
+                        ${images_html}
+                            <hr>
+                            <div class="row">
+                                <div class="yellow-text col-3">
+                                    <a id="like-count${post.id}"class="yellow-link" onclick="openModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'liked', id: '${post.id}', username: '${post.author.username}'})" href="javascript:void(0);">
+                                        ${like_text}
+                                    </a>
+
+                                </div>
+                                <div class="col-9 d-flex flex-row muted-color justify-content-end">
+                                    <span class="mr-2">
+                                        <a class="yellow-link" data-toggle="collapse" href="#collapseComment${post.id}" role="button" aria-expanded="false" aria-controls="collapseComment">
+                                            ${comment_text}
+                                        </a>
+                                    </span>
+                                    <span>
+                                        <a class="yellow-link" onclick="openModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'shared', id: '${post.id}', username: '${post.author.username}'})" href="javascript:void(0);">
+                                            ${share_text}
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between align-items-center yellow-text">
+                                <div class="row media-buttons d-flex align-items-center text-center">
+                                    <span class="col"><a id="like-button${post.id}" href="javascript:void(0);" onclick="like_post(${post.id})" class="col ${like_color}"><i class="bi bi-hand-thumbs-up-fill"></i> Like</span></a>
+                                    <span class="col"><a class="col yellow-link" data-toggle="collapse" href="#collapseComment${post.id}" role="button" aria-expanded="false" aria-controls="collapseComment"><i class="bi bi-chat-dots-fill"></i> Comment</span></a>
+                                    <span class="col"><a href="#"class="col yellow-link"><i class="fa fa-share"></i>Share</span></a>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="collapse" id="collapseComment${post.id}">
+                                <div class="comment-input"> <input type="text" class="form-control">
+                                    <div class="fonts"> <i class="fa fa-camera"></i> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+                $("#posts").append(post_html)
+                if (post.location.lat != ""){
+                    initMap(post)
+                }
+
+                }
+            }
+        })
+    }
+    $( document ).ready(function(){
+        $(".feed").click(function(e) {
+            feed($(this).attr("id"))
+            history.pushState(null,null,`#${$(this).attr("id")}`);
+            e.preventDefault();
+        });
+        var hash = $(location).attr('hash');
+        if (hash === ""){
+            history.pushState(null,null, '#ForYou');
+            feed("ForYou")
+        }
+        else
+            feed(hash.slice(1))
+    });
+    function like_post(postId){
+        var url = "{% url 'travels:api:toggle_like_post' %}"
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            data: {
+                "post-id": postId
+            },
+            headers: {
+                'X-CSRFToken': '{{csrf_token| safe}}'
+            },
+            success: function(data){
+                var like_display_obj = $(`#like-count${postId}`)
+                var like_button_obj = $(`#like-button${postId}`)
+                var msg = ""
+                var currentLikes = parseInt(like_display_obj.prop("innerText").trim().split(" ")[0])
+                if (data["like-status"] == 1){  // the user liked the post
+                    msg = currentLikes + 1
+                    like_button_obj.removeClass("yellow-link").addClass("blue-text")
+                }else{
+                    msg = currentLikes - 1
+                    like_button_obj.removeClass("blue-text").addClass("yellow-link")
+                }
+
+                if (currentLikes > 1)
+                    msg += " likes"
+                else
+                    msg += " like"
+
+                like_display_obj.text(msg)
+
+            }
+        })
+    }
 
 </script>
 {% endblock %}

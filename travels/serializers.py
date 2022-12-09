@@ -34,13 +34,18 @@ class PostSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
     author = serializers.SerializerMethodField()
-    comment = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
+    time_ago = serializers.SerializerMethodField()
+    shared_amount = serializers.SerializerMethodField()
 
-    def get_comment(self, obj):
-        return CommentSerializer(
-            obj.comment_set.all(),
-            many=True
-        ).data
+    def get_shared_amount(self, obj):
+        return Post.objects.filter(shares=obj.id).count()
+
+    def get_time_ago(self, obj):
+        return obj.time_ago
+
+    def get_comments(self, obj):
+        return obj.comment_set.all().count()
 
     def get_author(self, obj):
         return PostUserSerializer(
@@ -54,10 +59,7 @@ class PostSerializer(serializers.ModelSerializer):
         ).data
 
     def get_likes(self, obj):
-        return PostUserSerializer(
-            obj.likes.all(),
-            many=True
-        ).data
+        return obj.likes.values_list("id", flat=True)
 
     def get_shares(self, obj):
         return PostSerializer(
