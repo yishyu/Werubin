@@ -4,7 +4,7 @@ from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from travels.models import Post, Comment
 from travels.serializers import PostSerializer, CommentSerializer
-from travels.forms import PostForm, CommentForm
+from travels.forms import PostForm
 from django.shortcuts import get_object_or_404
 from travels.decorators import has_postid, has_commentId
 
@@ -23,7 +23,8 @@ def get_post(request, postId):
 @has_postid
 def get_comments(request, postId):
     post = get_object_or_404(Post, id=postId)
-    serializer = CommentSerializer(post.comment_set.all(), many=True)
+
+    serializer = CommentSerializer(post.comment_set.all().order_by("creation_date"), many=True)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
@@ -123,10 +124,19 @@ def share_post(request, postId):
 
 @login_required
 @api_view(['POST'])
-def add_comment(request):
-    form = CommentForm(request.data)
-    if form.is_valid():
-        formA = form.save()
-        serializer = CommentSerializer(formA, context={'request': request})
-        return Response(serializer.data)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+@has_postid
+def add_comment(request, postId):
+    if "content" not in request.data:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "no content"})
+    content = request.data["content"]
+    if len(content) > 150:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "The content of this comment is superior to 150 characters."})
+    post = get_object_or_404(Post, id=postId)
+
+    comment = Comment.objects.create(
+        author=request.user,
+        content=content,
+        post=post
+    )
+    serializer = CommentSerializer(comment)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
