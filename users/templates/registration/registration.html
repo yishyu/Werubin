@@ -9,91 +9,173 @@
     <i class="bi bi-person-fill yellow-text"></i>
     <h1 class="right-column-title yellow-text">REGISTRATION</h1>
 </div>
-<form method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
-    {% csrf_token %}
-    <div class="row">
-        {% comment %}
-        https://stackoverflow.com/questions/2236691/how-do-i-display-the-value-of-a-django-form-field-in-a-template
-        {% endcomment %}
-        <div class="form-group mb-3 col-md-6">
-            <label for="id_username" class="form-label yellow-text">Username* </label>
-            <input class="form-control {% if form.errors.username %} border border-danger {% endif %}" id="id_username" type="text" name="username"  placeholder="@zoroxat" value="{{form.username.value|default_if_none:''}}" required>
-            <span class="text-danger">{{form.errors.username}}</span>
+<form class="row g-3 needs-validation" novalidate>
+    <div class="col-md-6">
+        <label for="validationCustomUsername" class="yellow-text form-label">Username</label>
+        <input name="username" pattern="[a-zA-Z0-9][^-\s]{0,}" type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
+                required>
+        <div class="valid-feedback">
+            Looks good!
         </div>
-        <div class="form-group mb-3 col-md-6">
-            <label for="id_username" class="form-label yellow-text">@E-mail*</label>
-            <input class="form-control {% if form.errors.email %} border border-danger {% endif %}" id="id_username" type="email" name="email" value="{{form.email.value|default_if_none:''}}" required>
-            <span class="text-danger">{{form.errors.email}}</span>
+        <div class="invalid-feedback">
+            Please choose a username using only letters and digits.
         </div>
     </div>
-    <div class="row">
-        <div class="form-group mb-3 col-md-6">
-            <label for="firstname" class="form-label yellow-text">Firstname*</label>
-            <input class="form-control {% if form.errors.first_name %} border border-danger {% endif %}" id="firstname" type="text" name="first_name" value="{{form.first_name.value|default_if_none:''}}" required>
-            <span class="text-danger">{{form.errors.first_name}}</span>
-        </div>
-        <div class="form-group mb-3 col-md-6">
-            <label for="lastname" class="form-label yellow-text">Lastname*</label>
-            <input class="form-control {% if form.errors.last_name %} border border-danger {% endif %}" id="lastname" type="text" name="last_name"  value="{{form.last_name.value|default_if_none:''}}"required>
-            <span class="text-danger">{{form.errors.last_name}}</span>
-        </div>
-    </div>
-    <div class="row" style="margin-bottom: 0px">
-        <fieldset class='yellow-text form-group mb-3 col-md-6' required>
-            <legend>Gender*</legend>
-
-            <div>
-            <input type="radio" id="Male" name="gender" value="M"
-            {% if form.gender.value == 'M' or not form.gender.value  %} checked {% endif %}>
-            <label for="Male">Male</label>
-            <br>
-            <input type="radio" id="Female" name="gender" value="F"
-            {% if form.gender.value == 'F' %} checked {% endif %}>
-            <label for="Female">Female</label>
+    <div class="col-md-6">
+        <label for="validationCustomEmail" class="yellow-text form-label">E-mail address</label>
+        <div class="input-group has-validation">
+            <span class="input-group-text" id="inputGroupPrepend">@</span>
+            <!--TODO extract css-->
+            <input name="email" style="border-top-right-radius: .375rem; border-bottom-right-radius: .375rem" type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend"
+                required>
+            <div class="valid-feedback">
+                Looks good!
             </div>
-
-            <div>
-            <input type="radio" id="Other" name="gender" value="O"
-            {% if form.gender.value == 'O' %} checked {% endif %}>
-            <label for="Other">Other</label>
+            <div class="invalid-feedback">
+                Please provide a valid e-mail address.
             </div>
-        </fieldset>
-        <div class="form-group mb-3 col-md-6">
-            <span class="text-danger">{{form.errors.gender}}</span>
-            <label for="datepicker" class="form-label yellow-text {% if form.errors.birthdate %} border border-danger {% endif %}"><i class="bi bi-calendar yellow-text"></i> Birthdate*</label>
-            <input class="form-control" type="date" id="datepicker" name="birthdate" value="{{form.birthdate.value|default_if_none:''}}" required>
-            <span class="text-danger">{{form.errors.birthdate}}</span>
         </div>
     </div>
-    <div class="row">
-        <div class="form-group mb-3 col-md-6">
-            <label for="id_password" class="form-label yellow-text">Password*</label>
-            <input class="form-control {% if form.errors.password1 %} border border-danger {% endif %}" id="id_password" type="password" name="password1" required>
-            <span class="text-danger">{{form.errors.password1}}</span>
+    
+    <div class="col-md-6">
+        <label for="validationCustom01" class="yellow-text form-label">First name</label>
+        <input name="first_name" pattern="[a-zA-Z\s]{1,}" type="text" class="form-control" id="validationCustom01" required>
+        <div class="valid-feedback">
+            Looks good!
         </div>
-        <div class="form-group mb-3 col-md-6">
-            <label for="conf_password" class="form-label yellow-text">Confirm Password*</label>
-            <input class="form-control {% if form.errors.password2 %} border border-danger {% endif %}" id="conf_password" type="password" name="password2" required>
-            <span class="text-danger">{{form.errors.password2}}</span>
+        <div class="invalid-feedback">
+            Please provide your first name using only use letters and spaces.
         </div>
-        {%comment %}
-        TODO request user prefered tags
-        TODO check username availability
-        {%endcomment%}
     </div>
+    <div class="col-md-6">
+        <label for="validationCustom02" class="yellow-text form-label">Last name</label>
+        <input name="last_name" pattern="[a-zA-Z\s]{1,}" type="text" class="form-control" id="validationCustom02" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div class="invalid-feedback">
+            Please provide your last name only use letters and spaces.
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label class="yellow-text form-label">Gender</label>
+        <div class="form-check">
+            <input value="F" type="radio" class="form-check-input" id="validationFormCheck1" name="gender" required>
+            <label class="form-check-label yellow-text" for="validationFormCheck1">Female</label>
+        </div>
+        <div class="form-check">
+            <input value="M" type="radio" class="form-check-input" id="validationFormCheck2" name="gender" required>
+            <label class="form-check-label yellow-text" for="validationFormCheck2">Male</label>
+        </div>
+        <div class="form-check mb-3">
+            <input value="O" type="radio" class="form-check-input" id="validationFormCheck3" name="gender" required>
+            <label class="form-check-label yellow-text" for="validationFormCheck3">Other</label>
+            <div class="invalid-feedback">Please select something.</div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="validationCustomDate" class="yellow-text form-label">Birth date</label>
+        <input name="birthdate" type="date" class="form-control" id="validationCustomDate" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+        <div class="invalid-feedback">
+            Please provide your birth date.
+        </div>
+    </div>
+
     <div class="text-center mt-5">
-        <a href="{% url 'users:login' %}">
-            <button class="submit-button btn yellow-bg text-light" type="submit">
-                REGISTER
-            </button>
-        </a>
-    </div>
-    <div class="text-center mt-5">
-        <a class="yellow-text" href="{% url 'users:login' %}">
-            I already have an account
-        </a>
+        <button class="submit-button yellow-bg text-light btn btn-primary" type="submit">REGISTER</button>
     </div>
 
 </form>
+<div class="text-center mt-5">
+    <a class="yellow-text" href="{% url 'users:login' %}">
+        I already have an account
+    </a>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+
+    function glowRed(id) {
+        $(id).css('border-color', '#dc3545')
+        $(id).css('box-shadow', "0 0 0 0.2rem #dc3545")
+    }
+    function glowGreen(id) {
+        $(id).css('border-color', '#28a745')
+        $(id).css('box-shadow', "0 0 0 0.2rem #28a745")
+    }
+
+    function validateForm() {
+
+        if (true) {
+
+        } else if (true) {
+
+        }
+
+        $("#registrationForm").submit()
+    }
+
+    function comparePasswords() {
+        if ($("#password").val() != $("#passwordConfirm").val()) {
+            glowRed("#password")
+            glowRed("#passwordConfirm")
+        } else {
+            glowGreen("#password")
+            glowGreen("#passwordConfirm")
+        }
+    }
+
+    function userNameKeyPressed() {
+        var un = $("#id_username").val()
+        let url = "{% url 'users:api:user_exists' %}"
+
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            data: {
+                "username": un
+            },
+            headers: {
+                'X-CSRFToken': '{{csrf_token}}'
+            },
+            // username IS found => not ok
+            success: function (data) {
+                if (data["user_exists"]) {
+                    glowRed("#id_username")
+                } else {
+                    glowGreen("#id_username")
+                }
+            }
+        })
+    }
+
+</script>
 
 {% endblock %}
