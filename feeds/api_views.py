@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 @api_view(["GET"])
 def feed(request):
     """
-        Add Pagination, limit
+        TODO Add Pagination, limit
     """
     posts = Post.objects.none()
     if len(request.GET) > 0:
@@ -25,6 +25,8 @@ def feed(request):
             posts = Post.objects.filter(tags__in=request.user.tags.all())
         elif feed_type == "SingleTag":
             posts = Post.objects.filter(tags__name=request.GET.get("tag"))
+        elif feed_type == "User":
+            posts = Post.objects.filter(author__id=request.GET.get("id"))
     posts = posts.order_by("-creation_date")
     data = PostSerializer(posts, many=True).data
     return Response(status=status.HTTP_200_OK, data=data)

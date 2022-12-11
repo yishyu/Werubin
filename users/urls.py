@@ -8,7 +8,7 @@ urlpatterns = [
     path('register/', views.registration, name='register'),
     path('forgotpass/', views.forgotpass, name='forgotpass'),
     path('reset-password/<str:key>/', views.resetpass, name='resetpass'),
-    path('profile/', views.profile, name='profile'),
+    path('profile/<str:username>/', views.profile, name='profile'),
     path("api/", include(('users.api_urls', 'users_api'), namespace='api')),
 
 ]

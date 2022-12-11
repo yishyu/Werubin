@@ -19,16 +19,6 @@ def get_post(request, postId):
 
 
 @login_required
-@api_view(['GET'])
-@has_postid
-def get_comments(request, postId):
-    post = get_object_or_404(Post, id=postId)
-
-    serializer = CommentSerializer(post.comment_set.all().order_by("creation_date"), many=True)
-    return Response(status=status.HTTP_200_OK, data=serializer.data)
-
-
-@login_required
 @api_view(['POST'])  # Post: Create
 def add_post(request):
     """
@@ -87,23 +77,6 @@ def toggle_like_post(request, postId):
 
 @login_required
 @api_view(['PUT'])  # Put: Update/Replace
-@has_commentId
-def toggle_like_comment(request, commentId):
-    """
-        Like a comment and Cancel a like
-    """
-    comment = get_object_or_404(Comment, id=commentId)  # test if the comment exists
-    if Comment.objects.filter(id=comment.id, likes=request.user).count() == 0:  # the user has not already liked the post
-        comment.likes.add(request.user)
-        data = {"like-status": 1}
-    else:
-        comment.likes.remove(request.user)
-        data = {"like-status": 0}
-    return Response(status=status.HTTP_200_OK, data=data)
-
-
-@login_required
-@api_view(['PUT'])  # Put: Update/Replace
 @has_postid
 def share_post(request, postId):
     """
@@ -120,6 +93,33 @@ def share_post(request, postId):
     share_post.tags.add(*post.tags.all())
     serializer = PostSerializer(share_post, context={'request': request})
     return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@login_required
+@api_view(['GET'])
+@has_postid
+def get_comments(request, postId):
+    post = get_object_or_404(Post, id=postId)
+
+    serializer = CommentSerializer(post.comment_set.all().order_by("creation_date"), many=True)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@login_required
+@api_view(['PUT'])  # Put: Update/Replace
+@has_commentId
+def toggle_like_comment(request, commentId):
+    """
+        Like a comment and Cancel a like
+    """
+    comment = get_object_or_404(Comment, id=commentId)  # test if the comment exists
+    if Comment.objects.filter(id=comment.id, likes=request.user).count() == 0:  # the user has not already liked the post
+        comment.likes.add(request.user)
+        data = {"like-status": 1}
+    else:
+        comment.likes.remove(request.user)
+        data = {"like-status": 0}
+    return Response(status=status.HTTP_200_OK, data=data)
 
 
 @login_required

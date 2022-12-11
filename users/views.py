@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 import datetime as dt
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 
 # Sign Up View
@@ -76,13 +77,7 @@ def resetpass(request, key):
 
 
 @login_required
-def profile(request):
-    username="Sugar Baby"
-    userid=1
-    fn="Tristan"
-    ln="Cazier"
-    nbfollowers=2
-    nbfollows=5
-    membersince="20 January 2022"
-    userprofilepicture="https://media.tenor.com/AMT0GjJy83QAAAAC/dancing-dance.gif"
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
+    followers = User.objects.filter(followers=user)  # user who are following this user
     return render(request, 'self_profile.html', locals())
