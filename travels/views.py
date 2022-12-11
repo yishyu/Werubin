@@ -5,6 +5,4 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def singlePost(request, postID):
-    post = Post.objects.get(id=postID)
     return render(request, 'posts/singlepostpage.html', locals())
-
