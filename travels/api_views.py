@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from travels.decorators import has_postid, has_commentId
 
 
+# TODO generate swagger
 @login_required
 @api_view(['GET'])
 def get_post(request, postId):
@@ -106,15 +107,17 @@ def toggle_like_comment(request, commentId):
 def share_post(request, postId):
     """
         Share a post by creating a new post
+        A shared post automatically inherits the tags of the parent post
     """
     post = get_object_or_404(Post, id=postId)  # test if the post exists
     if Post.objects.filter(shares=post, author=request.user).count() > 0:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "You have already shared this post"})
-    post = Post.objects.create(
+    share_post = Post.objects.create(
         author=request.user,
-        shares=post
+        shares=post,
     )
-    serializer = PostSerializer(post, context={'request': request})
+    share_post.tags.add(*post.tags.all())
+    serializer = PostSerializer(share_post, context={'request': request})
     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 

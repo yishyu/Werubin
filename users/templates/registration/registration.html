@@ -76,6 +76,10 @@
             <input class="form-control {% if form.errors.password2 %} border border-danger {% endif %}" id="conf_password" type="password" name="password2" required>
             <span class="text-danger">{{form.errors.password2}}</span>
         </div>
+        {%comment %}
+        TODO request user prefered tags
+        TODO check username availability
+        {%endcomment%}
     </div>
     <div class="text-center mt-5">
         <a href="{% url 'users:login' %}">

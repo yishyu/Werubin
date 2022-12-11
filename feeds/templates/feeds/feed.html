@@ -88,6 +88,7 @@ Variables used:
           });
     }
     function feed(feed_type){
+        // TODO feed with pagination
         $(".feed").removeClass('blue-text').addClass('yellow-text')
         $(`#${feed_type}`).removeClass('yellow-text').addClass('blue-text')
         $.getJSON({
@@ -179,7 +180,11 @@ Variables used:
 
                             <div class="collapse" id="collapseComment${post.id}">
                                 <div id="Comments${post.id}"></div>
-                                <div class="comment-input"> <input type="text" class="form-control">
+                                {%comment%}
+                                TODO push comments
+                                {%endcomment%}
+                                <div class="comment-input">
+                                    <input type="text" class="form-control">
                                     <div class="fonts"> <i class="fa fa-camera"></i> </div>
                                 </div>
                             </div>
@@ -190,6 +195,7 @@ Variables used:
                 if (post.location.lat != ""){
                     initMap(post)
                 }
+                // TODO dynamic rendering for single post page
                 $(`#sharedPostLink${post.id}`).attr("href", `travels/post/${post.shares.id}`)
             }
             }
@@ -255,7 +261,7 @@ Variables used:
                 "post-id": postId
             },
             headers: {
-                'X-CSRFToken': '{{csrf_token| safe}}'
+                'X-CSRFToken': '{{csrf_token}}'
             },
             success: function(data){
                 var like_display_obj = $(`#like-count${postId}`)
@@ -294,9 +300,10 @@ Variables used:
                 "post-id": postId
             },
             headers: {
-                'X-CSRFToken': '{{csrf_token| safe}}'
+                'X-CSRFToken': '{{csrf_token}}'
             },
             success: function(data){
+                // TODO refresh single post
                 feed($(location).attr('hash').slice(1))
                 /*
                 var share_display_obj = $(`#share-count${postId}`)

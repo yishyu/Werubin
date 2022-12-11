@@ -5,6 +5,9 @@
     <div class="container">
         <div class="row center col-6 col-md-3">
             <a style="font-size:2em" class="row yellow-link center" href="{% url 'feeds:front_feed'%}">
+                {%comment%}
+                TODO put an svg logo here
+                {%endcomment%}
                 <p class="col-10 col-md-12 col-lg-10 center m-0 p-0">WERUBIN</p>
                 <i class="col-2 col-md-12 col-lg-2 center fa fa-home" aria-hidden="true"></i>
             </a>
@@ -26,6 +29,9 @@
 
                 <form class="center form-inline col-12 col-md-9 order-md-1 px-0">
                     <div class="row center mx-1">
+                        {%comment%}
+                        TODO autocomplete search of tag and username
+                        {%endcomment%}
                         <input class="col-12 col-md-8 m-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="center btn btn-outline-warning" type="submit">Search</button>
                     </div>
