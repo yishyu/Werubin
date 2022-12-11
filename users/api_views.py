@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from users.serializers import PostUserSerializer, UserSerializer
 from users.models import User
 from travels.models import Post, Comment
@@ -62,5 +62,28 @@ def follow_user(request):
     else:
         request.user.followers.add(user)
         data = {"follow-status": 1}
+
+    return Response(status=status.HTTP_200_OK, data=data)
+
+@api_view(["PUT"])
+def user_exists(request):
+
+    print(request)
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print(request.data)
+    if User.objects.filter(username=request.data["username"]).count() > 0:
+        data = {"user_exists": True}
+    else:
+        data = {"user_exists": False}
+        
+    
+    # if request.user.id == user.id:
+    #     return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "You may like yourself a lot but unfortunately you cannot follow yourself"})
+    # if user in request.user.followers.all():
+    #     request.user.followers.remove(user)
+    #     data = {"follow-status": 0}
+    # else:
+    #     request.user.followers.add(user)
+    #     data = {"follow-status": 1}
 
     return Response(status=status.HTTP_200_OK, data=data)
