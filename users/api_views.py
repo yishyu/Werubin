@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from users.serializers import PostUserSerializer
 from users.models import User
-from travels.models import Post
+from travels.models import Post, Comment
 
 
 @login_required
@@ -27,7 +27,12 @@ def get_users(request):
         post = get_object_or_404(Post, id=data["id"])
         users = User.objects.filter(id__in=Post.objects.filter(shares=post).values_list("author", flat=True))
     elif data["type"] == "liked":
-        users = get_object_or_404(Post, id=data["id"]).likes
+        if "model" not in data.keys():
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "missing parameters"})
+        if data["model"] == "comment":
+            users = get_object_or_404(Comment, id=data["id"]).likes
+        else:
+            users = get_object_or_404(Post, id=data["id"]).likes
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": f"Unrecognized parameter '{data['type']}'"})
 

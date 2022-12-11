@@ -135,7 +135,7 @@ Variables used:
                             <hr>
                             <div class="row">
                                 <div class="yellow-text col-3">
-                                    <a id="like-count${post.id}"class="yellow-link" onclick="openModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'liked', id: '${post.id}', username: '${post.author.username}'})" href="javascript:void(0);">
+                                    <a id="like-count${post.id}"class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'liked', id: '${post.id}', username: '${post.author.username}'})" href="javascript:void(0);">
                                         ${like_text}
                                     </a>
 
@@ -147,7 +147,7 @@ Variables used:
                                         </a>
                                     </span>
                                     <span>
-                                        <a id="share-count${post.id}" class="yellow-link" onclick="openModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'shared', id: '${post.id}', username: '${post.author.username}'})" href="javascript:void(0);">
+                                        <a id="share-count${post.id}" class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'shared', id: '${post.id}', username: '${post.author.username}'})" href="javascript:void(0);">
                                             ${share_text}
                                         </a>
                                     </span>
@@ -205,14 +205,21 @@ Variables used:
                     $(`#Comments${postId}`).empty() // empty comments
                     for (var comment of data ){
                         var picture  = comment.author.profile_picture ? comment.author.profile_picture: "{% static 'img/profile_default.jpg' %}"
+                        var like_color =  comment.likes.includes({{request.user.id}}) ? 'blue-text':'yellow-link'
+
                         comment = `
                         <div class="d-flex flex-row mb-2"> <img src="${picture}" width=50 height=50 class="rounded-image">
                             <div class="d-flex flex-column ml-2">
                                 <span class="name"><a href="#" class="yellow-link"><u>${comment.author.username}</u></a></span>
                                 <small class="comment-text yellow-darker-text">${comment.content}</small>
                                 <div class="d-flex flex-row align-items-center status yellow-text">
-                                    <small><a href="javascript:void(0);" onclick="like_comment(${comment.id})" class="yellow-link"><i class="bi bi-hand-thumbs-up-fill"></i> Like</a></small>
+                                    <small><a id="comment-like-button${comment.id}" href="javascript:void(0);" onclick="like_comment(${comment.id})" class="${like_color}"><i class="bi bi-hand-thumbs-up-fill"></i> Like</a></small>
                                     <small class="yellow-darker-text">${comment.time_ago}</small>
+                                    <small>
+                                        <a id="comment-like-count${comment.id}"class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'comment-liked', id: '${comment.id}', username: '${comment.author.username}'})" href="javascript:void(0);">
+                                            ${comment.likes.length} <i class="bi bi-hand-thumbs-up-fill"></i>
+                                        </a>
+                                    </small>
                                 </div>
                             </div>
                         </div>`
@@ -322,10 +329,8 @@ Variables used:
                 'X-CSRFToken': '{{csrf_token}}'
             },
             success: function(data){
-                console.log(data)
-                /*
-                var like_display_obj = $(`#like-count${postId}`)
-                var like_button_obj = $(`#like-button${postId}`)
+                var like_display_obj = $(`#comment-like-count${commentId}`)
+                var like_button_obj = $(`#comment-like-button${commentId}`)
                 var msg = ""
                 var currentLikes = parseInt(like_display_obj.prop("innerText").trim().split(" ")[0])
                 if (data["like-status"] == 1){  // the user liked the post
@@ -336,12 +341,9 @@ Variables used:
                     like_button_obj.removeClass("blue-text").addClass("yellow-link")
                 }
 
-                if (currentLikes > 1)
-                    msg += " likes"
-                else
-                    msg += " like"
+                msg += " <i class='bi bi-hand-thumbs-up-fill'></i>"
 
-                like_display_obj.text(msg)*/
+                like_display_obj.html(msg)
 
             }
         })

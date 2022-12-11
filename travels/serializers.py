@@ -97,10 +97,7 @@ class CommentSerializer(serializers.ModelSerializer):
         ).data
 
     def get_likes(self, obj):
-        return PostUserSerializer(
-            obj.likes.all(),
-            many=True
-        ).data
+        return obj.likes.values_list("id", flat=True)
 
     class Meta:
         model = Comment

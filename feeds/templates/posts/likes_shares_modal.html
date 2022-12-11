@@ -33,7 +33,11 @@
                 break;
             case "liked":
                 modalTitle = "Liked by"
-                url += "?type=liked&id=" + id
+                url += "?model=post&type=liked&id=" + id
+                break;
+            case "comment-liked":
+                modalTitle = "Liked by"
+                url += "?model=comment&type=liked&id=" + id
                 break;
             case "following":
                 modalTitle = "Users following " + username
@@ -87,7 +91,7 @@
 
     function onFollowClick(userID) {
         let u = document.getElementById(userID)
-        
+
         if (u.classList.contains("notFollowed")) {
             u.classList.remove("notFollowed")
             u.classList.add("followed")
