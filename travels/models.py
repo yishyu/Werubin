@@ -22,7 +22,7 @@ class Post(models.Model):
     creation_date = models.DateTimeField("creation date", auto_now=False, auto_now_add=True)
     last_edited = models.DateTimeField("Last edit", auto_now=True, auto_now_add=False)
     author = models.ForeignKey("users.User", verbose_name="User", on_delete=models.CASCADE, related_name="author")
-    shares = models.ForeignKey("self", verbose_name="Shared post", on_delete=models.CASCADE, null=True, blank=True)  # for me sharig a post means, creating a new post containing the post
+    shares = models.ForeignKey("Post", verbose_name="Shared post", on_delete=models.CASCADE, null=True, blank=True)  # for me sharig a post means, creating a new post containing the post
     likes = models.ManyToManyField("users.User", verbose_name="Likes", related_name="likes", blank=True)
     location = models.ForeignKey("Location", verbose_name="Location", on_delete=models.CASCADE, null=True, blank=True)
     tags = models.ManyToManyField("Tag", verbose_name="Tags", blank=True)

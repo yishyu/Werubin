@@ -59,48 +59,70 @@
             }
         })
     }
-
     function toggleLikeShareModal({ modalTitle, modal_type, data }){
         let output = ""
+        let url = "{% url 'users:api:current_user' %}"
+        $.getJSON({
+            url: url,
+            success: function(data){
+                return data
+            }
+        }).then(
+            current_user => {
+                for (user of data) {
+                    let picture = user.profile_picture ? user.profile_picture : "{% static 'img/profile_default.jpg' %}"
+                    let follow_text = current_user.followers.includes(user.id) ? "Unfollow" : "Follow"
+                    let userID = "likes-shares-modal-user-button-" + user.username
+                    let follow_button = current_user.id != user.id ? `<button id="${userID}" class="followButton btn btn-outline-warning" onClick="onFollowClick('${user.id}', '${userID}')"> ${follow_text}</button>`: ''
 
-        for (user of data) {
-            let picture = user.profile_picture ? user.profile_picture : "{% static 'img/profile_default.jpg' %}"
-            let followed = "notFollowed" // user.followers.contains un truc du genre
-            let userID = "likes-shares-modal-user-button-" + user.username
+                    output += `
+                        <div class="row justify-content-around mb-2">
+                            <div class="col-2">
+                                <img src=${picture} height=50px width=50px class="rounded-image">
+                            </div>
+                            <div class="col-6 center">
+                                <span>${user.username}</span>
+                            </div>
+                            <div class="col-2 center">
+                                ${follow_button}
+                            </div>
+                        </div>
+                    `
+                }
+                if (data.length == 0) { output = `<p class="center">Nobody yet!</p>`}
 
-            output += `
-                <div class="row justify-content-around">
-                    <div class="col-2">
-                        <img src=${picture} height=50px width=50px class="rounded-image">
-                    </div>
-                    <div class="col-6 center">
-                        <span>${user.first_name} ${user.last_name}</span>
-                    </div>
-                    <div class="col-2 center">
-                        <button id="${userID}" class="followButton ${followed} btn btn-outline-warning" onClick="onFollowClick('${userID}')"> Follow</button>
-                    </div>
-                </div>
-            `
-        }
-        if (data.length == 0) { output = `<p class="center">Nobody yet!</p>`}
+                $("#likes-shares-modal-title").html(modalTitle)
+                $("#likes-shares-modal-body").html(output)
+                $("#likes-shares-modal").modal('show');
+            }
+        )
 
-        document.getElementById('likes-shares-modal-title').innerHTML = modalTitle
-        document.getElementById('likes-shares-modal-body').innerHTML = output
-        $("#likes-shares-modal").modal('show');
     }
 
-    function onFollowClick(userID) {
-        // TODO Backend Follow
-        let u = document.getElementById(userID)
+    function onFollowClick(userId, userObjId) {
+        let userObj= $(`#${userObjId}`)
+        let url = "{% url 'users:api:follow_user' %}"
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            data:{
+                "user-id": userId
+            },
+            headers: {
+                'X-CSRFToken': '{{csrf_token}}'
+            },
+            success: function(data){
+                if (data["follow-status"] == 1){
+                    userObj.html("Unfollow")
+                }
 
-        if (u.classList.contains("notFollowed")) {
-            u.classList.remove("notFollowed")
-            u.classList.add("followed")
-            u.innerHTML = "Unfollow"
-        } else {
-            u.classList.remove("followed")
-            u.classList.add("notFollowed")
-            u.innerHTML = "Follow"
-        }
+                else{
+                    userObj.html("Follow")
+                }
+
+
+            }
+
+        })
     }
 </script>

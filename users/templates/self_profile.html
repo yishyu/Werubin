@@ -52,9 +52,9 @@ TODO map with all locations
                             {{membersince}}
                             <br>
                             <br>
-                            <a class="yellow-link" onclick="openModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'followers', id: '{{userid}}', username: '{{username}}'})" href="javascript:void(0);">{{nbfollowers}} follower{% if nbfollowers > 1 %}s{% endif %}</a>
+                            <a class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'followers', id: '{{userid}}', username: '{{username}}'})" href="javascript:void(0);">{{nbfollowers}} follower{% if nbfollowers > 1 %}s{% endif %}</a>
                             <br>
-                            <a class="yellow-link" onclick="openModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'following', id: '{{userid}}', username: '{{username}}'})" href="javascript:void(0);">{{nbfollows}} follow{% if nbfollows > 1 %}s{% endif %}</a>
+                            <a class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'following', id: '{{userid}}', username: '{{username}}'})" href="javascript:void(0);">{{nbfollows}} follow{% if nbfollows > 1 %}s{% endif %}</a>
                             <br>
                         </p>
                         {% if self %}
