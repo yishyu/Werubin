@@ -32,7 +32,7 @@ Variables used:
                         <div class="col-3">
                         </div>
                         <div class="col-6 text-center">
-                            <button class="btn yellow-bg text-light p-3 px-5"> Post Your Trip <i class="fa fa-compass fa-lg"></i></button>
+                            <button onClick="openPostModal({})" class="btn yellow-bg text-light p-3 px-5"> Post Your Trip <i class="fa fa-compass fa-lg"></i></button>
                         </div>
                         <div class="col-3">
                         </div>
@@ -53,10 +53,7 @@ Variables used:
     </div>
 </div>
 {% include "posts/likes_shares_modal.html" %}
-<script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDssMnFaUqhs1fC3iVP4dr4T5a8Qxecaws&v=weekly"
-defer
-></script>
+{% include "posts/post_modal.html" %}
 <script>
 
     // Initialize and add the map

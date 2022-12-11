@@ -1,0 +1,69 @@
+{% load static %}
+
+<div class="modal" id="post-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+              <div class="modal-header">
+                <h5 id="post-modal-title" class="modal-title">"Post your trip!"</h5>
+                <button type="button" class="close" onclick="closePostModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="post-modal-body">
+
+
+
+                <form method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
+                    {% csrf_token %}
+                
+                    <div class="row m-2">
+                        <label for="googleAutocomplete" class="form-label yellow-text">Location</label>
+                        {% include 'google_search.html' %}
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group mb-3 col-12">
+                            <label for="postContent" class="form-label yellow-text">Content </label>
+                            <textarea rows="3" class="form-control" id="postContent" type="text" name="postContent" placeholder="Write something!" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group mb-3 col-12">
+                            <label for="postPictures" class="form-label yellow-text">Pictures</label>
+                            <input class="form-control" id="postPictures" type="file" name="postPictures" multiple required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group mb-3 col-12">
+                            <label for="postTags" class="form-label yellow-text">Tags</label>
+                            <input class="form-control" id="postTags" type="text" name="postTags" required>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <a href="#">
+                            <button class="submit-button btn yellow-bg text-light" type="submit">
+                                POST
+                            </button>
+                        </a>
+                    </div>
+
+
+
+                </form>
+              </div>
+              <div class="modal-footer" id="post-modal-footer">
+              </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function closePostModal(){
+        $("#post-modal").modal('hide');
+    }
+    
+    function openPostModal() {
+        $("#post-modal").modal('show');
+    }    
+</script>

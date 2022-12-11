@@ -59,7 +59,7 @@ Variables used:
         <hr>
         <div class="row">
             <div class="yellow-text col-3">
-                <a class="yellow-link" onclick="openModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'liked', id: '{{post.id}}', username: '{{post.author.username}}'})" href="javascript:void(0);">
+                <a class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'liked', id: '{{post.id}}', username: '{{post.author.username}}'})" href="javascript:void(0);">
                     {{post.likes.all.count}} like{% if post.likes.all.count > 1 %}s{% endif %}
                 </a>
             </div>
@@ -73,7 +73,7 @@ Variables used:
                 {%endif %}
                 {%if post.post_set.all.count > 0%}
                     <span>
-                        <a class="yellow-link" onclick="openModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'shared', id: '{{post.id}}', username: '{{post.author.username}}'})" href="javascript:void(0);">
+                        <a class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'shared', id: '{{post.id}}', username: '{{post.author.username}}'})" href="javascript:void(0);">
                         {{post.post_set.all.count}} share{% if post.post_set.all.count > 1 %}s{% endif %}
                         </a>
                     </span>
