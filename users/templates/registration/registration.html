@@ -104,6 +104,29 @@
             The passwords have to match.
         </div>
     </div>
+    
+
+
+    <label for="tagInputs" class="form-label yellow-text">Tags</label>
+    <div id="tagInputs" class="row col-12">
+        <div class="row">
+            <div class="form-group col-10">
+                <input class="tagInput center form-control" id="postTag1" type="text" name="postTag1" placeholder="Enter a tag..." required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please enter at least one tag.
+                </div>
+            </div>
+            <div id="addTag" style="height:fit-content" class="col-1 btn btn-outline-warning" onclick="addNewTagField()">
+                +
+            </div>
+        </div>
+    </div>
+
+
+    
     <div class="text-center mt-5">
         <button class="submit-button yellow-bg text-light btn btn-primary" type="submit">REGISTER</button>
     </div>
@@ -118,6 +141,7 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/addTagInput.js'%}"></script>
 <script>
 
     // Example starter JavaScript for disabling form submissions if there are invalid fields
