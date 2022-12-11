@@ -23,40 +23,44 @@ Variables used:
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<link rel="stylesheet" href="{% static 'css/userprofile.css' %}">
+<link rel="stylesheet" href="{% static 'css/singlepostpage.css' %}">
 
 {% endblock %}
 {% block content %}
 {%comment %}
-TODO dynamic
 TODO OpenWeatherMap api if the user accepted to be geolocalised
+TODO Edit Information
 TODO current geolocalisation
-TODO Albums
 TODO map with all locations
+TODO Albums
 {%endcomment%}
 <div class="container">
     <div class="row justify-content-center">
         <div class="row col-12 col-md-5">
             <div class="my-3 py-3 card">
-                <div class="row">
+                <div class="row" >
                     <div class="col-6">
-                        <img class="rounded-image" width=100% src={{userprofilepicture}}>
+                        {% if user.profile_picture %}
+                            <img class="rounded-image" width=100% src={{user.profile_picture.url}}>
+                        {% else %}
+                            <img class="rounded-image" width=100% src={% static 'img/profile_default.jpg'%}>
+                        {% endif %}
                     </div>
                     <div class="col-6">
-                        <h3 class="yellow-darker-text">{{username}}</h3>
-                        <h6 class="yellow-darker-text">{{fn}} {{ln}}</h6>
+                        <h3 class="yellow-darker-text">{{user.username}}</h3>
+                        <h6 class="yellow-darker-text">{{user.first_name}} {{user.last_name}}</h6>
                         <p class="yellow-darker-text">
                             Member since
                             <br>
-                            {{membersince}}
+                            {{user.date_joined}}
                             <br>
                             <br>
-                            <a class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'followers', id: '{{userid}}', username: '{{username}}'})" href="javascript:void(0);">{{nbfollowers}} follower{% if nbfollowers > 1 %}s{% endif %}</a>
+                            <a class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'followers', id: '{{user.id}}', username: '{{user.username}}'})" href="javascript:void(0);">{{followers.count}} follower{% if followers.count > 1 %}s{% endif %}</a>
                             <br>
-                            <a class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'following', id: '{{userid}}', username: '{{username}}'})" href="javascript:void(0);">{{nbfollows}} follow{% if nbfollows > 1 %}s{% endif %}</a>
+                            <a class="yellow-link" onclick="openLikeShareModal({ baseUrl: '{% url 'users:api:get_users' %}', modalType: 'following', id: '{{user.id}}', username: '{{user.username}}'})" href="javascript:void(0);">{{user.followers.all.count}} follow{% if user.followers.all.count > 1 %}s{% endif %}</a>
                             <br>
                         </p>
-                        {% if self %}
+                        {% if user == request.user %}
                         <button class="center btn btn-outline-warning" type="submit">Edit profile</button>
                         {% else %}
                         <button class="center btn btn-outline-warning" type="submit">Follow</button>
@@ -77,7 +81,7 @@ TODO map with all locations
                 <div class="collapse dont-collapse-sm" id="collapseExample">
                     <div class="card-body">
                         <p class="yellow-darker-text center m-0">
-                            {{username}}'s Albums
+                            {{user.username}}'s Albums
                         </p>
                     </div>
                 </div>
@@ -101,6 +105,8 @@ TODO map with all locations
 
                 </div>
             </div>
+            <div id="posts">
+            </div>
             {% include "posts/post_modal.html" %}
             {% include "posts/likes_shares_modal.html" %}
          </div>
@@ -110,7 +116,23 @@ TODO map with all locations
 {% endblock %}
 
 {% block extra_js %}
+{% include "posts/post.html" %}
+<script src="{% static 'js/postModal.js'%}"></script>
+<script>
+    function user_posts(){
+        $.getJSON({
+            url: `{% url 'feeds:api:feed' %}?type=User&id={{user.id}}`,
+            success: function(data){
+                $("#posts").empty()
+                for (var post of data){
+                    add_post(post, true)
+                }
 
+            }
+        })
+    }
+    user_posts()
+</script>
 <script>
     $('#albumButton').click(function(){
             if ($('#caret-icon').hasClass("bi-caret-down")) {
