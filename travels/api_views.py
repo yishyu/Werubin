@@ -2,10 +2,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
-from travels.models import Post
+from travels.models import Post, Comment
 from travels.serializers import PostSerializer, CommentSerializer
 from travels.forms import PostForm, CommentForm
 from django.shortcuts import get_object_or_404
+from travels.decorators import has_postid, has_commentId
 
 
 @login_required
@@ -13,6 +14,15 @@ from django.shortcuts import get_object_or_404
 def get_post(request, postId):
     post = get_object_or_404(Post, id=postId)
     serializer = PostSerializer(post, context={'request': request})
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@login_required
+@api_view(['GET'])
+@has_postid
+def get_comments(request, postId):
+    post = get_object_or_404(Post, id=postId)
+    serializer = CommentSerializer(post.comment_set.all(), many=True)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
@@ -58,11 +68,11 @@ def update_post(request):
 
 @login_required
 @api_view(['PUT'])  # Put: Update/Replace
-def toggle_like_post(request):
+@has_postid
+def toggle_like_post(request, postId):
     """
         Like a post and Cancel a like
     """
-    postId = request.data["post-id"]
     post = get_object_or_404(Post, id=postId)  # test if the post exists
     if Post.objects.filter(id=post.id, likes=request.user).count() == 0:  # the user has not already liked the post
         post.likes.add(request.user)
@@ -74,7 +84,25 @@ def toggle_like_post(request):
 
 
 @login_required
-@api_view(['POST'])  # Put: Update/Replace
+@api_view(['PUT'])  # Put: Update/Replace
+@has_commentId
+def toggle_like_comment(request, commentId):
+    """
+        Like a comment and Cancel a like
+    """
+    comment = get_object_or_404(Comment, id=commentId)  # test if the comment exists
+    if Comment.objects.filter(id=comment.id, likes=request.user).count() == 0:  # the user has not already liked the post
+        comment.likes.add(request.user)
+        data = {"like-status": 1}
+    else:
+        comment.likes.remove(request.user)
+        data = {"like-status": 0}
+    return Response(status=status.HTTP_200_OK, data=data)
+
+
+@login_required
+@api_view(['PUT'])  # Put: Update/Replace
+@has_postid
 def share_post(request, postId):
     """
         Share a post by creating a new post

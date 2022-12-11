@@ -5,5 +5,4 @@ from feeds import views as views
 urlpatterns = [
     path("api/", include(('feeds.api_urls', 'feeds_api'), namespace='api')),
     path("", views.front_feed, name='front_feed'),
-    path('post/<str:postID>/', views.singlePost, name='post')
 ]

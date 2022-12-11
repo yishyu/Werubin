@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from travels.models import Post
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+
+@login_required
+def singlePost(request, postID):
+    post = Post.objects.get(id=postID)
+    return render(request, 'posts/singlepostpage.html', locals())
+

@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from travels.models import Post, Comment, Album, PostImage
 from travels.serializers import PostSerializer, CommentSerializer, AlbumSerializer, PostImageSerializer
 from rest_framework import status
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 
 @login_required
@@ -12,6 +14,7 @@ def feed(request):
     """
         Add Pagination, limit
     """
+    posts = Post.objects.none()
     if len(request.GET) > 0:
         feed_type = request.GET.get('type')
         if feed_type == "Followers":
@@ -22,7 +25,6 @@ def feed(request):
             posts = Post.objects.filter(tags__in=request.user.tags.all())
         elif feed_type == "SingleTag":
             posts = Post.objects.filter(tags__name=request.GET.get("tag"))
-
     posts = posts.order_by("-creation_date")
     data = PostSerializer(posts, many=True).data
     return Response(status=status.HTTP_200_OK, data=data)

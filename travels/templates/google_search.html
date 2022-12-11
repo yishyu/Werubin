@@ -14,7 +14,5 @@
 <input name='lat' id='lat' type="hidden"/>
 <input name='lng' id='lng' type="hidden"/>
 <span id="addressMissingElements" class="text-danger"></span>
-{% block extra_js %}
-    <script src="{% static 'js/googleSearch.js'%}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDssMnFaUqhs1fC3iVP4dr4T5a8Qxecaws&language=en&libraries=places&callback=initAutocomplete" async defer></script>
-{% endblock %}
+<script src="{% static 'js/googleSearch.js'%}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDssMnFaUqhs1fC3iVP4dr4T5a8Qxecaws&language=en&libraries=places&callback=initAutocomplete" async defer></script>

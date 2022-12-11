@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from travels.models import Post, Comment, PostImage, Album, Tag, Location
 from users.serializers import PostUserSerializer
+from users.models import User
 
 
 class PostImageSerializer(serializers.ModelSerializer):
@@ -36,10 +37,10 @@ class PostSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
     time_ago = serializers.SerializerMethodField()
-    shared_amount = serializers.SerializerMethodField()
+    was_shared = serializers.SerializerMethodField()
 
-    def get_shared_amount(self, obj):
-        return Post.objects.filter(shares=obj.id).count()
+    def get_was_shared(self, obj):
+        return Post.objects.filter(shares=obj.id).values_list("author", flat=True)
 
     def get_time_ago(self, obj):
         return obj.time_ago
@@ -85,6 +86,10 @@ class PostSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField()
     author = serializers.SerializerMethodField()
+    time_ago = serializers.SerializerMethodField()
+
+    def get_time_ago(self, obj):
+        return obj.time_ago
 
     def get_author(self, obj):
         return PostUserSerializer(
