@@ -93,3 +93,5 @@ nav form input {
 .btn-outline-warning:active {
     color: #249EA0 !important;
 }
+
+.pac-container { z-index: 10000 !important; }
