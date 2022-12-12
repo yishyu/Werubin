@@ -93,3 +93,16 @@ hr {
     padding-top: 20px;
     padding-bottom: 20px;
 }
+
+.post-img {
+    margin:1px;
+    float: center;
+    width:  20vw;
+    height: 20vh;
+    object-fit: cover;
+}
+@media (max-width:768px) {
+    .post-img {
+        width:  40vw;
+    }
+}

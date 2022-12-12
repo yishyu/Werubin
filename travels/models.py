@@ -37,7 +37,7 @@ class Post(models.Model):
         if time.days > 0:
             if time.days > 7:
                 return self.creation_date
-            return f"{time.days}day" if time.days == 1 else f"{time.days}days"
+            return f"{time.days}day ago" if time.days == 1 else f"{time.days}days ago"
         if time.total_seconds() // 3600 > 0:
             return f"{int(time.total_seconds() // 3600)}h ago"
         else:

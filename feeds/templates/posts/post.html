@@ -49,7 +49,7 @@
         var location_html = post.location.lat != "" ? `<div class="map" id="map${post.id}"></div>`: ``
         var images_html = ""
         for (var image of post.images){
-            images_html += `<img width=49% src=${image.image}>`
+            images_html += `<img class='post-img' src=${image.image}>`
         }
         var like_text = post.likes.length > 1 ? `${post.likes.length} likes`: `${post.likes.length} like`
         var comment_text = post.comments > 1?  `${post.comments} comments`: `${post.comments} comment`

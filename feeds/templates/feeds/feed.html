@@ -25,20 +25,7 @@ Variables used:
     <div class="row justify-content-center">
         <div class="col-md-7 col-xs-12">
 
-            <div class="card mt-4 mb-5 bg-grey">
-                <div class="d-flex justify-content-between p-3 px-3">
-                    <div class="row">
-                        <div class="col-3">
-                        </div>
-                        <div class="col-6 text-center">
-                            <button onClick="openPostModal({})" class="btn yellow-bg text-light p-3 px-5"> Post Your Trip <i class="fa fa-compass fa-lg"></i></button>
-                        </div>
-                        <div class="col-3">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            {% include "posts/post_button.html" %}
 
             <div class="feeds-buttons row justify-content-center">
                 <a id="ForYou" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #For you</h4></a>

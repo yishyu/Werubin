@@ -31,7 +31,6 @@ Variables used:
 TODO OpenWeatherMap api if the user accepted to be geolocalised
 TODO Edit Information
 TODO current geolocalisation
-TODO map with all locations
 TODO Albums
 {%endcomment%}
 <div class="container">
@@ -92,19 +91,11 @@ TODO Albums
         <div class="col-12 col-md-7">
 
             <div class="card mt-4 mb-5 bg-grey">
-                <div class="d-flex justify-content-between p-3 px-3">
-                    <div class="row">
-                        <div class="col-3">
-                        </div>
-                        <div class="col-6 text-center">
-                            <button onClick="openPostModal({})" class="btn yellow-bg text-light p-3 px-5"> Post Your Trip <i class="fa fa-compass fa-lg"></i></button>
-                        </div>
-                        <div class="col-3">
-                        </div>
-                    </div>
-
-                </div>
+                <div class="map" id="roadMap"></div>
             </div>
+            {% if user == request.user %}
+                {% include "posts/post_button.html" %}
+            {% endif %}
             <div id="posts">
             </div>
             {% include "posts/post_modal.html" %}
@@ -119,7 +110,69 @@ TODO Albums
 {% include "posts/post.html" %}
 <script src="{% static 'js/postModal.js'%}"></script>
 <script>
-    function user_posts(){
+    function initRoadMap(){
+        /*
+            Inits the road map by centering in in Center Europe
+            with the min zoom level
+        */
+        var center = {
+            lat: 50.378472,
+            lng: 14.970598
+        }
+        // The map, centered at Lessines
+        var map = new google.maps.Map(
+            document.getElementById("roadMap"),
+            {
+                zoom: 1,
+                center: center,
+                disableDefaultUI: true,
+            }
+        );
+        return map
+    }
+    function addToMap(map, post) {
+        /*
+            Creates a map for a post with the post location marked on the map
+            By clicking on the marker, the pre-saved name of the location is shown
+        */
+        var position = {
+            lat: parseFloat(post.location.lat),
+            lng: parseFloat(post.location.lng)
+        }
+        var marker = new google.maps.Marker({
+            id: post.id,
+            position: position,
+            title: post.location.name,
+            map: map,
+        })
+
+        var infoWindow = new google.maps.InfoWindow();
+        marker.addListener("click", () => {
+            map.setZoom(5)
+            map.panTo(marker.getPosition())
+            infoWindow.close();
+            var images_html = ""
+            for (var image of post.images){
+                images_html += `<img class="post-img" src=${image.image}>`
+            }
+            images_html += ""
+            const contentString =`
+                <div id="content">
+                    <div id="siteNotice">
+                        ${post.time_ago}
+                    </div>
+                    <h3 id="firstHeading" class="blue-text firstHeading">${marker.getTitle()}</h3>
+                    <div id="bodyContent">
+                        <p class="text-justify yellow-darker-text">${post.content}</p>
+                        ${images_html}
+                    </div>
+                </div>
+                `
+            infoWindow.setContent(contentString);
+            infoWindow.open(marker.getMap(), marker);
+          });
+    }
+    function user_posts(map){
         $.getJSON({
             url: `{% url 'feeds:api:feed' %}?type=User&id={{user.id}}`,
             success: function(data){
@@ -131,7 +184,27 @@ TODO Albums
             }
         })
     }
-    user_posts()
+    function setRoadMap(map){
+        /*
+            Sets the markers on the roadmap
+            Use of a different function because user_posts will be paginated
+            but on the roadmap we want all the locations
+        */
+        var url = "{% url 'users:api:road_map' %}?user-id={{user.id}}"
+        $.getJSON({
+            url:url,
+            success: function(data){
+                for (var post of data){
+                    addToMap(map, post)
+                }
+            }
+        })
+    }
+    $( document ).ready(function(){
+        var map = initRoadMap()
+        user_posts()
+        setRoadMap(map)
+    });
 </script>
 <script>
     $('#albumButton').click(function(){

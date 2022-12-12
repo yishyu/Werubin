@@ -4,6 +4,7 @@ from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from users.serializers import PostUserSerializer, UserSerializer
+from travels.serializers import PostSerializer, LocationSerializer
 from users.models import User
 from travels.models import Post, Comment
 from travels.decorators import has_postid
@@ -64,3 +65,17 @@ def follow_user(request):
         data = {"follow-status": 1}
 
     return Response(status=status.HTTP_200_OK, data=data)
+
+
+@login_required
+@api_view(["GET"])
+def road_map(request):
+    """
+        Returns a list of all locations shared by a specific user
+        the locations are shown on a map in a user profile
+    """
+    user = get_object_or_404(User, id=request.GET['user-id'])
+    posts = Post.objects.filter(author=user).exclude(location=None)
+    # we might want to show post information on the map so we prefer returning the post information instead of the location
+    serializer = PostSerializer(posts, many=True)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
