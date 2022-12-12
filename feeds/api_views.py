@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 @api_view(["GET"])
 def feed(request):
     """
-        TODO Add Pagination, limit
+        Returns post based on type, offset, limit
     """
     posts = Post.objects.none()
     if len(request.GET) > 0:
@@ -28,5 +28,9 @@ def feed(request):
         elif feed_type == "User":
             posts = Post.objects.filter(author__id=request.GET.get("id"))
     posts = posts.order_by("-creation_date")
+    if request.GET.get('limit'):
+        OFFSET = int(request.GET.get('offset', 0))
+        LIMIT = int(request.GET.get('limit'))
+        posts = posts[OFFSET:OFFSET + LIMIT]
     data = PostSerializer(posts, many=True).data
     return Response(status=status.HTTP_200_OK, data=data)

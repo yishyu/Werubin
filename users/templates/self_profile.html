@@ -76,7 +76,7 @@ TODO Albums
                             </button>
                         </h2>
                     </div>
-    
+
                     <div class="collapse dont-collapse-sm show" id="collapseExample">
                         <div class="card-body">
                             <p class="yellow-darker-text center m-0">
@@ -193,17 +193,12 @@ TODO Albums
             infoWindow.open(marker.getMap(), marker);
           });
     }
+    var LIMIT = 2
+    var OFFSET = 0
     function user_posts(map){
-        $.getJSON({
-            url: `{% url 'feeds:api:feed' %}?type=User&id={{user.id}}`,
-            success: function(data){
-                $("#posts").empty()
-                for (var post of data){
-                    add_post(post, true)
-                }
-
-            }
-        })
+        $("#posts").empty()
+        paginated_feed({feed_type: "User", offset: OFFSET, limit: LIMIT, parameters:"&id={{user.id}}"});
+        OFFSET += LIMIT
     }
     function setRoadMap(map){
         /*
@@ -225,6 +220,22 @@ TODO Albums
         var map = initRoadMap()
         user_posts()
         setRoadMap(map)
+        // load next post at the bottom of the page
+        var $win = $(window)
+        $(window).scroll(function() {
+            if($('.bottomPost').length > 0){
+                var divTop = $('.bottomPost').first().offset().top,
+                divHeight = $('.bottomPost').first().outerHeight(),
+                wHeight = $(window).height(),
+                windowScrTp = $(this).scrollTop();
+                if (windowScrTp > (divTop+divHeight-wHeight-100)){
+                    $('.bottomPost').first().removeClass("bottomPost")
+                    paginated_feed({feed_type: "User", offset: OFFSET, limit: LIMIT,parameters:"&id={{user.id}}"});
+                    OFFSET += LIMIT
+                }
+            }
+
+         });
     });
 </script>
 <script>

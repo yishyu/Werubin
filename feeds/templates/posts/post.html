@@ -393,5 +393,24 @@
             }
         })
     }
+    function paginated_feed({feed_type, offset, limit, parameters=""}){
+        /*
+            Loads posts with offset and limit
+        */
+        $.getJSON({
+            url: `{% url 'feeds:api:feed' %}?type=${feed_type}&offset=${offset}&limit=${limit}${parameters}`,
+            success: function(data){
+                for (var post of data){
+                    add_post(post, true)
+                }
+                if (data.length > 0){
+                    $(`#${post.id}postDiv`).addClass("bottomPost")  // last post gets tagged bottomPost
+                }
+
+
+            }
+        })
+    }
+
 </script>
 {% endblock %}
