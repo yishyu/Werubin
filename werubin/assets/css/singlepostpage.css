@@ -116,3 +116,19 @@ hr {
         width:  40vw;
     }
 }
+
+.user-info-col {
+    border-right: 1px dashed #333;
+}
+
+.big-font {
+    font-weight:600;
+}
+
+@media (min-width: 768px) {
+    .collapse.dont-collapse-sm {
+        display: block !important;
+        height: auto !important;
+        visibility: visible;
+    }
+}
