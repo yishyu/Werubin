@@ -66,28 +66,15 @@ def follow_user(request):
 
     return Response(status=status.HTTP_200_OK, data=data)
 
+
 @api_view(["PUT"])
 def user_exists(request):
-
-    print(request)
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-    print(request.data)
     if User.objects.filter(username=request.data["username"]).count() > 0:
         data = {"user_exists": True}
     else:
         data = {"user_exists": False}
-
-
-    # if request.user.id == user.id:
-    #     return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "You may like yourself a lot but unfortunately you cannot follow yourself"})
-    # if user in request.user.followers.all():
-    #     request.user.followers.remove(user)
-    #     data = {"follow-status": 0}
-    # else:
-    #     request.user.followers.add(user)
-    #     data = {"follow-status": 1}
-
     return Response(status=status.HTTP_200_OK, data=data)
+
 
 @login_required
 @api_view(["GET"])
