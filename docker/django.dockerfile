@@ -10,4 +10,4 @@ COPY . .
 RUN poetry install --no-dev
 
 ENTRYPOINT ["poetry", "run", "/srv/docker/entrypoint.sh"]
-CMD ["gunicorn", "Werubin.wsgi:application", "--bind", "0.0.0.0:8000", "--timeout", "300"]
+CMD ["gunicorn", "werubin.wsgi:application", "--bind", "0.0.0.0:8000", "--timeout", "300"]
