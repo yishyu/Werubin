@@ -10,9 +10,11 @@ import datetime as dt
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from users.decorators import no_user
 
 
 # Sign Up View
+@no_user
 def registration(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
@@ -32,6 +34,7 @@ def registration(request):
     return render(request, 'registration/registration.html', locals())
 
 
+@no_user
 def forgotpass(request):
     if request.method == "POST":
         email = request.POST["email"].lower().strip()
@@ -58,6 +61,7 @@ def forgotpass(request):
     return render(request, 'registration/forgotpass.html', locals())
 
 
+@no_user
 def resetpass(request, key):
     passforgot_obj = PasswordForgottenRequest.objects.get(link=key)  # 404 if not found
     user = passforgot_obj.user
