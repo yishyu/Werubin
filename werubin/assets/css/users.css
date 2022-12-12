@@ -36,9 +36,17 @@
     margin-top:25vh;
 }
 
+
 .users-section .desktop-right-panel {
-    height:80%
+    height:80%;
 }
+
+@media (max-width:768px) {
+    .users-section {
+        background: rgba(0,0,0,0);
+    }
+}
+
 
 .users-section .desktop-right-panel .container {
     width:80%;

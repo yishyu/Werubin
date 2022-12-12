@@ -7,20 +7,17 @@
 
 {% block content %}
     <section class="users-section text-center text-white masthead">
-        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 front">
+        <div class="row row-cols-1 row-cols-md-2 front">
             <div class="left-panel">
-                <div class="thumbnail col order-first order-sm-first order-md-first order-lg-first order-xl-first order-xxl-first">
+                <div class="thumbnail col order-first">
                 </div>
-
-                <div class="caption">
-            {% if not request.user_agent.is_mobile %}
+                <div class="caption d-none d-md-block">
                     <h1 class="werubin-title yellow-text">Werubin</h1>
                     <h1 class="werubin-subtitle yellow-text">Connect By Traveling</h1>
                 </div>
             </div>
-            <div class="desktop-right-panel col text-start align-items-xl-end">
+            <div class="desktop-right-panel col text-start">
                 <div class="container">
-            {% endif %}
                     {% block second_part %}
                     {% endblock %}
                 </div>
@@ -33,18 +30,35 @@
             https://stackoverflow.com/questions/43333495/text-over-image-responsive
         {% endcomment %}
 
-        /*IF NOT ON MOBILE!*/
-        .users-section .left-panel .thumbnail {
-            background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);
-            filter: brightness(50%);
-            display:float;
-
-            min-width:50vw;
-            min-height:100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
+        @media (max-width:768px) {
+            .users-section .left-panel .thumbnail {
+                background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);
+                filter: brightness(50%);
+                display:float;
+                
+                z-index: -1;
+                min-width:100vw;
+                min-height:100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
         }
+
+        @media (min-width:768px) {
+            .users-section .left-panel .thumbnail {
+                background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);
+                filter: brightness(50%);
+                display:float;
+    
+                min-width:50vw;
+                min-height:100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+        }
+
 
     </style>
 {% endblock %}
