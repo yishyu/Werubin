@@ -1,5 +1,9 @@
 {% load static %}
 
+{% block content %}
+{% include "posts/image_modal.html"%}
+{% endblock %}
+
 {% block extra_js %}
 <script>
     function initMap(post) {
@@ -43,6 +47,44 @@
             infoWindow.open(marker.getMap(), marker);
           });
     }
+
+    function switch_image(post, go_next){
+        const currentimage = $('#modal-img').attr('src')
+        var current_index = 0
+        for (var i=0; i<post.images.length; i++){
+            if(post.images[i].image == currentimage){
+                current_index = i
+            }
+        }
+        if (go_next){
+            current_index += 1
+            if (current_index >= post.images.length)
+                current_index = 0
+        }
+        else{
+            current_index -= 1
+            if (current_index < 0)
+                current_index = post.images.length - 1
+        }
+    $('#modal-img').attr('src', post.images[current_index].image);
+    }
+    function open_images({post, imageurl}){
+        $("#image-modal").modal("show");
+        $("#prev-img").click(function(e){switch_image(post, false)})
+        $("#next-img").click(function(e){switch_image(post, true)})
+
+        $(`#image-modal`).keyup(function(event) {
+            if (event.keyCode === 37) {  //left arrow
+                $(`#prev-img`).click();
+            }else if(event.keyCode === 39){
+                $(`#next-img`).click();
+            }
+        });
+
+        $(`#image-modal-body`).html(
+            `<img id="modal-img" width=100% src=${imageurl}>`
+        )
+    }
     function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
         /*
             Adds a single post to the DOM
@@ -56,15 +98,14 @@
         var location_html = post.location.lat != "" ? `<div class="map" id="map${post.id}"></div>`: ``
         var images_html = ""
         for (var image of post.images){
-            images_html += `<img class='post-img' src=${image.image}>`
+            images_html += `<img class='post-img' id="postimg${image.id}" src=${image.image}>`
         }
         var like_text = post.likes.length > 1 ? `${post.likes.length} likes`: `${post.likes.length} like`
         var comment_text = post.comments > 1?  `${post.comments} comments`: `${post.comments} comment`
         var share_text = post.was_shared.length > 1?  `${post.was_shared.length} shares`: `${post.was_shared.length} share`
         var like_color =  post.likes.includes({{request.user.id}}) ? 'blue-text':'yellow-link'
         var share_color =  post.was_shared.includes({{request.user.id}}) ? 'blue-text':'yellow-link'
-        var post_html =
-        `
+        var post_html =`
         <div id="${post.id}postDiv" class="post-li">
             <div class="card bg-grey">
                 <div class="d-flex justify-content-between p-2 px-3">
@@ -140,6 +181,7 @@
             </div>
         </div>`
 
+        // appending to DOM
         if (append)
             $("#posts").append(post_html)
         else{
@@ -148,16 +190,26 @@
 
         }
 
-
+        // creating map
         if (post.location.lat != ""){
             initMap(post)
         }
+        // enter key push on comment
         $(`#comment-input${post.id}`).keyup(function(event) {
             if (event.keyCode === 13) {  //enter button
                 var button = $(this).attr("id").replace('input', 'push')
                 $(`#${button}`).click();
             }
         });
+
+        // img modal events
+        for (var image of post.images){
+            $(`#postimg${image.id}`).click(function(e){
+                open_images({post: post, imageurl: $(this).attr('src')})
+            })
+        }
+
+
     }
     function like_post(postId){
         /*

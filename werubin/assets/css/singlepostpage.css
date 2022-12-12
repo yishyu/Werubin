@@ -101,6 +101,16 @@ hr {
     height: 20vh;
     object-fit: cover;
 }
+
+.post-img:hover{
+    cursor:pointer;
+}
+.column-link:hover{
+    background-color: #f3f3f3;
+}
+#next-button{
+    text-align:right
+}
 @media (max-width:768px) {
     .post-img {
         width:  40vw;
