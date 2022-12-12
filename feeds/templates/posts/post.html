@@ -32,7 +32,14 @@
             map.setZoom(16)
             map.panTo(marker.getPosition())
             infoWindow.close();
-            infoWindow.setContent(marker.getTitle());
+            const weather_id = `postweather${post.location.id}`
+            const contentString =`
+            Current Weather
+            <div id="${weather_id}"></div>
+            <h5 id="firstHeading" class="blue-text firstHeading">${marker.getTitle()}</h5>
+            `
+            infoWindow.setContent(contentString);
+            set_weather(position.lat, position.lng, weather_id);
             infoWindow.open(marker.getMap(), marker);
           });
     }

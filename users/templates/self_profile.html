@@ -156,12 +156,22 @@ TODO Albums
                 images_html += `<img class="post-img" src=${image.image}>`
             }
             images_html += ""
+            const weather_id = `weather${post.location.id}`
             const contentString =`
-                <div id="content">
-                    <div id="siteNotice">
-                        ${post.time_ago}
+                <div class="container" id="content">
+                    <div class="row">
+                        <div class="col-8">
+                            Current Weather
+                            <div id="${weather_id}"></div>
+                        </div>
+                        <div class="col-4">
+                            posted ${post.time_ago}
+                        </div>
                     </div>
-                    <h3 id="firstHeading" class="blue-text firstHeading">${marker.getTitle()}</h3>
+                    <div class="row">
+                        <h3 id="firstHeading" class="blue-text firstHeading">${marker.getTitle()}</h3>
+                    </div>
+
                     <div id="bodyContent">
                         <p class="text-justify yellow-darker-text">${post.content}</p>
                         ${images_html}
@@ -169,6 +179,7 @@ TODO Albums
                 </div>
                 `
             infoWindow.setContent(contentString);
+            set_weather(position.lat, position.lng, weather_id);
             infoWindow.open(marker.getMap(), marker);
           });
     }
