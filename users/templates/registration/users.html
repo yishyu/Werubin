@@ -1,46 +1,64 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'css/users.css'%}?v=1">
+{% endblock %}
+
 {% block content %}
-    <section class="text-center text-white masthead" style="background: #ffffff;height:100vh">
-        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 front" >
-
-            <div class="thumbnail">
-                <div
-                class="col order-first order-sm-first order-md-first order-lg-first order-xl-first order-xxl-first"
-                style="background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);min-height:100vh;filter: brightness(50%);display:block"
-                >
+    <section class="users-section text-center text-white masthead">
+        <div class="row row-cols-1 row-cols-md-2 front">
+            <div class="left-panel">
+                <div class="thumbnail col order-first">
                 </div>
-            {% block second_part %}
-            {% endblock %}
-
-
+                <div class="caption d-none d-md-block">
+                    <h1 class="werubin-title yellow-text">Werubin</h1>
+                    <h1 class="werubin-subtitle yellow-text">Connect By Traveling</h1>
+                </div>
+            </div>
+            <div class="desktop-right-panel col text-start">
+                <div class="container">
+                    {% block second_part %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
     </section>
 
-
     <style>
-        {%comment%}
+        {% comment %}
             https://stackoverflow.com/questions/43333495/text-over-image-responsive
-        {%endcomment%}
-        body{
-            overflow:hidden !important;
+        {% endcomment %}
 
+        @media (max-width:768px) {
+            .users-section .left-panel .thumbnail {
+                background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);
+                filter: brightness(50%);
+                display:float;
+                
+                z-index: -1;
+                min-width:100vw;
+                min-height:100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
         }
 
-        .thumbnail {
-            position: relative;
-            display: inline-block;
-            margin: 0;
+        @media (min-width:768px) {
+            .users-section .left-panel .thumbnail {
+                background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);
+                filter: brightness(50%);
+                display:float;
+    
+                min-width:50vw;
+                min-height:100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
         }
 
-        .caption {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate( -50%, -50% );
-            text-align: center;
-            color: white;
-            font-weight: bold;
-        }
+
     </style>
 {% endblock %}

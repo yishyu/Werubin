@@ -8,9 +8,13 @@ from users.models import User, PasswordForgottenRequest
 from django.core.mail import send_mail
 import datetime as dt
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from users.decorators import no_user
 
 
 # Sign Up View
+@no_user
 def registration(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
@@ -30,6 +34,7 @@ def registration(request):
     return render(request, 'registration/registration.html', locals())
 
 
+@no_user
 def forgotpass(request):
     if request.method == "POST":
         email = request.POST["email"].lower().strip()
@@ -56,6 +61,7 @@ def forgotpass(request):
     return render(request, 'registration/forgotpass.html', locals())
 
 
+@no_user
 def resetpass(request, key):
     passforgot_obj = PasswordForgottenRequest.objects.get(link=key)  # 404 if not found
     user = passforgot_obj.user
@@ -72,3 +78,10 @@ def resetpass(request, key):
 
     form = ResetPasswordForm(user)
     return render(request, 'registration/resetpass.html', locals())
+
+
+@login_required
+def profile(request, username):
+    user = get_object_or_404(User, username=username)
+    followers = User.objects.filter(followers=user)  # user who are following this user
+    return render(request, 'self_profile.html', locals())

@@ -1,0 +1,73 @@
+.users-section {
+    background: #ffffff;
+    height:100%;
+}
+
+.users-section .left-panel {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    
+}
+
+.users-section .left-panel .caption {
+    position: fixed;
+    min-width:50vw;
+    min-height:100vh;
+    position: fixed;
+    bottom: 20%;
+    top: 20%;
+    left: 0;
+
+    /*transform: translate( -50%, 0% );*/
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.users-section .left-panel .caption .werubin-title {
+    font-weight:600;
+    font-size:5em;
+}
+
+.users-section .left-panel .caption .werubin-subtitle {
+    font-weight:400;
+    font-size:2em;
+    margin-top:25vh;
+}
+
+
+.users-section .desktop-right-panel {
+    height:80%;
+}
+
+@media (max-width:768px) {
+    .users-section {
+        background: rgba(0,0,0,0);
+    }
+}
+
+
+.users-section .desktop-right-panel .container {
+    width:80%;
+    height:100vh;
+    box-sizing:unse;
+}
+
+.users-section .bi-person-fill {
+    font-size:4em;
+}
+
+.users-section .right-column-title {
+    font-weight:600;
+}
+
+.users-section .forgot-pass-form {
+    text-align: left;
+}
+
+.users-section .submit-button {
+    width:80%;
+    font-weight: bold;
+    font-size:1.2em
+}

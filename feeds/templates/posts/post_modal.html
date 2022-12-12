@@ -1,0 +1,66 @@
+{% load static %}
+
+<div class="modal" id="post-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+              <div class="modal-header">
+                <h5 id="post-modal-title" class="modal-title">"Post your trip!"</h5>
+                <button type="button" class="close" onclick="closePostModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="post-modal-body">
+
+
+
+                <form id="postForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
+                    {% csrf_token %}
+
+                    <div class="row m-2">
+                        <label for="googleAutocomplete" class="form-label yellow-text">Location</label>
+                        {% include 'google_search.html' %}
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group mb-3 col-12">
+                            <label for="postContent" class="form-label yellow-text">Content </label>
+                            <textarea rows="3" class="form-control" id="postContent" type="text" name="content" placeholder="Write something!" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group mb-3 col-12">
+                            <label for="postPictures" class="form-label yellow-text">Pictures</label>
+                            <input class="form-control" id="postPictures" type="file" name="pictures" multiple accept="image/png, image/gif, image/jpeg">
+                        </div>
+                    </div>
+                    <label for="tagInputs" class="form-label yellow-text">Tags</label>
+                    <div id="tagInputs" class="row col-12">
+                        <div class="row">
+                            <div class="form-group col-10">
+                                <input class="tagInput center form-control" id="postTag1" type="text" name="postTag1" placeholder="Enter a tag..." required>
+                            </div>
+                            <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField()">
+                                +
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="tags" name="tags" value="" />
+
+                    <div class="text-center mt-5">
+                        <a href="#">
+                            <button class="submit-button btn yellow-bg text-light" type="submit">
+                                Publish
+                            </button>
+                        </a>
+                    </div>
+
+
+
+                </form>
+              </div>
+              <div class="modal-footer" id="post-modal-footer">
+              </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+{% extends "navbar.html" %}
+{% load static %}
+
+{% comment %}
+Variables used:
+
+-filters (for the type of posts to query)
+
+{% endcomment %}
+
+{% block extrahead %}
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{% static 'css/singlepostpage.css' %}">
+
+<!-- CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-xs-12">
+
+            {% include "posts/post_button.html" %}
+
+            <div class="feeds-buttons row justify-content-center">
+                <a id="ForYou" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #For you</h4></a>
+                <a id="Explore" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #Explore</h4></a>
+                <a id="Followers" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #Followers</h4></a>
+            </div>
+            <div id="posts">
+            </div>
+
+         </div>
+    </div>
+</div>
+{% include "posts/likes_shares_modal.html" %}
+{% include "posts/post_modal.html" %}
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/postModal.js'%}"></script>
+<script src="{% static 'js/addTagInput.js'%}"></script>
+<script>
+
+    var LIMIT = 2
+    var OFFSET = 0
+    function feed(feed_type){
+        /*
+            Depending on the picked feed: ForYou Explore Followers
+            The feed is regenerated dynamically by this function
+        */
+        $(".feed").removeClass('blue-text').addClass('yellow-text')
+        $(`#${feed_type}`).removeClass('yellow-text').addClass('blue-text')
+        $("#posts").empty()
+        OFFSET = 0 // first load with offset 0 because we are changing feed
+        paginated_feed({feed_type: feed_type, offset: OFFSET, limit: LIMIT});
+        OFFSET += LIMIT
+    }
+
+    function get_feed_type(){
+        var hash = $(location).attr('hash');
+        if (hash === ""){
+            history.pushState(null,null, '#ForYou');
+            return "ForYou"
+        }
+        else
+            return hash.slice(1)
+    }
+
+    $( document ).ready(function(){
+        /*
+            Loads the field corresponding to the anchor
+        */
+        // first feed load
+        const feed_type = get_feed_type()
+        feed(feed_type)
+
+        // load next post at the bottom of the page
+        var $win = $(window)
+        $(window).scroll(function() {
+            if($('.bottomPost').length > 0){
+                var divTop = $('.bottomPost').first().offset().top,
+                divHeight = $('.bottomPost').first().outerHeight(),
+                wHeight = $(window).height(),
+                windowScrTp = $(this).scrollTop();
+                if (windowScrTp > (divTop+divHeight-wHeight-100)){
+                    $('.bottomPost').first().removeClass("bottomPost")
+                    let current_feed_type = this.get_feed_type()
+                    paginated_feed({feed_type: current_feed_type, offset: OFFSET, limit: LIMIT});
+                    OFFSET += LIMIT
+                }
+            }
+
+         });
+
+        // event on feed buttons
+        $(".feed").click(function(e) {
+            feed($(this).attr("id"))
+            history.pushState(null,null,`#${$(this).attr("id")}`);
+            e.preventDefault();
+        });
+
+    });
+</script>
+{%include 'posts/post.html'%}
+{%endblock %}

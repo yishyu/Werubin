@@ -33,7 +33,14 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 DATABASES = {
-    "default": env.db_url("SQLITE_URL", default="sqlite:////tmp/my-tmp-sqlite.db")
+    'default': {
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        "USER": os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
+    }
 }
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
@@ -41,6 +48,7 @@ CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS]
 
 ROOT_URLCONF = "werubin.urls"
 LOGIN_URL = "users:login"
+LOGIN_REDIRECT_URL = "feeds:front_feed"
 AUTH_USER_MODEL = 'users.User'
 
 EMAIL_HOST = "ssl0.ovh.net"
@@ -49,9 +57,12 @@ EMAIL_HOST_USER = "werubin@yueat.be"
 EMAIL_HOST_PASSWORD = "AC%*H4TThAB&p&^wsb@*a%6N"
 EMAIL_USE_TLS = True
 
+#MAPS_API_KEY = env("MAPS_API_KEY")
+
 # Application definition
 
 INSTALLED_APPS = [
+    "django_extensions",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -127,13 +138,13 @@ TIME_ZONE = 'Europe/Brussels'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "werubin/assets",

@@ -1,0 +1,36 @@
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from django.contrib.auth.decorators import login_required
+from travels.models import Post, Comment, Album, PostImage
+from travels.serializers import PostSerializer, CommentSerializer, AlbumSerializer, PostImageSerializer
+from rest_framework import status
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+
+
+@login_required
+@api_view(["GET"])
+def feed(request):
+    """
+        Returns post based on type, offset, limit
+    """
+    posts = Post.objects.none()
+    if len(request.GET) > 0:
+        feed_type = request.GET.get('type')
+        if feed_type == "Followers":
+            posts = Post.objects.filter(author__in=request.user.followers.all())
+        elif feed_type == "Explore":
+            posts = Post.objects.all()
+        elif feed_type == "ForYou":
+            posts = Post.objects.filter(tags__in=request.user.tags.all())
+        elif feed_type == "SingleTag":
+            posts = Post.objects.filter(tags__name=request.GET.get("tag"))
+        elif feed_type == "User":
+            posts = Post.objects.filter(author__id=request.GET.get("id"))
+    posts = posts.order_by("-creation_date")
+    if request.GET.get('limit'):
+        OFFSET = int(request.GET.get('offset', 0))
+        LIMIT = int(request.GET.get('limit'))
+        posts = posts[OFFSET:OFFSET + LIMIT]
+    data = PostSerializer(posts, many=True).data
+    return Response(status=status.HTTP_200_OK, data=data)

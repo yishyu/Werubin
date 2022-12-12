@@ -1,5 +1,5 @@
 from django.contrib import admin
-from travels.models import Post, Comment, PostImage, Album
+from travels.models import Post, Comment, PostImage, Album, Tag, Location
 
 
 @admin.register(Post)
@@ -20,3 +20,13 @@ class PostImageAdmin(admin.ModelAdmin):
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
     list_display = ("id", "user", "name")
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ("id", "name")
+
+
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "lat", "lng")

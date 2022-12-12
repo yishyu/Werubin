@@ -1,7 +1,8 @@
-from django.urls import path
+from django.urls import path, include
+from feeds import views as views
 
-from feeds import views
 
 urlpatterns = [
+    path("api/", include(('feeds.api_urls', 'feeds_api'), namespace='api')),
     path("", views.front_feed, name='front_feed'),
 ]

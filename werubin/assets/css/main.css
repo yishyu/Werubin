@@ -1,7 +1,97 @@
-.yellow-text{
+.yellow-text {
     color:#FFBA34
+}
+
+.yellow-darker-text {
+    color:#764e00
+}
+
+.blue-text {
+    color:#249EA0
 }
 
 .yellow-bg{
     background:#FFBA34 !important
 }
+
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+    color:#14c4c7 !important
+}
+
+.yellow-link{
+    text-decoration: None;
+    color:#FFBA34;
+}
+
+.blue-text{
+    color: #249EA0
+}
+
+.bg-grey{
+    background: #f8f9fa !important;
+}
+
+.map {
+    height: 20vh;
+}
+
+.rounded-image {
+    border-radius: 50% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav .align-self-center {
+    text-align: center;
+}
+
+.left {
+    display: flex !important;
+    justify-content: left;
+    align-self: center;
+}
+
+.right {
+    display: flex !important;
+    justify-content: right;
+    align-self: center;
+}
+
+.center {
+    display: flex !important;
+    justify-content: center;
+    align-self: center;
+}
+
+@media (max-width:768px) {
+    nav form button {
+        height: 40px;
+        width: 100% !important
+    }
+}
+
+@media (min-width:768px) {
+    nav form button {
+        height: 40px;
+        width: fit-content !important
+    }
+}
+
+nav form input {
+    height: 40px
+}
+
+.btn-outline-warning:hover {
+    color: white;
+}
+
+.btn-outline-warning:active {
+    color: #249EA0 !important;
+}
+
+.pac-container { z-index: 10000 !important; }
