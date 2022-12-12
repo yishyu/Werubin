@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="row center">
                 <div class="navbar-nav center col-12 col-md-3 order-md-2">
-                    <a class="row center yellow-text" href="{% url 'users:profile' request.user.username %}">
+                    <a id="profileButton" class="row center yellow-text" href="{% url 'users:profile' request.user.username %}">
                         <i class="center fa fa-user-circle-o fa-2x" aria-hidden="true"></i>
                         <p class="center">Your profile</p>
                     </a>
