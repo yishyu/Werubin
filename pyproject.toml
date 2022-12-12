@@ -19,6 +19,7 @@ pyopenssl = "^22.1.0"
 gunicorn = "^20.1.0"
 tzdata = "^2022.7"
 pytz = "^2022.6"
+psycopg2-binary = "^2.9.5"
 
 
 [build-system]
