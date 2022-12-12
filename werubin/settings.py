@@ -53,11 +53,9 @@ AUTH_USER_MODEL = 'users.User'
 
 EMAIL_HOST = "ssl0.ovh.net"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "werubin@yueat.be"
-EMAIL_HOST_PASSWORD = "AC%*H4TThAB&p&^wsb@*a%6N"
+EMAIL_HOST_USER = env("EMAIL_HOST")
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
-
-#MAPS_API_KEY = env("MAPS_API_KEY")
 
 # Application definition
 
