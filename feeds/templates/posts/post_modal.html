@@ -15,9 +15,12 @@
 
                 <form method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
                     {% csrf_token %}
-                
+
                     <div class="row m-2">
                         <label for="googleAutocomplete" class="form-label yellow-text">Location</label>
+                        {%comment%}
+                        TODO current geolocalisation
+                        {%endcomment%}
                         {% include 'google_search.html' %}
                     </div>
 

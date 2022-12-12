@@ -1,5 +1,8 @@
 var autocomplete;
 
+$(document).ready(function(){
+    initAutocomplete()
+})
 function initAutocomplete() {
     autocomplete = new google.maps.places.Autocomplete(
         document.getElementById('googleAutocomplete'));
