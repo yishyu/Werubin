@@ -26,9 +26,11 @@ def add_post(request):
         TODO Condition: The author of the request has to be the author of the post, otherwise
         we would allow people posting in the name of others
     """
+    print(request.data)
     form = PostForm(request.data)
     if form.is_valid():
         formA = form.save()
+        print(formA)
         serializer = PostSerializer(formA, context={'request': request})
         return Response(serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)

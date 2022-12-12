@@ -13,7 +13,7 @@
 
 
 
-                <form method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
+                <form id="postForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
                     {% csrf_token %}
 
                     <div class="row m-2">
@@ -27,13 +27,13 @@
                     <div class="row">
                         <div class="form-group mb-3 col-12">
                             <label for="postContent" class="form-label yellow-text">Content </label>
-                            <textarea rows="3" class="form-control" id="postContent" type="text" name="postContent" placeholder="Write something!" required></textarea>
+                            <textarea rows="3" class="form-control" id="postContent" type="text" name="content" placeholder="Write something!" required></textarea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group mb-3 col-12">
                             <label for="postPictures" class="form-label yellow-text">Pictures</label>
-                            <input class="form-control" id="postPictures" type="file" name="postPictures" multiple accept="image/png, image/gif, image/jpeg">
+                            <input class="form-control" id="postPictures" type="file" name="pictures" multiple accept="image/png, image/gif, image/jpeg">
                         </div>
                     </div>
                     <label for="tagInputs" class="form-label yellow-text">Tags</label>
@@ -47,6 +47,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <input type="hidden" id="tags" name="tags" value="" />
 
                     <div class="text-center mt-5">
                         <a href="#">

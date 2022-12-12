@@ -19,3 +19,22 @@ function addNewTagField() {
     $("#tagInputs").append(postTagHTML)
 
 }
+
+// https://stackoverflow.com/questions/46260312/how-to-submit-a-list-of-items-in-an-html-form
+
+$(document).ready(function() {
+    // on user clicks submit button, this code will be executed first
+    $('postForm').submit(function() {
+        // we'll take all values of the Two dropdown and put them in 1 string
+        var all_values = '';
+        for (let i = 0; i < currentTagFieldId; i++) {
+            let tagFieldId = "postTag" + currentTagFieldId
+            if(all_values !== '') {
+                all_values += $(tagFieldId).val();
+            } else {
+                all_values += ',' + $(tagFieldId).val();
+            }
+        }
+        $('#tags').val(all_values);
+    });
+});

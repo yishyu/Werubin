@@ -12,7 +12,7 @@ class PostForm(ModelForm):
         fields = ['content', 'author', 'tags', 'location']
 
     def clean(self, admin=False):
-        # there can be only oe occurence of a particular tag
+        # there can be only one occurence of a particular tag
         # size limit on content
         cleaned_data = super().clean()
         if admin:
@@ -21,3 +21,9 @@ class PostForm(ModelForm):
         if len(content) > 150:
             msg = "The content of this post is superior to 150 characters."
             self.add_error('content', msg)
+
+        tags = cleaned_data.get('tags')
+        tags = tags.split(",")
+        if len(tags) != len(set(tags)):
+            msg = "Please provide different tags."
+            self.add_error('tags', msg)

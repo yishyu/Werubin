@@ -10,9 +10,10 @@
     id="googleAutocomplete"
     placeholder="Where have you been ? 🌍"
     type="text"
+    required
 />
-<input name='lat' id='lat' type="hidden"/>
-<input name='lng' id='lng' type="hidden"/>
+<input name='lat' id='lat' type="hidden" required/>
+<input name='lng' id='lng' type="hidden" required/>
 <span id="addressMissingElements" class="text-danger"></span>
 {%block extra_js%}
 <script src="{% static 'js/googleSearch.js'%}"></script>
