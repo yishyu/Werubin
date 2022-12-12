@@ -64,7 +64,6 @@ Variables used:
     function get_feed_type(){
         var hash = $(location).attr('hash');
         if (hash === ""){
-            console.log("wtf?")
             history.pushState(null,null, '#ForYou');
             return "ForYou"
         }
