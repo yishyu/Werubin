@@ -48,6 +48,7 @@ CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS]
 
 ROOT_URLCONF = "werubin.urls"
 LOGIN_URL = "users:login"
+LOGIN_REDIRECT_URL = "feeds:front_feed"
 AUTH_USER_MODEL = 'users.User'
 
 EMAIL_HOST = "ssl0.ovh.net"
@@ -61,6 +62,7 @@ EMAIL_USE_TLS = True
 # Application definition
 
 INSTALLED_APPS = [
+    "django_extensions",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
