@@ -91,7 +91,7 @@ TODO Albums
                                 <div class="row">
                                     {% endif %}
                                     <div class="col-4 p-1">
-                                        <img onclick="albumModal({postids: '{% for i in album.posts.all %}{{i.id}} {% endfor %}'})" width="100%" src={{album.posts.first.postimage_set.first.image.url}}>
+                                        <img onclick="albumModal({title: '{{album.name}}', postids: '{% for i in album.posts.all %}{{i.id}} {% endfor %}'})" width="100%" src={{album.posts.first.postimage_set.first.image.url}}>
                                     </div>
                                     {% endfor %}
                                 </div>
@@ -265,7 +265,7 @@ TODO Albums
             }
     });
 
-    async function albumModal({postids}) {
+    async function albumModal({title, postids}) {
         var ids = postids.split(" ").filter((s) => s !== "")
         var images = []
         for (const id in ids) {
@@ -275,7 +275,7 @@ TODO Albums
             }
 
         }
-        open_images({imageArray: images, imageurl: images[0].image})
+        open_images({title: title, imageArray: images, imageurl: images[0].image})
     }
 
 </script>

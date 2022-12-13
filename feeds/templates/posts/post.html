@@ -168,7 +168,7 @@
         // img modal events
         for (var image of post.images){
             $(`#postimg${image.id}`).click(function(e){
-                open_images({imageArray: post.images, imageurl: $(this).attr('src')}) //TODO HERE
+                open_images({title: post.author.username + " was in " + post.location.name, imageArray: post.images, imageurl: $(this).attr('src')}) //TODO HERE
             })
         }
 
@@ -251,7 +251,6 @@
             }
         })
     }
-
 
     function add_comment(postId, comment){
         /*
