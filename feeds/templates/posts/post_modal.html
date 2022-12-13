@@ -13,7 +13,7 @@
 
 
 
-                <form id="postForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
+                <form action="{% url 'travels:api:add_post'%}" id="postForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
                     {% csrf_token %}
 
                     <div class="row m-2">
@@ -37,7 +37,7 @@
                     <div id="tagInputs" class="row col-12">
                         <div class="row">
                             <div class="form-group col-10">
-                                <input class="tagInput center form-control" id="postTag1" type="text" name="postTag1" placeholder="Enter a tag..." required>
+                                <input class="tagInput center form-control" id="postTag" type="text" name="postTag" placeholder="Enter a tag..." required>
                             </div>
                             <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField()">
                                 +
@@ -45,14 +45,10 @@
                         </div>
                     </div>
 
-                    <input type="hidden" id="tags" name="tags" value="" />
-
                     <div class="text-center mt-5">
-                        <a href="#">
-                            <button class="submit-button btn yellow-bg text-light" type="submit">
-                                Publish
-                            </button>
-                        </a>
+                        <button class="submit-button btn yellow-bg text-light" type="submit">
+                            Publish
+                        </button>
                     </div>
 
 
@@ -64,3 +60,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#postForm").submit(function(e) {
+
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+
+        var form = $(this);
+        var data = new FormData(this)
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: data, // serializes the form's elements.
+            processData: false,
+            contentType: false,
+            headers:
+            {
+                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            success: function(data)
+            {
+                closePostModal();
+                add_post(data, false);
+            }
+        });
+
+    });
+</script>

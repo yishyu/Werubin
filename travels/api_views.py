@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
-from travels.models import Post, Comment
+from travels.models import Post, Comment, PostImage, Tag, Location
 from travels.serializers import PostSerializer, CommentSerializer
 from travels.forms import PostForm
 from django.shortcuts import get_object_or_404
@@ -11,6 +11,9 @@ from travels.decorators import has_postid, has_commentId
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+
+from django.core.files import File
+import os
 
 
 @permission_classes((IsAuthenticated,))
@@ -26,17 +29,39 @@ def get_post(request, postId):
 def add_post(request):
     """
         Adding a post
-        TODO Condition: The author of the request has to be the author of the post, otherwise
-        we would allow people posting in the name of others
     """
-    print(request.data)
-    form = PostForm(request.data)
-    if form.is_valid():
-        formA = form.save()
-        print(formA)
-        serializer = PostSerializer(formA, context={'request': request})
-        return Response(serializer.data)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    # create location
+    location, _ = Location.objects.get_or_create(
+        name=request.data["googleAddress"],
+        lat=float(request.data["lat"]),
+        lng=float(request.data["lng"])
+    )
+    # create post
+    post = Post.objects.create(
+        author=request.user,
+        content=request.data["content"],
+        location=location
+    )
+    # create tag and add to post
+    for key in request.data.keys():
+        if "postTag" in key:
+            print(request.data[key].strip().replace(' ', ''))
+            tag, _ = Tag.objects.get_or_create(name=request.data[key].strip().replace(' ', ''))
+            if tag not in post.tags.all():
+                post.tags.add(tag)
+
+    # save image
+    for file in request.FILES.getlist('pictures'):
+        postimage = PostImage.objects.create(post=post)
+        postimage.image.save(
+            os.path.basename(file.name),
+            File(file)
+        )
+        postimage.save()
+
+    post.save()
+    serializer = PostSerializer(post)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
 @permission_classes((IsAuthenticated,))
