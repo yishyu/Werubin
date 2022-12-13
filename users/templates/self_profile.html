@@ -82,6 +82,20 @@ TODO Albums
                             <p class="yellow-darker-text center m-0">
                                 {{user.username}}'s Albums
                             </p>
+                            <div class="d-flex justify-content-center row">
+                                <div class="row">
+                                    {% for album in user.album_set.all %}
+                                    
+                                    {% if forloop.counter0|divisibleby:3 %}
+                                </div>
+                                <div class="row">
+                                    {% endif %}
+                                    <div class="col-4 p-1">
+                                        <img onclick="albumModal({postids: '{% for i in album.posts.all %}{{i.id}} {% endfor %}'})" width="100%" src={{album.posts.first.postimage_set.first.image.url}}>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,6 +124,8 @@ TODO Albums
          </div>
     </div>
 </div>
+
+{% include "posts/image_modal.html"%}
 
 {% endblock %}
 
@@ -216,6 +232,7 @@ TODO Albums
             }
         })
     }
+
     $( document ).ready(function(){
         var map = initRoadMap()
         user_posts()
@@ -246,6 +263,85 @@ TODO Albums
                 $('#caret-icon').removeClass("bi-caret-up").addClass("bi-caret-down")
             }
     });
+
+    async function albumModal({postids}) {
+        var ids = postids.split(" ").filter((s) => s !== "")
+        var images = []
+        for (const id in ids) {
+            let data = await $.getJSON({url: `/travels/api/post/get/${ids[id]}`}) //! changing url?
+            console.log(data.images)
+            for (const img in data.images) {
+                images.push(data.images[img])
+            }
+
+        }
+        console.log({images: images, imageurl: images[0]})
+        open_images({album: {images: images}, imageurl: images[0].image})
+    }
+
+    function displayAlbumImages() {
+        // img modal events
+        for (var image of album.images){
+                $(`#postimg${image.id}`).click(function(e){ // TODO?
+                    open_images({album: album, imageurl: $(this).attr('src')})
+                })
+            }
+    }
+
+    $.getJSON({
+            url: `{% url 'feeds:api:feed' %}?type=${feed_type}&offset=${offset}&limit=${limit}${parameters}`,
+            success: function(data){
+                for (var album of data){
+                    add_album(album, true)
+                }
+                if (data.length > 0){
+                    $(`#${album.id}albumDiv`).addClass("bottomalbum")  // last album gets tagged bottomalbum
+                }
+
+
+            }
+    })
+
+    function open_images({album, imageurl}){
+        $("#image-modal").modal("show");
+        $("#prev-img").click(function(e){switch_image(album, false)})
+        $("#next-img").click(function(e){switch_image(album, true)})
+
+        $(`#image-modal`).keyup(function(event) {
+            if (event.keyCode === 37) {  //left arrow
+                $(`#prev-img`).click();
+            }else if(event.keyCode === 39){
+                $(`#next-img`).click();
+            }
+        });
+
+        $(`#image-modal-body`).html(
+            `<img id="modal-img" width=100% src=${imageurl}>`
+        )
+    }
+
+    function switch_image(album, go_next){
+        console.log(album)
+        const currentimage = $('#modal-img').attr('src')
+        var current_index = 0
+        for (var i=0; i<album.images.length; i++){
+            if(album.images[i].image == currentimage){
+                current_index = i
+            }
+        }
+        if (go_next){
+            current_index += 1
+            if (current_index >= album.images.length)
+                current_index = 0
+        }
+        else{
+            current_index -= 1
+            if (current_index < 0)
+                current_index = album.images.length - 1
+        }
+        $('#modal-img').attr('src', album.images[current_index].image);
+    }
+
 </script>
 
 {% endblock %}
