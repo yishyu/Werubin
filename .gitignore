@@ -1,4 +1,7 @@
+.gitignore
 __pycache__/
 db.sqlite3
 .env
 media/
+myscript
+.DS_Store

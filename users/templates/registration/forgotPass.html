@@ -1,0 +1,28 @@
+{% extends 'registration/users.html' %}
+{% load static %}
+{% block title %}Forgot Password Page{% endblock title %}
+
+{% block second_part %}
+<div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5" {%endif%}>
+    <i class="bi bi-person-fill yellow-text"></i>
+    <h1 class="right-column-title yellow-text">FORGOT PASSWORD</h1>
+</div>
+<form class="forgot-pass-form" method="POST">
+    {%include 'message.html'%}
+    {% csrf_token %}
+    <div class="form-group mb-3">
+        <label for="id_username" class="form-label yellow-text">@ E-mail*</label>
+        <input class="form-control" id="id_username" type="email" name="email" required>
+    </div>
+    <div class="text-center mt-5">
+        <button class="submit-button btn yellow-bg text-light" type="submit">
+            Send
+        </button>
+    </div>
+    <div class="text-center mt-5">
+        <a class="yellow-text" href="{% url 'users:login' %}">
+            I remembered it
+        </a>
+    </div>
+</form>
+{% endblock %}

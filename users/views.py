@@ -58,7 +58,7 @@ def forgotpass(request):
             messages.add_message(
                 request, messages.ERROR, f"The email you entered ({email}) doesn't match any user in our database."
             )
-    return render(request, 'registration/forgotpass.html', locals())
+    return render(request, 'registration/forgotPass.html', locals())
 
 
 @no_user
@@ -74,14 +74,14 @@ def resetpass(request, key):
             )
             return HttpResponseRedirect(reverse("users:login"))
         else:
-            return render(request, 'registration/resetpass.html', locals())
+            return render(request, 'registration/resetPass.html', locals())
 
     form = ResetPasswordForm(user)
-    return render(request, 'registration/resetpass.html', locals())
+    return render(request, 'registration/resetPass.html', locals())
 
 
 @login_required
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     followers = User.objects.filter(followers=user)  # user who are following this user
-    return render(request, 'self_profile.html', locals())
+    return render(request, 'userProfile.html', locals())

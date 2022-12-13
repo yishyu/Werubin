@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+body {
+    background-color: #eee;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300
+}
+
+.ellipsis {
+    color: #a09c9c
+}
+
+hr {
+    color: #a09c9c;
+    margin-top: 4px;
+    margin-bottom: 8px
+}
+
+.muted-color {
+    color: #a09c9c;
+    font-size: 13px
+}
+
+.ellipsis i {
+    margin-top: 3px;
+    cursor: pointer
+}
+
+.name {
+    font-weight: 600
+}
+
+.comment-text {
+    font-size: 0.9em
+}
+
+.status small {
+    margin-right: 10px;
+}
+
+.form-control {
+    border-radius: 26px
+}
+
+.comment-input {
+    position: relative
+}
+
+.fonts {
+    position: absolute;
+    right: 13px;
+    top: 8px;
+    color: #a09c9c
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #8bbafe;
+    outline: 0;
+    box-shadow: none
+}
+
+.post-picture {
+    /*padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;*/
+    border-radius: 4px;
+}
+
+.location {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    border-radius: 40px;
+}
+
+.card {
+    border-radius: 10px !important;
+}
+
+.media-buttons {
+    font-size: 20px;
+}
+
+.post-body {
+    height: 0vh;
+}
+
+.post-li {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.post-img {
+    margin:1px;
+    float: center;
+    width:  20vw;
+    height: 20vh;
+    object-fit: cover;
+}
+
+.post-img:hover{
+    cursor:pointer;
+}
+.column-link:hover{
+    background-color: #f3f3f3;
+}
+#next-button{
+    text-align:right
+}
+@media (max-width:768px) {
+    .post-img {
+        width:  40vw;
+    }
+}
+
+.user-info-col {
+    border-right: 1px dashed #333;
+}
+
+.big-font {
+    font-weight:600;
+}
+
+@media (min-width: 768px) {
+    .collapse.dont-collapse-sm {
+        display: block !important;
+        height: auto !important;
+        visibility: visible;
+    }
+}

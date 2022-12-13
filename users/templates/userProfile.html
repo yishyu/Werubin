@@ -25,7 +25,7 @@ Variables used:
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-<link rel="stylesheet" href="{% static 'css/singlepostpage.css' %}">
+<link rel="stylesheet" href="{% static 'css/singlePostPage.css' %}">
 
 {% endblock %}
 {% block content %}
@@ -115,17 +115,17 @@ TODO Albums
             </div>
 
             {% if user == request.user %}
-                {% include "posts/post_button.html" %}
+                {% include "posts/postButton.html" %}
             {% endif %}
             <div id="posts">
             </div>
-            {% include "posts/post_modal.html" %}
-            {% include "posts/likes_shares_modal.html" %}
+            {% include "posts/postModal.html" %}
+            {% include "posts/likesSharesModal.html" %}
          </div>
     </div>
 </div>
 
-{% include "posts/image_modal.html"%}
+{% include "posts/imageModal.html"%}
 
 {% endblock %}
 

@@ -11,7 +11,7 @@ Variables used:
 {% block extrahead %}
 
 <!-- Custom CSS -->
-<link rel="stylesheet" href="{% static 'css/singlepostpage.css' %}">
+<link rel="stylesheet" href="{% static 'css/singlePostPage.css' %}">
 
 <!-- CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
@@ -24,7 +24,7 @@ Variables used:
     <div class="row justify-content-center">
         <div class="col-md-7 col-xs-12">
 
-            {% include "posts/post_button.html" %}
+            {% include "posts/postButton.html" %}
 
             <div class="feeds-buttons row justify-content-center">
                 <a id="ForYou" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #For you</h4></a>
@@ -37,8 +37,8 @@ Variables used:
          </div>
     </div>
 </div>
-{% include "posts/likes_shares_modal.html" %}
-{% include "posts/post_modal.html" %}
+{% include "posts/likesSharesModal.html" %}
+{% include "posts/postModal.html" %}
 
 {% endblock %}
 {% block extra_js %}
