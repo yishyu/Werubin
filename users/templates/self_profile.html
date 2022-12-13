@@ -269,38 +269,13 @@ TODO Albums
         var images = []
         for (const id in ids) {
             let data = await $.getJSON({url: `/travels/api/post/get/${ids[id]}`}) //! changing url?
-            console.log(data.images)
             for (const img in data.images) {
                 images.push(data.images[img])
             }
 
         }
-        console.log({images: images, imageurl: images[0]})
         open_images({album: {images: images}, imageurl: images[0].image})
     }
-
-    function displayAlbumImages() {
-        // img modal events
-        for (var image of album.images){
-                $(`#postimg${image.id}`).click(function(e){ // TODO?
-                    open_images({album: album, imageurl: $(this).attr('src')})
-                })
-            }
-    }
-
-    $.getJSON({
-            url: `{% url 'feeds:api:feed' %}?type=${feed_type}&offset=${offset}&limit=${limit}${parameters}`,
-            success: function(data){
-                for (var album of data){
-                    add_album(album, true)
-                }
-                if (data.length > 0){
-                    $(`#${album.id}albumDiv`).addClass("bottomalbum")  // last album gets tagged bottomalbum
-                }
-
-
-            }
-    })
 
     function open_images({album, imageurl}){
         $("#image-modal").modal("show");
@@ -321,7 +296,6 @@ TODO Albums
     }
 
     function switch_image(album, go_next){
-        console.log(album)
         const currentimage = $('#modal-img').attr('src')
         var current_index = 0
         for (var i=0; i<album.images.length; i++){
