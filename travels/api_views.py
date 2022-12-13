@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from travels.models import Post, Comment
@@ -8,9 +8,12 @@ from travels.forms import PostForm
 from django.shortcuts import get_object_or_404
 from travels.decorators import has_postid, has_commentId
 
+from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
-# TODO generate swagger
-@login_required
+
+@permission_classes((IsAuthenticated,))
 @api_view(['GET'])
 def get_post(request, postId):
     post = get_object_or_404(Post, id=postId)
@@ -18,7 +21,7 @@ def get_post(request, postId):
     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(['POST'])  # Post: Create
 def add_post(request):
     """
@@ -36,7 +39,7 @@ def add_post(request):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(['DELETE'])  # Delete: Delete
 def delete_post(request, postId):
     """
@@ -50,7 +53,7 @@ def delete_post(request, postId):
     return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Impossible to delete someone else's post"})
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(['PUT'])  # Put: Update/Replace
 def update_post(request):
     """
@@ -60,7 +63,17 @@ def update_post(request):
     return Response(status=status.HTTP_200_OK)
 
 
-@login_required
+user_response = openapi.Response('response description', openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={'like-status': openapi.Schema(type=openapi.TYPE_INTEGER, description='True if the post is liked')},
+))
+
+
+@swagger_auto_schema(methods=['put'], request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={'post-id': openapi.Schema(type=openapi.TYPE_INTEGER, description='The id of a post')},
+), responses={200: user_response})
+@permission_classes((IsAuthenticated,))
 @api_view(['PUT'])  # Put: Update/Replace
 @has_postid
 def toggle_like_post(request, postId):
@@ -70,14 +83,14 @@ def toggle_like_post(request, postId):
     post = get_object_or_404(Post, id=postId)  # test if the post exists
     if Post.objects.filter(id=post.id, likes=request.user).count() == 0:  # the user has not already liked the post
         post.likes.add(request.user)
-        data = {"like-status": 1}
+        data = {"like-status": True}
     else:
         post.likes.remove(request.user)
-        data = {"like-status": 0}
+        data = {"like-status": False}
     return Response(status=status.HTTP_200_OK, data=data)
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(['PUT'])  # Put: Update/Replace
 @has_postid
 def share_post(request, postId):
@@ -97,7 +110,7 @@ def share_post(request, postId):
     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(['GET'])
 @has_postid
 def get_comments(request, postId):
@@ -107,7 +120,7 @@ def get_comments(request, postId):
     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(['PUT'])  # Put: Update/Replace
 @has_commentId
 def toggle_like_comment(request, commentId):
@@ -117,14 +130,14 @@ def toggle_like_comment(request, commentId):
     comment = get_object_or_404(Comment, id=commentId)  # test if the comment exists
     if Comment.objects.filter(id=comment.id, likes=request.user).count() == 0:  # the user has not already liked the post
         comment.likes.add(request.user)
-        data = {"like-status": 1}
+        data = {"like-status": True}
     else:
         comment.likes.remove(request.user)
-        data = {"like-status": 0}
+        data = {"like-status": False}
     return Response(status=status.HTTP_200_OK, data=data)
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(['POST'])
 @has_postid
 def add_comment(request, postId):
