@@ -132,6 +132,7 @@ TODO Albums
 {% block extra_js %}
 {% include "posts/post.html" %}
 <script src="{% static 'js/postModal.js'%}"></script>
+<script src="{% static 'js/imageModal.js'%}"></script>
 <script>
     $("#profileButton").removeClass("yellow-text")
     $("#profileButton").addClass("blue-text")
@@ -274,46 +275,7 @@ TODO Albums
             }
 
         }
-        open_images({album: {images: images}, imageurl: images[0].image})
-    }
-
-    function open_images({album, imageurl}){
-        $("#image-modal").modal("show");
-        $("#prev-img").click(function(e){switch_image(album, false)})
-        $("#next-img").click(function(e){switch_image(album, true)})
-
-        $(`#image-modal`).keyup(function(event) {
-            if (event.keyCode === 37) {  //left arrow
-                $(`#prev-img`).click();
-            }else if(event.keyCode === 39){
-                $(`#next-img`).click();
-            }
-        });
-
-        $(`#image-modal-body`).html(
-            `<img id="modal-img" width=100% src=${imageurl}>`
-        )
-    }
-
-    function switch_image(album, go_next){
-        const currentimage = $('#modal-img').attr('src')
-        var current_index = 0
-        for (var i=0; i<album.images.length; i++){
-            if(album.images[i].image == currentimage){
-                current_index = i
-            }
-        }
-        if (go_next){
-            current_index += 1
-            if (current_index >= album.images.length)
-                current_index = 0
-        }
-        else{
-            current_index -= 1
-            if (current_index < 0)
-                current_index = album.images.length - 1
-        }
-        $('#modal-img').attr('src', album.images[current_index].image);
+        open_images({imageArray: images, imageurl: images[0].image})
     }
 
 </script>

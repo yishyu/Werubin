@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/imageModal.js'%}"></script>
 <script>
     function initMap(post) {
         /*
@@ -48,43 +49,6 @@
           });
     }
 
-    function switch_image(post, go_next){
-        const currentimage = $('#modal-img').attr('src')
-        var current_index = 0
-        for (var i=0; i<post.images.length; i++){
-            if(post.images[i].image == currentimage){
-                current_index = i
-            }
-        }
-        if (go_next){
-            current_index += 1
-            if (current_index >= post.images.length)
-                current_index = 0
-        }
-        else{
-            current_index -= 1
-            if (current_index < 0)
-                current_index = post.images.length - 1
-        }
-    $('#modal-img').attr('src', post.images[current_index].image);
-    }
-    function open_images({post, imageurl}){
-        $("#image-modal").modal("show");
-        $("#prev-img").click(function(e){switch_image(post, false)})
-        $("#next-img").click(function(e){switch_image(post, true)})
-
-        $(`#image-modal`).keyup(function(event) {
-            if (event.keyCode === 37) {  //left arrow
-                $(`#prev-img`).click();
-            }else if(event.keyCode === 39){
-                $(`#next-img`).click();
-            }
-        });
-
-        $(`#image-modal-body`).html(
-            `<img id="modal-img" width=100% src=${imageurl}>`
-        )
-    }
     function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
         /*
             Adds a single post to the DOM
@@ -204,7 +168,7 @@
         // img modal events
         for (var image of post.images){
             $(`#postimg${image.id}`).click(function(e){
-                open_images({post: post, imageurl: $(this).attr('src')})
+                open_images({imageArray: post.images, imageurl: $(this).attr('src')}) //TODO HERE
             })
         }
 
