@@ -24,41 +24,4 @@
             </div>
         </div>
     </section>
-
-    <style>
-        {% comment %}
-            https://stackoverflow.com/questions/43333495/text-over-image-responsive
-        {% endcomment %}
-
-        @media (max-width:768px) {
-            .users-section .left-panel .thumbnail {
-                background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);
-                filter: brightness(50%);
-                display:float;
-                
-                z-index: -1;
-                min-width:100vw;
-                min-height:100vh;
-                position: fixed;
-                top: 0;
-                left: 0;
-            }
-        }
-
-        @media (min-width:768px) {
-            .users-section .left-panel .thumbnail {
-                background: url({% static 'img/van.jpg'%}) left / cover no-repeat, var(--bs-white);
-                filter: brightness(50%);
-                display:float;
-    
-                min-width:50vw;
-                min-height:100vh;
-                position: fixed;
-                top: 0;
-                left: 0;
-            }
-        }
-
-
-    </style>
 {% endblock %}

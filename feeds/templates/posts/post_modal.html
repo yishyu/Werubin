@@ -60,30 +60,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    $("#postForm").submit(function(e) {
-
-        e.preventDefault(); // avoid to execute the actual submit of the form.
-
-        var form = $(this);
-        var data = new FormData(this)
-        $.ajax({
-            type: form.attr('method'),
-            url: form.attr('action'),
-            data: data, // serializes the form's elements.
-            processData: false,
-            contentType: false,
-            headers:
-            {
-                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
-            },
-            success: function(data)
-            {
-                closePostModal();
-                add_post(data, false);
-            }
-        });
-
-    });
-</script>
+{%block extra_js%}
+<script src="{% static 'js/postModal.js'%}"></script>
+{%endblock%}

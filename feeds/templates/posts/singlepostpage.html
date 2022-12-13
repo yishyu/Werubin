@@ -27,20 +27,6 @@
 
 {% endblock %}
 {% block extra_js %}
-<script>
-function single_post(){
-        /*
-            only shows a single post based on the url
-        */
-        $.getJSON({
-            url: $('#postidurl').val(),
-            success: function(data){
-                $("#posts").empty()
-                add_post(data, true)
-            }
-        })
-    }
-    single_post();
-</script>
+<script src="{% static 'js/singlePostPage.js'%}"></script>
 {%include 'posts/post.html'%}
 {% endblock %}

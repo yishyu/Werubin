@@ -2,7 +2,7 @@ var autocomplete;
 
 $(document).ready(function(){
     initAutocomplete();
-    $("#locate-me").click(() => {
+    $("#locate-me").unbind().click(() => {
         var onError = function(error) {
             alert("Could not get the current location.");
         };

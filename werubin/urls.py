@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import TemplateView
 
 # swagger import
 from rest_framework import permissions
@@ -50,4 +51,9 @@ urlpatterns = [
     # 2 different UI of swagger
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # background image in css file
+    path('css/users.css', TemplateView.as_view(
+        template_name='users.css',
+        content_type='text/css')
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

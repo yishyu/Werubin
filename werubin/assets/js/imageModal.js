@@ -19,7 +19,8 @@ function switch_image(imageArray, go_next){
     $('#modal-img').attr('src', imageArray[current_index].image);
 }
 
-function open_images({imageArray, imageurl}){
+function open_images({title, imageArray, imageurl}){
+    $("#image-modal-title").html(title)
     $("#image-modal").modal("show");
     $("#prev-img").unbind().click(function(e){switch_image(imageArray, false)})
     $("#next-img").unbind().click(function(e){switch_image(imageArray, true)})
