@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, get_list_or_404
@@ -9,8 +9,10 @@ from users.models import User
 from travels.models import Post, Comment
 from travels.decorators import has_postid
 
+from rest_framework.permissions import IsAuthenticated
 
-@login_required
+
+@permission_classes((IsAuthenticated,))
 @api_view(['GET'])
 def get_users(request):
     """
@@ -43,14 +45,14 @@ def get_users(request):
     return Response(status=status.HTTP_200_OK, data=data)
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(["GET"])
 def current_user(request):
     data = UserSerializer(request.user).data
     return Response(status=status.HTTP_200_OK, data=data)
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(["PUT"])
 def follow_user(request):
 
@@ -76,7 +78,7 @@ def user_exists(request):
     return Response(status=status.HTTP_200_OK, data=data)
 
 
-@login_required
+@permission_classes((IsAuthenticated,))
 @api_view(["GET"])
 def road_map(request):
     """

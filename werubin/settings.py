@@ -22,7 +22,6 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -48,6 +47,7 @@ CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS]
 
 ROOT_URLCONF = "werubin.urls"
 LOGIN_URL = "users:login"
+LOGOUT_URL = "users:logout"
 LOGIN_REDIRECT_URL = "feeds:front_feed"
 AUTH_USER_MODEL = 'users.User'
 
@@ -74,7 +74,18 @@ INSTALLED_APPS = [
     'werubin',
     'rest_framework',
     'django_user_agents',
+    'drf_yasg'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', )
+}
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
