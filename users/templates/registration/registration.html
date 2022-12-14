@@ -26,7 +26,7 @@
         <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
             <!--TODO extract css-->
-            <input name="email" style="border-top-right-radius: .375rem; border-bottom-right-radius: .375rem" type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend"
+            <input name="email" type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend"
                 required>
             <div class="valid-feedback">
                 Looks good!
@@ -132,7 +132,7 @@
     </div>
 
 </form>
-<div class="text-center mt-5">
+<div class="text-center mt-5 mb-5">
     <a class="yellow-text" href="{% url 'users:login' %}">
         I already have an account
     </a>

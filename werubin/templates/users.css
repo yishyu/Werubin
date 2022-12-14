@@ -26,12 +26,12 @@
     font-weight: bold;
 }
 
-.users-section .left-panel .caption .werubin-title {
+.werubin-title {
     font-weight:600;
     font-size:5em;
 }
 
-.users-section .left-panel .caption .werubin-subtitle {
+.werubin-subtitle {
     font-weight:400;
     font-size:2em;
     margin-top:25vh;
@@ -49,7 +49,7 @@
 }
 
 
-.users-section .desktop-right-panel .container {
+#rightPanelContainer {
     width:80%;
     height:100vh;
     box-sizing:unse;
@@ -101,4 +101,9 @@
         top: 0;
         left: 0;
     }
+}
+
+#validationCustomEmail {
+    border-top-right-radius: .375rem; 
+    border-bottom-right-radius: .375rem;
 }

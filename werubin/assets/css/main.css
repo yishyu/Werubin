@@ -1,3 +1,11 @@
+body {
+    overflow-x: hidden
+}
+
+.werubin-logo {
+    font-size:2em
+}
+
 .yellow-text {
     color:#FFBA34
 }
@@ -87,7 +95,7 @@ nav form input {
 }
 
 .btn-outline-warning:hover {
-    color: white;
+    color: white !important;
 }
 
 .btn-outline-warning:active {
@@ -95,3 +103,7 @@ nav form input {
 }
 
 .pac-container { z-index: 10000 !important; }
+
+#searchBar {
+    border-radius: .375rem;
+}

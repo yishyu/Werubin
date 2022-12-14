@@ -133,5 +133,8 @@ TODO Albums
 {% include "posts/post.html" %}
 <script src="{% static 'js/postModal.js'%}"></script>
 <script src="{% static 'js/imageModal.js'%}"></script>
+<script>
+    var userId = {{user.id}}
+</script>
 <script src="{% static 'js/userProfile.js'%}"></script>
 {% endblock %}

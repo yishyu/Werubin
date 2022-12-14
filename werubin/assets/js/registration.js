@@ -29,7 +29,7 @@ function comparePasswords() {
 
 function userNameKeyPressed() {
     var un = $("#validationCustomUsername").val()
-    let url = "{% url 'users:api:user_exists' %}"
+    let url = "/users/api/user_exists/"
 
     $.ajax({
         url: url,

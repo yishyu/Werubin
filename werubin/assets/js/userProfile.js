@@ -81,7 +81,7 @@ var OFFSET = 0
 
 function user_posts(map){
     $("#posts").empty()
-    paginated_feed({feed_type: "User", offset: OFFSET, limit: LIMIT, parameters:"&id={{user.id}}"});
+    paginated_feed({feed_type: "User", offset: OFFSET, limit: LIMIT, parameters:`&id=${userId}`});
     OFFSET += LIMIT
 }
 
@@ -91,7 +91,7 @@ function setRoadMap(map){
         Use of a different function because user_posts will be paginated
         but on the roadmap we want all the locations
     */
-    var url = "{% url 'users:api:road_map' %}?user-id={{user.id}}"
+    var url = `/users/api/road_map/?user-id=${userId}`
     $.getJSON({
         url:url,
         success: function(data){
@@ -116,7 +116,7 @@ $( document ).ready(function(){
             windowScrTp = $(this).scrollTop();
             if (windowScrTp > (divTop+divHeight-wHeight-100)){
                 $('.bottomPost').first().removeClass("bottomPost")
-                paginated_feed({feed_type: "User", offset: OFFSET, limit: LIMIT,parameters:"&id={{user.id}}"});
+                paginated_feed({feed_type: "User", offset: OFFSET, limit: LIMIT,parameters:`&id=${userId}`});
                 OFFSET += LIMIT
             }
         }

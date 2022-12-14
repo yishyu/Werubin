@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extrahead %}
-<link rel="stylesheet" href="{% static 'css/users.css'%}?v=1">
+<link rel="stylesheet" href="/css/users.css">
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="desktop-right-panel col text-start">
-                <div class="container">
+                <div id="rightPanelContainer" class="container">
                     {% block second_part %}
                     {% endblock %}
                 </div>
