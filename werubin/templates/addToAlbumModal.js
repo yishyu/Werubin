@@ -1,4 +1,4 @@
-{% load static %}
+//{% load static %}
 
 function closeAddToAlbumModal(){
     $("#add-to-album-modal").modal('hide');
@@ -24,7 +24,6 @@ async function openAddToAlbumModal() {
 
     let albumHtml = `<div class="col-4 p-1">{% include "album.html" %}</div>`
     for (let i = 0; i < albumsArray.length; i++) {
-        console.log(albumsArray[i].posts.length)
         let pic = (albumsArray[i].posts.length == 0 || albumsArray[i].posts[0].images.length == 0) ? noAlbumPictureUrl : albumsArray[i].posts[0].images[0].image
         let newId = "albumRow" + Math.floor(i/3)
         if (i % 3 == 0) {
