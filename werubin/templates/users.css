@@ -107,3 +107,13 @@
     border-top-right-radius: .375rem; 
     border-bottom-right-radius: .375rem;
 }
+
+.resetpass-submit {
+    width: 80%;
+    font-weight: bold;
+    font-size: 1.2em
+}
+
+#addTag {
+    height: fit-content
+}
