@@ -62,6 +62,7 @@ TODO Albums
                             </p>
                             {% if user == request.user %}
                             <button class="center btn btn-outline-warning" type="submit">Edit profile</button>
+                            <a href="{%url 'users:logout'%}" <button class="center btn btn-danger" type="submit">Logout</button></a>
                             {% else %}
                             <button class="center btn btn-outline-warning" type="submit">Follow</button>
                             {% endif %}
@@ -85,7 +86,7 @@ TODO Albums
                             <div class="d-flex justify-content-center row">
                                 <div class="row">
                                     {% for album in user.album_set.all %}
-                                    
+
                                     {% if forloop.counter0|divisibleby:3 %}
                                 </div>
                                 <div class="row">

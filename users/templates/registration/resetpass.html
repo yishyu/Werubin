@@ -1,45 +1,34 @@
 {% extends 'registration/users.html' %}
 {% load static %}
 {% block title %}Reset Password Page{% endblock title %}
-{% load crispy_forms_tags %}
+
 {% block second_part %}
-<div class="caption">
-    {% if not request.user_agent.is_mobile %}
-        <h1 style="color: #FFBA34;font-weight:600;font-size:5em">Werubin</h1>
-                <h1 style="color: #FFBA34;font-weight:400;font-size:2em;margin-top:25vh">Connect By Traveling</h1>
-            </div> {% comment %} close caption {% endcomment %}
-        </div> {% comment %} close thumbnail {% endcomment %}
-        <div class="col text-start align-items-xl-end" >
-            <div class="container" style="padding:20%">
-    {% endif %}
 
-        <div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5" {%endif%}>
-            <i class="bi bi-person-fill" style="color: #FFBA34;font-size:4em"></i>
-            <h1 style="color: #FFBA34;font-weight:600">RESET PASSWORD</h1>
-        </div>
-        <form method="post" style="text-align:left">
-            {%include 'message.html'%}
-            {% csrf_token %}
-            <div class="form-group mb-3">
-                <label for="password1" class=" form-label yellow-text">New Password*</label>
-                <input class="form-control" id="password1" type="password" name="new_password1" required>
-                <span class="text-danger">{{form.errors.new_password1}}</span>
-            </div>
-            <div class="form-group mb-3">
-                <label for="password2" class=" form-label yellow-text">Confirm Password*</label>
-                <input class="form-control" id="password2" type="password" name="new_password2" required>
-                <span class="text-danger">{{form.errors.new_password2}}</span>
+<div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5 {%endif%}" >
+    <i class="bi bi-person-fill yellow-text"></i>
+    <h1 class="right-column-title yellow-text">RESET PASSWORD</h1>
+</div>
+<form method="post" style="text-align:left">
+    {%include 'message.html'%}
+    {% csrf_token %}
+    <div class="form-group mb-3">
+        <label for="password1" class=" form-label yellow-text">New Password*</label>
+        <input class="form-control" id="password1" type="password" name="new_password1" required>
+        <span class="text-danger">{{form.errors.new_password1}}</span>
+    </div>
+    <div class="form-group mb-3">
+        <label for="password2" class=" form-label yellow-text">Confirm Password*</label>
+        <input class="form-control" id="password2" type="password" name="new_password2" required>
+        <span class="text-danger">{{form.errors.new_password2}}</span>
 
-            </div>
-            <div class="text-center mt-5">
-                    <button
-                        class="btn yellow-bg text-light"
-                        type="submit"
-                        style="width:80%;font-weight: bold;font-size:1.2em">
-                        Send
-                    </button>
-            </div>
-        </form>
-        </div></div></div> {% comment %} close desktop container & parent div & users.html div OR close mobile caption & thumbnail & users.html{% endcomment %}
-
+    </div>
+    <div class="text-center mt-5">
+            <button
+                class="btn yellow-bg text-light"
+                type="submit"
+                style="width:80%;font-weight: bold;font-size:1.2em">
+                Send
+            </button>
+    </div>
+</form>
 {% endblock %}
