@@ -136,11 +136,15 @@ async function albumModal({title, postids}) {
     var ids = postids.split(" ").filter((s) => s !== "")
     var images = []
     for (const id in ids) {
-        let data = await $.getJSON({url: `/travels/api/post/get/${ids[id]}`}) //! changing url?
+        let data = await $.getJSON({url: `/travels/api/post/get/${ids[id]}`})
         for (const img in data.images) {
             images.push(data.images[img])
         }
 
     }
-    open_images({title: title, imageArray: images, imageurl: images[0].image})
+    if (images.length == 0) {
+        open_images({title: title, imageArray: [noAlbumPictureUrl], imageurl: noAlbumPictureUrl})
+    } else {
+        open_images({title: title, imageArray: images, imageurl: images[0].image})
+    }
 }

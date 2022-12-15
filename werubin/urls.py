@@ -56,4 +56,8 @@ urlpatterns = [
         template_name='users.css',
         content_type='text/css')
     ),
+    path('js/addToAlbumModal.js', TemplateView.as_view(
+        template_name='addToAlbumModal.js',
+        content_type='text/javascript')
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
