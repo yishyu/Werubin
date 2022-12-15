@@ -1,0 +1,22 @@
+{% load static %}
+
+<div class="modal" id="add-to-album-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+              <div class="modal-header">
+                <h5 id="add-to-album-modal-title" class="modal-title">Add this post to an album</h5>
+                <button type="button" class="close" onclick="closeAddToAlbumModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="album-modal-body">
+                  
+              </div>
+              <div class="modal-footer" id="add-to-album-modal-footer">
+              </div>
+        </div>
+    </div>
+</div>
+{%block extra_js%}
+<script src="{% static 'js/addToAlbumModal.js'%}"></script>
+{%endblock%}

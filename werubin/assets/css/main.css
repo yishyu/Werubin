@@ -107,3 +107,17 @@ nav form input {
 #searchBar {
     border-radius: .375rem;
 }
+
+/* Container holding the image and the text */
+.album-container {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+  
+/* Top right text */
+.album-container .top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+}
