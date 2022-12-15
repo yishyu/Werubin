@@ -18,6 +18,7 @@ class Post(models.Model):
             - has a location
             - has tags
     """
+    MAX_LENGTH = 300
     content = models.TextField("Text content")
     creation_date = models.DateTimeField("creation date", auto_now=False, auto_now_add=True)
     last_edited = models.DateTimeField("Last edit", auto_now=True, auto_now_add=False)

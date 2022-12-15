@@ -14,6 +14,7 @@ from drf_yasg import openapi
 
 from django.core.files import File
 import os
+from travels.utils import validate_post
 
 
 @permission_classes((IsAuthenticated,))
@@ -29,8 +30,10 @@ def get_post(request, postId):
 def add_post(request):
     """
         Adding a post
-        TODO add parameter validation
     """
+    passed, errors = validate_post(request)
+    if not passed:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data=errors)
     # create location
     location, _ = Location.objects.get_or_create(
         name=request.data["googleAddress"],
@@ -46,7 +49,6 @@ def add_post(request):
     # create tag and add to post
     for key in request.data.keys():
         if "postTag" in key:
-            print(request.data[key].strip().replace(' ', ''))
             tag, _ = Tag.objects.get_or_create(name=request.data[key].strip().replace(' ', ''))
             if tag not in post.tags.all():
                 post.tags.add(tag)
@@ -171,7 +173,7 @@ def add_comment(request, postId):
     if "content" not in request.data:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "no content"})
     content = request.data["content"]
-    if len(content) > 150:
+    if len(content) > Post.MAX_LENGTH:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "The content of this comment is superior to 150 characters."})
     post = get_object_or_404(Post, id=postId)
 

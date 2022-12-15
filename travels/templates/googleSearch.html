@@ -5,7 +5,7 @@
     data-toggle="tooltip"
     data-placement="top"
     title="Pick an address in the given choices"
-    class="text-center col-sm-6 col-md-6 col-lg-4"
+    class="text-center col-sm-6 col-md-6 col-lg-4 form-control"
     name="googleAddress"
     style="width : 100%;height: 3em"
     id="googleAutocomplete"
@@ -13,8 +13,8 @@
     type="text"
     required
 />
-<input name='lat' id='lat' type="hidden" required/>
-<input name='lng' id='lng' type="hidden" required/>
+<input class="form-control" name='lat' id='lat' type="hidden" required/>
+<input class="form-control" name='lng' id='lng' type="hidden" required/>
 <span id="addressMissingElements" class="text-danger"></span>
 {%block extra_js%}
 <script src="{% static 'js/googleSearch.js'%}"></script>

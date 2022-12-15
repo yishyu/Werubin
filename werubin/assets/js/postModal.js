@@ -28,9 +28,22 @@ $("#postForm").submit(function(e) {
         },
         success: function(data)
         {
+            $("#postModalErrors").empty()
+            $(".form-control").val("")
             closePostModal();
             add_post(data, false);
-        }
+
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            let text = ''
+            for (var missing_key of xhr.responseJSON["Missing Keys"]){
+                text += `${missing_key} <br>`
+            }
+            if (text != '')
+                text = "Missing Information: " + text
+            $("#postModalErrors").html(text)
+
+          }
     });
 
 });

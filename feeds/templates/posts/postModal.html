@@ -15,7 +15,7 @@
 
                 <form action="{% url 'travels:api:add_post'%}" id="postForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
                     {% csrf_token %}
-
+                    <span id="postModalErrors" class="text-danger"></span>
                     <div class="row m-2">
                         <label for="googleAutocomplete" class="form-label yellow-text">Location</label>
                         {% include 'googleSearch.html' %}
