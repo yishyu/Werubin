@@ -2,8 +2,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
-from travels.models import Post, Comment, PostImage, Tag, Location
-from travels.serializers import PostSerializer, CommentSerializer
+from travels.models import Post, Comment, PostImage, Tag, Location, Album
+from travels.serializers import PostSerializer, CommentSerializer, AlbumSerializer
 from travels.forms import PostForm
 from django.shortcuts import get_object_or_404
 from travels.decorators import has_postid, has_commentId
@@ -136,6 +136,52 @@ def share_post(request, postId):
     )
     share_post.tags.add(*post.tags.all())
     serializer = PostSerializer(share_post, context={'request': request})
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@permission_classes((IsAuthenticated,))
+@api_view(['POST'])
+def add_album(request):
+    album, created = Album.objects.get_or_create(name=request.data["albumName"])
+    if not created:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": f"An album with the name {request.data['albumName']} already exist"})
+    serializer = AlbumSerializer(album)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@permission_classes((IsAuthenticated,))
+@api_view(['DELETE'])
+def delete_album(request):
+    album_qs = Album.objects.filter(name=request.data["albumId"])
+    if album_qs.count() > 0:
+        album_qs.first().delete()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': f'album with id {request.data["albumId"]} does not exist'})
+
+
+@permission_classes((IsAuthenticated,))
+@api_view(['PUT'])
+def add_post_to_album(request):
+    post_qs = Post.objects.filter(id=request.data["postId"])
+    if post_qs.count() == 0:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': f'post with id {request.data["postId"]} does not exist'})
+
+    album_qs = Album.objects.filter(id=request.data["albumId"])
+    if album_qs.count() == 0:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': f'album with id {request.data["albumId"]} does not exist'})
+
+    post = post_qs.first()
+    album = album_qs.first()
+    if post not in album.posts.all():
+        album.posts.add(post)
+    return Response(status=status.HTTP_200_OK)
+
+
+@permission_classes((IsAuthenticated,))
+@api_view(['GET'])
+def get_albums(request):
+    albums = Album.objects.filter(user=request.user)
+    serializer = AlbumSerializer(albums, many=True)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
