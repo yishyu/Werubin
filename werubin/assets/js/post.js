@@ -80,7 +80,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     var like_color =  post.likes.includes(requestUserId) ? 'blue-text':'yellow-link'
     var share_color =  post.was_shared.includes(requestUserId) ? 'blue-text':'yellow-link'
     var div_id = `${post.id}postDiv`
-    var edit_post = post.author.id == requestUserId ? `
+    var edit_post = (post.author.id == requestUserId && post.shares.id == 'undefined') ? `
         <div class="btn-group dropright">
                 <i class="fa fa-ellipsis-h yellow-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <div class="dropdown-menu">
