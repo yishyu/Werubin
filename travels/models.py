@@ -48,6 +48,10 @@ class Post(models.Model):
 class Tag(models.Model):
     name = models.CharField("name", max_length=50)
 
+    @property
+    def used_count(self):
+        return self.post_set.all().count()
+
     def __str__(self):
         return self.name
 

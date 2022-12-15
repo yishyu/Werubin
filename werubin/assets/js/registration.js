@@ -50,3 +50,29 @@ function userNameKeyPressed() {
         }
     })
 }
+function emailKeyPressed() {
+    var un = $("#validationCustomEmail").val()
+    let url = "/users/api/email_exists/"
+
+    $.ajax({
+        url: url,
+        type: 'PUT',
+        data: {
+            "email": un
+        },
+        headers: {
+            'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+        },
+        // username IS found => not ok
+        success: function (data) {
+            if (data["email_exists"]) {
+                $("#validationCustomEmail")[0].setCustomValidity("Email already taken")
+                $("#emailAlreadyTaken").html("Email is already taken")
+            } else {
+                $("#validationCustomEmail")[0].setCustomValidity("")
+                $("#emailAlreadyTaken").html("")
+            }
+        }
+    })
+}
+

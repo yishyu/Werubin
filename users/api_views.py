@@ -10,6 +10,7 @@ from travels.models import Post, Comment
 from travels.decorators import has_postid
 
 from rest_framework.permissions import IsAuthenticated
+from users.decorators import no_user
 
 
 @permission_classes((IsAuthenticated,))
@@ -70,11 +71,22 @@ def follow_user(request):
 
 
 @api_view(["PUT"])
+@no_user
 def user_exists(request):
     if User.objects.filter(username=request.data["username"]).count() > 0:
         data = {"user_exists": True}
     else:
         data = {"user_exists": False}
+    return Response(status=status.HTTP_200_OK, data=data)
+
+
+@api_view(["PUT"])
+@no_user
+def email_exists(request):
+    if User.objects.filter(email=request.data["email"].lower()).count() > 0:
+        data = {"email_exists": True}
+    else:
+        data = {"email_exists": False}
     return Response(status=status.HTTP_200_OK, data=data)
 
 
@@ -90,3 +102,9 @@ def road_map(request):
     # we might want to show post information on the map so we prefer returning the post information instead of the location
     serializer = PostSerializer(posts, many=True)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@permission_classes((IsAuthenticated,))
+@api_view(["GET"])
+def notification(request):
+    return

@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from users.decorators import no_user
 from django.contrib.auth import logout as django_logout
+from travels.models import Tag
 
 
 # Sign Up View
@@ -22,7 +23,7 @@ def registration(request):
         if form.is_valid():
             user = form.save()
             user.set_password(form.cleaned_data['password1'])
-            user.email = form.cleaned_data['email']
+            user.email = form.cleaned_data['email'].lower()
             user.save()
             authuser = authenticate(username=user.username, password=form.cleaned_data['password1'])
             if authuser:
@@ -30,8 +31,8 @@ def registration(request):
             return HttpResponseRedirect(reverse("feeds:front_feed"))
         else:
             return render(request, 'registration/registration.html', locals())
-
-    form = RegistrationForm()
+    else:
+        form = RegistrationForm()
     return render(request, 'registration/registration.html', locals())
 
 
@@ -95,3 +96,21 @@ def logout(request):
     )
     django_logout(request)
     return HttpResponseRedirect(reverse("users:login"))
+
+
+@login_required
+def register_tag(request):
+    if request.method == "POST":
+        if len(request.POST.getlist('tag')) == 0:
+            messages.add_message(
+                request, messages.ERROR, "You need to at least pick one tag"
+            )
+            return HttpResponseRedirect(reverse("feeds:front_feed"))
+
+        for tag in request.POST.getlist('tag'):
+            tag_qs = Tag.objects.filter(name=tag)
+            if tag_qs.count() > 0:
+                request.user.tags.add(
+                    tag_qs.first()
+                )
+    return HttpResponseRedirect(reverse("feeds:front_feed"))

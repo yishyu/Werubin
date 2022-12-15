@@ -13,7 +13,6 @@ class RegistrationForm(UserCreationForm):
             'last_name',
             'birthdate',
             'gender',
-            # 'profile_picture',
             'email',
             'password1',
             'password2'
@@ -23,11 +22,14 @@ class RegistrationForm(UserCreationForm):
         cleaned_data = super().clean()
         if admin:
             return
-        email = cleaned_data.get("email").lower()
-
-        if User.objects.filter(email=email).count() > 0:
-            msg = "This email is already in use"
-            self.add_error('email', msg)
+        try:
+            email = cleaned_data.get("email").lower()
+            if User.objects.filter(email=email).count() > 0:
+                msg = "This email is already in use"
+                self.add_error('email', msg)
+        except AttributeError:
+            # missing attribute means cleaned data returned an error
+            pass
 
 
 class ResetPasswordForm(SetPasswordForm):
