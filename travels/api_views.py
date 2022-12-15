@@ -29,6 +29,7 @@ def get_post(request, postId):
 def add_post(request):
     """
         Adding a post
+        TODO add parameter validation
     """
     # create location
     location, _ = Location.objects.get_or_create(
@@ -66,6 +67,7 @@ def add_post(request):
 
 @permission_classes((IsAuthenticated,))
 @api_view(['DELETE'])  # Delete: Delete
+@has_postid
 def delete_post(request, postId):
     """
         Delete a post

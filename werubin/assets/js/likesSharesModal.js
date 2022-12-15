@@ -35,11 +35,11 @@ function openLikeShareModal({ modalType, id, username }) {
     $.get({
           url: url
         , success: function(data) {
-            toggleLikeShareModal({ 
-                defaultProfilePictureUrl: defaultProfilePictureUrl, 
-                modalTitle: modalTitle, 
-                modalType: modalType, 
-                data: data 
+            toggleLikeShareModal({
+                defaultProfilePictureUrl: defaultProfilePictureUrl,
+                modalTitle: modalTitle,
+                modalType: modalType,
+                data: data
             })
         }
     })
@@ -86,7 +86,7 @@ function toggleLikeShareModal({ modalTitle, data }){
 
 function onFollowClick(userId, userObjId) {
     let userObj= $(`#${userObjId}`)
-    let url = "/users/api/follow_user"
+    let url = "/users/api/follow_user/"
     $.ajax({
         url: url,
         type: 'PUT',

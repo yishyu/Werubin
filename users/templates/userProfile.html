@@ -61,7 +61,7 @@ TODO Albums
                                 <br>
                             </p>
                             {% if user == request.user %}
-                            <button class="center btn btn-outline-warning" type="submit">Edit profile</button>
+                            <button class="center btn btn-outline-warning my-2" type="submit">Edit profile</button>
                             <a href="{%url 'users:logout'%}" <button class="center btn btn-danger" type="submit">Logout</button></a>
                             {% else %}
                             <button class="center btn btn-outline-warning" type="submit">Follow</button>

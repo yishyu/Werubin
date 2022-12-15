@@ -39,7 +39,24 @@ function initMap(post) {
         infoWindow.open(marker.getMap(), marker);
         });
 }
+function delete_post(postid, divpostid){
+    if (confirm('Are you sure you want to delete this post? This action is not reversible')) {
+        $.ajax({
+            url: '/travels/api/post/delete/',
+            type: 'DELETE',
+            data:{
+                'post-id': postid
+            },
+            headers: {
+                'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            success: function(data){
+                $(`#${divpostid}`).fadeOut(400, function(){$(`#${postid}`).remove()})
+            }
+        })
+    }
 
+}
 function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
     /*
         Adds a single post to the DOM
@@ -60,8 +77,19 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     var share_text = post.was_shared.length > 1?  `${post.was_shared.length} shares`: `${post.was_shared.length} share`
     var like_color =  post.likes.includes(requestUserId) ? 'blue-text':'yellow-link'
     var share_color =  post.was_shared.includes(requestUserId) ? 'blue-text':'yellow-link'
+    var div_id = `${post.id}postDiv`
+    var edit_post = post.author.id == requestUserId ? `
+        <div class="btn-group dropright">
+                <i class="fa fa-ellipsis-h yellow-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+            <div class="dropdown-menu">
+                <button class="dropdown-item" type="button"><i class="fa fa-pencil-square-o yellow-text" aria-hidden="true"></i> Edit Post </button>
+                <button class="dropdown-item" type="button" onclick="delete_post('${post.id}', '${div_id}')"><i class="fa fa-times text-danger" aria-hidden="true"></i> Delete Post</button>
+                <a class="yellow-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><button class="dropdown-item" type="button">🥳🥳 Surprise ?</button></a>
+            </div>
+        </div>
+    ` : ''
     var post_html =`
-    <div id="${post.id}postDiv" class="post-li">
+    <div id=${div_id} class="post-li">
         <div class="card bg-grey">
             <div class="d-flex justify-content-between p-2 px-3">
                 <div class="d-flex flex-row align-items-center">
@@ -74,7 +102,11 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
                         ${tags_html}
                     </div>
                 </div>
-                <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2 yellow-darker-text">${post.time_ago}</small> <i class="fa fa-ellipsis-h"></i> </div>
+                <div class="d-flex flex-row mt-1 ellipsis">
+                        <small class="mr-2 yellow-darker-text">${post.time_ago}</small>
+                       ${edit_post}
+
+                </div>
             </div>
                 ${location_html}
             <div class="p-2">
