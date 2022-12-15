@@ -4,7 +4,7 @@ import users.views as views
 
 urlpatterns = [
     path('login/', dviews.LoginView.as_view(redirect_authenticated_user=True), name='login'),
-    path('logout/', dviews.LogoutView.as_view(), name='logout'),
+    path('logout/', views.logout, name='logout'),
     path('register/', views.registration, name='register'),
     path('forgotpass/', views.forgotpass, name='forgotpass'),
     path('reset-password/<str:key>/', views.resetpass, name='resetpass'),

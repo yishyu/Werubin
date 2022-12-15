@@ -49,6 +49,7 @@ ROOT_URLCONF = "werubin.urls"
 LOGIN_URL = "users:login"
 LOGOUT_URL = "users:logout"
 LOGIN_REDIRECT_URL = "feeds:front_feed"
+LOGOUT_REDIRECT_URL = LOGIN_URL
 AUTH_USER_MODEL = 'users.User'
 
 EMAIL_HOST = "ssl0.ovh.net"

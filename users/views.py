@@ -11,6 +11,9 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from users.decorators import no_user
+from django.contrib.auth import logout as django_logout
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 
 # Sign Up View
@@ -85,3 +88,12 @@ def profile(request, username):
     user = get_object_or_404(User, username=username)
     followers = User.objects.filter(followers=user)  # user who are following this user
     return render(request, 'userProfile.html', locals())
+
+
+@login_required
+def logout(request):
+    messages.add_message(
+        request, messages.SUCCESS, "You were successfully logged out. We hope to see you soon !"
+    )
+    django_logout(request)
+    return HttpResponseRedirect(reverse("users:login"))
