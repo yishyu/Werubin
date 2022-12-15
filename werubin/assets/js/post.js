@@ -39,6 +39,7 @@ function initMap(post) {
         infoWindow.open(marker.getMap(), marker);
         });
 }
+
 function delete_post(postid, divpostid){
     if (confirm('Are you sure you want to delete this post? This action is not reversible')) {
         $.ajax({
@@ -57,6 +58,7 @@ function delete_post(postid, divpostid){
     }
 
 }
+
 function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
     /*
         Adds a single post to the DOM
@@ -82,6 +84,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
         <div class="btn-group dropright">
                 <i class="fa fa-ellipsis-h yellow-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <div class="dropdown-menu">
+                <button class="dropdown-item" type="button" onclick="openAddToAlbumModal({postid: '${post.id}'})"><i class="fa fa-plus-square yellow-text" aria-hidden="true"></i> Add to album </button>
                 <button class="dropdown-item" type="button"><i class="fa fa-pencil-square-o yellow-text" aria-hidden="true"></i> Edit Post </button>
                 <button class="dropdown-item" type="button" onclick="delete_post('${post.id}', '${div_id}')"><i class="fa fa-times text-danger" aria-hidden="true"></i> Delete Post</button>
                 <a class="yellow-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><button class="dropdown-item" type="button">🥳🥳 Surprise ?</button></a>
@@ -197,6 +200,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
 
 
 }
+
 function like_post(postId){
     /*
         Toggle like on a post
@@ -235,6 +239,7 @@ function like_post(postId){
         }
     })
 }
+
 function share_post(postId){
     /*
         Share a post by sending the request to the backend, gets the new shared post
@@ -299,6 +304,7 @@ function add_comment(postId, comment){
     </div>`
     $(`#Comments${postId}`).append(comment)
 }
+
 function toggle_comment(postId){
     /*
         Display all the comments of a single post
@@ -319,6 +325,7 @@ function toggle_comment(postId){
     }
 
 }
+
 function send_comment(postId){
     /*
         Send a comment to the backend
@@ -344,6 +351,7 @@ function send_comment(postId){
         }
     })
 }
+
 function like_comment(commentId){
     /*
         Same logic as the post like but with comments
@@ -378,6 +386,7 @@ function like_comment(commentId){
         }
     })
 }
+
 function paginated_feed({feed_type, offset, limit, parameters=""}){
     /*
         Loads posts with offset and limit

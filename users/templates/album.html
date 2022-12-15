@@ -1,0 +1,6 @@
+{% load static %}
+
+<div class="album-container" onclick="albumModal({title: '{{album.name}}', postids: '{% for i in album.posts.all %}{{i.id}} {% endfor %}'})">
+    <img width="100%" width="100%" src={{album.posts.first.postimage_set.first.image.url}}>
+    <div class="top-left">{{album.name}}</div>
+</div>
