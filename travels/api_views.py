@@ -142,7 +142,10 @@ def share_post(request, postId):
 @permission_classes((IsAuthenticated,))
 @api_view(['POST'])
 def add_album(request):
-    album, created = Album.objects.get_or_create(name=request.data["albumName"])
+    album, created = Album.objects.get_or_create(
+        user=request.user,
+        name=request.data["albumName"]
+    )
     if not created:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": f"An album with the name {request.data['albumName']} already exist"})
     serializer = AlbumSerializer(album)
@@ -152,7 +155,10 @@ def add_album(request):
 @permission_classes((IsAuthenticated,))
 @api_view(['DELETE'])
 def delete_album(request):
-    album_qs = Album.objects.filter(name=request.data["albumId"])
+    album_qs = Album.objects.filter(
+        user=request.user,
+        id=request.data["albumId"]
+    )
     if album_qs.count() > 0:
         album_qs.first().delete()
         return Response(status=status.HTTP_200_OK)
@@ -162,11 +168,17 @@ def delete_album(request):
 @permission_classes((IsAuthenticated,))
 @api_view(['PUT'])
 def add_post_to_album(request):
-    post_qs = Post.objects.filter(id=request.data["postId"])
+    post_qs = Post.objects.filter(
+        user=request.user,
+        id=request.data["postId"]
+    )
     if post_qs.count() == 0:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': f'post with id {request.data["postId"]} does not exist'})
 
-    album_qs = Album.objects.filter(id=request.data["albumId"])
+    album_qs = Album.objects.filter(
+        user=request.user,
+        id=request.data["albumId"]
+    )
     if album_qs.count() == 0:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': f'album with id {request.data["albumId"]} does not exist'})
 
