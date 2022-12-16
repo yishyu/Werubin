@@ -80,6 +80,7 @@ async function openAddToAlbumModal({ postId }) {
         })
     }
     $(`#albumContainer_${postId}`).attr("id", "albumContainer_"+ postId + "_" + (i + 1))
-
-    // if length = 0
+    if (albumsArray.length == 0) {
+        $("#add-to-album-modal-body").html("<h3>You have no album yet!<h3>")
+    }
 }
