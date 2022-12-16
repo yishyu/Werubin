@@ -28,7 +28,6 @@
         <label for="validationCustomEmail" class="yellow-text form-label">E-mail address</label>
         <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
-            <!--TODO extract css-->
             <input onkeyup="emailKeyPressed()" name="email" type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend"
                 value='{{form.email.value|default_if_none:"" }}' required>
             <div class="valid-feedback">
