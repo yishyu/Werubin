@@ -24,12 +24,17 @@ function switch_image(imageArray, go_next){
     $('#modal-img').attr('src', imageArray[current_index].image);
 }
 
-function open_images({albumId, title, imageArray, imageurl, postIds}){
+function open_images({albumId, postId, title, imageArray, imageurl, postIds}){
     $("#image-modal-title").html(title)
     $("#image-modal").modal("show");
     $("#prev-img").unbind().click(function(e){switch_image(imageArray, false)})
     $("#next-img").unbind().click(function(e){switch_image(imageArray, true)})
-    $("#remove-post-from-album").unbind().click(function(e){remove_post_from_album({albumId, imageArray, postIds})})
+    
+    if (!albumId) { // no albumid means it's the post image viewer
+        $("#delete-image-button").unbind().click(function(e){delete_image_from_post({imageArray, postId})})
+    } else { // albumid means it's the album image viewer
+        $("#delete-image-button").unbind().click(function(e){remove_post_from_album({albumId, imageArray, postIds})})
+    }
 
     $(`#image-modal`).keyup(function(event) {
         if (event.keyCode === 37) {  //left arrow
@@ -45,7 +50,6 @@ function open_images({albumId, title, imageArray, imageurl, postIds}){
 }
 
 function remove_post_from_album({albumId, imageArray, postIds}) {
-    console.log("bite")
     let current_index = getCurrentIndex(imageArray)
 
     if (imageArray[current_index] == noAlbumPictureUrl) {
@@ -53,8 +57,7 @@ function remove_post_from_album({albumId, imageArray, postIds}) {
     }
 
     let postId = postIds[current_index]
-    console.log(postIds)
-    console.log(postId, albumId)
+
     $.ajax({
         url: "/travels/api/post/remove-post-from-album/",
         type: 'PUT',
@@ -67,7 +70,36 @@ function remove_post_from_album({albumId, imageArray, postIds}) {
         },
         success: function () {
             closeModal('image-modal')
-            console.log("removed")
+        }
+    })
+}
+
+function delete_image_from_post({ imageArray, postId }) {
+    //image array from post image viewer has pic id but not the album one 
+    let current_index = getCurrentIndex(imageArray)
+
+    $.ajax({
+        url: "/travels/api/post/remove-image-from-post/",
+        type: 'PUT',
+        data:{
+            'postId': postId,
+            'imageId': imageArray[current_index].id
+        },
+        headers: {
+            'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+        },
+        success: function () {
+            closeModal('image-modal')
+            $.getJSON({
+                url: `/travels/api/post/get/${postId}`,
+                success: function (data) {
+                    images_html = ""
+                    for (var image of data.images){
+                        images_html += `<img class='post-img' id="postimg${image.id}" src=${image.image}>`
+                    }
+                    $(`#${postId}postDiv .post-image-div`).html(images_html)
+                }})
+            
         }
     })
 }

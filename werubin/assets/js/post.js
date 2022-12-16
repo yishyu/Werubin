@@ -74,6 +74,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     for (var image of post.images){
         images_html += `<img class='post-img' id="postimg${image.id}" src=${image.image}>`
     }
+    images_html = "<div class='post-image-div'>" + images_html + "</div>"
     var like_text = post.likes.length > 1 ? `${post.likes.length} likes`: `${post.likes.length} like`
     var comment_text = post.comments > 1?  `${post.comments} comments`: `${post.comments} comment`
     var share_text = post.was_shared.length > 1?  `${post.was_shared.length} shares`: `${post.was_shared.length} share`
@@ -194,7 +195,8 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     // img modal events
     for (var image of post.images){
         $(`#postimg${image.id}`).unbind().click(function(e){
-            open_images({title: post.author.username + " was in " + post.location.name, imageArray: post.images, imageurl: $(this).attr('src')}) //TODO HERE
+            console.log(post.images)
+            open_images({postId: post.id, title: post.author.username + " was in " + post.location.name, imageArray: post.images, imageurl: $(this).attr('src')}) //TODO HERE
         })
     }
 
