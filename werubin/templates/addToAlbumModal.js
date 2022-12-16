@@ -61,7 +61,6 @@ async function openAddToAlbumModal({ postId }) {
                     $(`#${containerId} img`).removeClass("selected")
                     $(`#${containerId} .check-mark`).hide()
                 }
-                console.log("removed")
             } else {
                 if (! await $.ajax({
                     url: "/travels/api/post/add-post-to-album/",
@@ -77,7 +76,6 @@ async function openAddToAlbumModal({ postId }) {
                     $(`#${containerId} img`).addClass("selected")
                     $(`#${containerId} .check-mark`).show()
                 }
-                console.log("added")
             }
         })
     }

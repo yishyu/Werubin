@@ -50,8 +50,6 @@ function checkAddress() {
     lng = place.geometry.location.lng();
     $("#lat").val(lat)
     $("#lng").val(lng)
-    // console.log(document.getElementById('lat').value)
-    // console.log(document.getElementById('lng').value)
 }
 
 

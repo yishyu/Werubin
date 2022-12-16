@@ -28,7 +28,6 @@ function openLikeShareModal({ modalType, id, username }) {
             url += "?type=followers&id=" + id
             break;
         default:
-            console.log("woops")
             break;
     }
 

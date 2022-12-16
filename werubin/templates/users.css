@@ -1,4 +1,4 @@
-{% load static %}
+/*{% load static %}*/
 .users-section {
     background: #ffffff;
     height:100%;
@@ -79,7 +79,7 @@
         background: url("{% static 'img/van.jpg'%}") left / cover no-repeat, var(--bs-white);
         filter: brightness(50%);
         display:float;
-        
+
         z-index: -1;
         min-width:100vw;
         min-height:100vh;

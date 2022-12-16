@@ -139,7 +139,6 @@ async function albumModal({albumId, title, postids}) {
     for (const id in ids) {
         let data = await $.getJSON({url: `/travels/api/post/get/${ids[id]}`})
         for (const img in data.images) {
-            console.log(data.images)
             postIds.push(ids[id])
             images.push(data.images[img])
         }

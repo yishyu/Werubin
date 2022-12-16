@@ -195,8 +195,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     // img modal events
     for (var image of post.images){
         $(`#postimg${image.id}`).unbind().click(function(e){
-            console.log(post.images)
-            open_images({postId: post.id, title: post.author.username + " was in " + post.location.name, imageArray: post.images, imageurl: $(this).attr('src')}) //TODO HERE
+            open_images({postId: post.id, title: post.author.username + " was in " + post.location.name, imageArray: post.images, imageurl: $(this).attr('src')})
         })
     }
 
@@ -248,7 +247,6 @@ function share_post(postId){
         and renders it dynamically in the feed
     */
     if($(`#share-button${postId}`).hasClass('blue-text')){
-        console.log("you have already shared this post")
         return
     }
     var url = "/travels/api/post/share/"
