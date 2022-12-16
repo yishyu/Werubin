@@ -84,7 +84,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
         <div class="btn-group dropright">
                 <i class="fa fa-ellipsis-h yellow-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <div class="dropdown-menu">
-                <button class="dropdown-item" type="button" onclick="openAddToAlbumModal({postid: '${post.id}'})"><i class="fa fa-plus-square yellow-text" aria-hidden="true"></i> Add to album </button>
+                <button class="dropdown-item" type="button" onclick="openAddToAlbumModal({postId: '${post.id}'})"><i class="fa fa-plus-square yellow-text" aria-hidden="true"></i> Add to album </button>
                 <button class="dropdown-item" type="button"><i class="fa fa-pencil-square-o yellow-text" aria-hidden="true"></i> Edit Post </button>
                 <button class="dropdown-item" type="button" onclick="delete_post('${post.id}', '${div_id}')"><i class="fa fa-times text-danger" aria-hidden="true"></i> Delete Post</button>
                 <a class="yellow-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><button class="dropdown-item" type="button">🥳🥳 Surprise ?</button></a>

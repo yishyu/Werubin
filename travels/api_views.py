@@ -169,7 +169,7 @@ def delete_album(request):
 @api_view(['PUT'])
 def add_post_to_album(request):
     post_qs = Post.objects.filter(
-        user=request.user,
+        author=request.user,
         id=request.data["postId"]
     )
     if post_qs.count() == 0:
@@ -186,6 +186,30 @@ def add_post_to_album(request):
     album = album_qs.first()
     if post not in album.posts.all():
         album.posts.add(post)
+    return Response(status=status.HTTP_200_OK)
+
+
+@permission_classes((IsAuthenticated,))
+@api_view(['PUT'])
+def remove_post_from_album(request):
+    post_qs = Post.objects.filter(
+        author=request.user,
+        id=request.data["postId"]
+    )
+    if post_qs.count() == 0:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': f'post with id {request.data["postId"]} does not exist'})
+
+    album_qs = Album.objects.filter(
+        user=request.user,
+        id=request.data["albumId"]
+    )
+    if album_qs.count() == 0:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': f'album with id {request.data["albumId"]} does not exist'})
+
+    post = post_qs.first()
+    album = album_qs.first()
+    if post in album.posts.all():
+        album.posts.remove(post)
     return Response(status=status.HTTP_200_OK)
 
 
