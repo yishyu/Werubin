@@ -72,9 +72,9 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     var location_html = post.location.lat != "" ? `<div class="map" id="map${post.id}"></div>`: ``
     var images_html = ""
     for (var image of post.images){
-        images_html += `<img class='post-img' id="postimg${image.id}" src=${image.image}>`
+        images_html += `<img class='post-img col-6 p-1' id="postimg${image.id}" src=${image.image}>`
     }
-    images_html = "<div class='post-image-div'>" + images_html + "</div>"
+    images_html = "<div class='row post-image-div'>" + images_html + "</div>"
     var like_text = post.likes.length > 1 ? `${post.likes.length} likes`: `${post.likes.length} like`
     var comment_text = post.comments > 1?  `${post.comments} comments`: `${post.comments} comment`
     var share_text = post.was_shared.length > 1?  `${post.was_shared.length} shares`: `${post.was_shared.length} share`
