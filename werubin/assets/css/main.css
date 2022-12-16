@@ -136,3 +136,7 @@ nav form input {
     width:100%;
     background-color: rgba(153, 255, 0, 0.5);
 }
+
+#remove-post-from-album {
+    text-decoration: none;
+}

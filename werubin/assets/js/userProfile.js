@@ -132,19 +132,22 @@ $('#albumButton').unbind().click(function(){
     }
 });
 
-async function albumModal({title, postids}) {
+async function albumModal({albumId, title, postids}) {
     var ids = postids.split(" ").filter((s) => s !== "")
     var images = []
+    var postIds = []
     for (const id in ids) {
         let data = await $.getJSON({url: `/travels/api/post/get/${ids[id]}`})
         for (const img in data.images) {
+            postIds.push(ids[id])
             images.push(data.images[img])
         }
 
     }
+    console.log(postIds)
     if (images.length == 0) {
         open_images({title: title, imageArray: [noAlbumPictureUrl], imageurl: noAlbumPictureUrl})
     } else {
-        open_images({title: title, imageArray: images, imageurl: images[0].image})
+        open_images({albumId: albumId, title: title, imageArray: images, imageurl: images[0].image, postIds: postIds})
     }
 }
