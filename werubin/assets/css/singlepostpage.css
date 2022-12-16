@@ -102,11 +102,11 @@ hr {
 }
 
 .post-img {
-    margin:1px;
     float: center;
     width:  20vw;
     height: 20vh;
     object-fit: cover;
+    border-radius: .375rem;
 }
 
 .post-img:hover{

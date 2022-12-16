@@ -113,8 +113,12 @@ nav form input {
     position: relative;
     text-align: center;
     color: white;
+    border-radius: .375rem;
 }
-  
+.album-container img {
+    border-radius: .375rem;
+}
+
 /* Top right text */
 .album-container .top-left {
     position: absolute;
@@ -135,6 +139,7 @@ nav form input {
     height:100%;
     width:100%;
     background-color: rgba(153, 255, 0, 0.5);
+    border-radius: .375rem;
 }
 
 #delete-image-button {
