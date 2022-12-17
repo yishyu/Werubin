@@ -223,7 +223,6 @@ def remove_image_from_post(request):
     if post_qs.count() == 0:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={'message': f'post with id {request.data["postId"]} does not exist'})
 
-
     image_qs = PostImage.objects.filter(
         id=request.data["imageId"]
     )
@@ -233,8 +232,6 @@ def remove_image_from_post(request):
     post = post_qs.first()
     image = image_qs.first()
     if image in post.postimage_set.all():
-        print("ouais fin ntm fdp")
-        #image.remove(post)
         image.delete()
     return Response(status=status.HTTP_200_OK)
 
