@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from django.contrib.auth.decorators import login_required
 from travels.models import Post, Comment, Album, PostImage
 from travels.serializers import PostSerializer, CommentSerializer, AlbumSerializer, PostImageSerializer
@@ -9,8 +9,6 @@ from django.http import HttpResponseRedirect
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
-from rest_framework.permissions import IsAuthenticated
 
 type_param = openapi.Parameter('type', openapi.IN_QUERY, description="[Followers, Explore, ForYou, SingleTag, User]", type=openapi.TYPE_STRING)
 tag_param = openapi.Parameter('tag', openapi.IN_QUERY, description="a tag name", type=openapi.TYPE_STRING)
@@ -22,7 +20,6 @@ user_response = openapi.Response('response description', PostSerializer)
 
 
 @swagger_auto_schema(method='get', manual_parameters=[type_param, tag_param, user_param, offset_param, limit_param], responses={200: user_response})
-@permission_classes((IsAuthenticated,))
 @api_view(["GET"])
 def feed(request):
     """

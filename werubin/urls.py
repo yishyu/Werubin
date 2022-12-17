@@ -18,6 +18,7 @@ from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import TemplateView
+from rest_framework.authtoken.views import obtain_auth_token
 
 # swagger import
 from rest_framework import permissions
@@ -60,4 +61,5 @@ urlpatterns = [
         template_name='addToAlbumModal.js',
         content_type='text/javascript')
     ),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

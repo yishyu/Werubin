@@ -75,16 +75,18 @@ INSTALLED_APPS = [
     'werubin',
     'rest_framework',
     'django_user_agents',
-    'drf_yasg'
+    'drf_yasg',
+    'rest_framework.authtoken',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny', )
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 
