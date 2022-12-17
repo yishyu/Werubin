@@ -1,5 +1,5 @@
 function closePostModal(){
-    $("#post-modal").modal('hide');
+    closeModal("post-modal")
 }
 
 function openPostModal() {
@@ -32,6 +32,10 @@ function openUpdateModal(post){
         $("#lat").val(post.location.lat)
         $("#lng").val(post.location.lng)
         $("#googleAutocomplete").val(post.location.name)
+    }else{
+        $("#lat").val("")
+        $("#lng").val("")
+        $("#googleAutocomplete").val("")
     }
     // Content
     $("#postContent").val(post.content)
@@ -51,6 +55,12 @@ function openUpdateModal(post){
 
 }
 
+$('#post-modal').on('hidden.bs.modal', function () {
+    $("#locate-me").prop('disabled', false);
+    $("#postModalErrors").empty()
+    $(".form-control").val("")
+});
+
 $("#postForm").unbind().submit(function(e) {
 
     e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -69,8 +79,6 @@ $("#postForm").unbind().submit(function(e) {
         },
         success: function(post)
         {
-            $("#postModalErrors").empty()
-            $(".form-control").val("")
             if (typeof data.get('post-id') !== 'undefined'){
                 $(`#${data.get('post-id')}postDiv`).remove()
             }
