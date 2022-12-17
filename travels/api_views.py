@@ -30,7 +30,9 @@ def get_post(request, postId):
 @has_postid
 def update_post(request, postId):
     """
-        TODO Edit a post
+        Edit a post
+        Note: the images in the request are all additional images to the existing post
+        There's an endpoint to delete images
     """
     passed, errors = validate_post(request)
     if not passed:
