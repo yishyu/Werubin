@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
               <div class="modal-header">
-                <h5 id="post-modal-title" class="modal-title">"Post your trip!"</h5>
+                <h5 id="post-modal-title" class="modal-title"></h5>
                 <button type="button" class="close" onclick="closePostModal()">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,6 +15,7 @@
 
                 <form action="{% url 'travels:api:add_post'%}" id="postForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
                     {% csrf_token %}
+                    <input id='post-id' name="post-id" type="hidden"/>
                     <span id="postModalErrors" class="text-danger"></span>
                     <div class="row m-2">
                         <label for="googleAutocomplete" class="form-label yellow-text">Location</label>
@@ -33,14 +34,17 @@
                             <input class="form-control" id="postPictures" type="file" name="pictures" multiple accept="image/png, image/gif, image/jpeg">
                         </div>
                     </div>
-                    <label for="tagInputs" class="form-label yellow-text">Tags</label>
+                    <div class="row mb-2">
+                        <label for="tagInputs" class="col-2 form-label yellow-text">Tags</label>
+                        <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField()">
+                            +
+                        </div>
+                    </div>
+
                     <div id="tagInputs" class="row col-12">
-                        <div class="row">
-                            <div class="form-group col-10">
-                                <input class="tagInput center form-control" id="postTag" type="text" name="postTag" placeholder="Enter a tag..." required>
-                            </div>
-                            <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField()">
-                                +
+                        <div class="row" id="postTag0Row">
+                            <div class="form-group col-9">
+                                <input class="tagInput center form-control" id="postTag0" type="text" name="postTag" placeholder="Enter a tag..." required>
                             </div>
                         </div>
                     </div>

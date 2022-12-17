@@ -6,6 +6,7 @@ function openPostModal() {
     $("#postForm").attr("method", "POST")
     $("#postForm").attr("action", "/travels/api/post/add/")
     $("#post-modal-title").html("Post your trip !")
+    $("#post-id").val("")
     openModal("post-modal")
 }
 
@@ -19,6 +20,9 @@ function closeModal(id){
 
 function openUpdateModal(post){
     // Prefill Modal
+
+    // Post-id
+    $("#post-id").val(post.id)
 
     // Title
     $("#post-modal-title").html("Edit Your Trip !")
@@ -47,7 +51,7 @@ function openUpdateModal(post){
 
 }
 
-$("#postForm").submit(function(e) {
+$("#postForm").unbind().submit(function(e) {
 
     e.preventDefault(); // avoid to execute the actual submit of the form.
 
@@ -63,12 +67,15 @@ $("#postForm").submit(function(e) {
         {
             'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
         },
-        success: function(data)
+        success: function(post)
         {
             $("#postModalErrors").empty()
             $(".form-control").val("")
+            if (typeof data.get('post-id') !== 'undefined'){
+                $(`#${data.get('post-id')}postDiv`).remove()
+            }
             closePostModal();
-            add_post(data, false);
+            add_post(post, false);
 
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -78,6 +85,10 @@ $("#postForm").submit(function(e) {
             }
             if (text != '')
                 text = "Missing Information: " + text
+
+            for (var other_problems of xhr.responseJSON["Others"]){
+                text += `${other_problems} <br>`
+            }
             $("#postModalErrors").html(text)
 
           }

@@ -26,6 +26,54 @@ def get_post(request, postId):
 
 
 @permission_classes((IsAuthenticated,))
+@api_view(['PUT'])  # Put: Update/Replace
+@has_postid
+def update_post(request, postId):
+    """
+        TODO Edit a post
+    """
+    passed, errors = validate_post(request)
+    if not passed:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data=errors)
+
+    post = get_object_or_404(Post, id=postId)
+    if post.author != request.user:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "You can only edit your own posts"})
+
+    # insert update code here
+
+    # create location
+    location, _ = Location.objects.get_or_create(
+        name=request.data["googleAddress"],
+        lat=float(request.data["lat"]),
+        lng=float(request.data["lng"])
+    )
+    # create post
+    post.location = location
+    post.content = request.data["content"]
+    post.tags.clear()
+    # create tag and add to post
+    for key in request.data.keys():
+        if "postTag" in key:
+            tag, _ = Tag.objects.get_or_create(name=request.data[key].strip().replace(' ', ''))
+            if tag not in post.tags.all():
+                post.tags.add(tag)
+
+    # save image
+    for file in request.FILES.getlist('pictures'):
+        postimage = PostImage.objects.create(post=post)
+        postimage.image.save(
+            os.path.basename(file.name),
+            File(file)
+        )
+        postimage.save()
+
+    post.save()
+    serializer = PostSerializer(post)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@permission_classes((IsAuthenticated,))
 @api_view(['POST'])  # Post: Create
 def add_post(request):
     """
@@ -80,16 +128,6 @@ def delete_post(request, postId):
         post.delete()  # this will raise 404 in case
         return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "Impossible to delete someone else's post"})
-
-
-@permission_classes((IsAuthenticated,))
-@api_view(['PUT'])  # Put: Update/Replace
-def update_post(request):
-    """
-        TODO Edit a post
-    """
-    print(request.data['post-id'])
-    return Response(status=status.HTTP_200_OK)
 
 
 user_response = openapi.Response('response description', openapi.Schema(
