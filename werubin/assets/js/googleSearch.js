@@ -1,6 +1,6 @@
 var autocomplete;
 
-$(document).ready(function(){
+function initGoogle(){
     initAutocomplete();
     $("#locate-me").unbind().click(() => {
         var onError = function(error) {
@@ -26,7 +26,7 @@ $(document).ready(function(){
             onError();
         }
     })
-})
+}
 function initAutocomplete() {
     autocomplete = new google.maps.places.Autocomplete(
         document.getElementById('googleAutocomplete'));
