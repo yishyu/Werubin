@@ -59,6 +59,10 @@ function delete_post(postid, divpostid){
 
 }
 
+function edit_post_modal({postId, divId}){
+    openPostModal();
+}
+
 function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
     /*
         Adds a single post to the DOM
@@ -81,12 +85,17 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     var like_color =  post.likes.includes(requestUserId) ? 'blue-text':'yellow-link'
     var share_color =  post.was_shared.includes(requestUserId) ? 'blue-text':'yellow-link'
     var div_id = `${post.id}postDiv`
-    var edit_post = (post.author.id == requestUserId && typeof post.shares.id == 'undefined') ? `
+    // allow edit and add to album only if it does not share any other post
+    var edit_addalbum_buttons = typeof post.shares.id == 'undefined' ? `
+    <button class="dropdown-item" type="button" onclick="openAddToAlbumModal({postId: '${post.id}'})"><i class="fa fa-plus-square yellow-text" aria-hidden="true"></i> Add to album </button>
+    <button class="dropdown-item" type="button" id="editPost${post.id}"><i class="fa fa-pencil-square-o yellow-text" aria-hidden="true"></i> Edit Post </button>
+    ` : ``
+
+    var edit_post = (post.author.id == requestUserId) ? `
         <div class="btn-group dropright">
                 <i class="fa fa-ellipsis-h yellow-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <div class="dropdown-menu">
-                <button class="dropdown-item" type="button" onclick="openAddToAlbumModal({postId: '${post.id}'})"><i class="fa fa-plus-square yellow-text" aria-hidden="true"></i> Add to album </button>
-                <button class="dropdown-item" type="button"><i class="fa fa-pencil-square-o yellow-text" aria-hidden="true"></i> Edit Post </button>
+                ${edit_addalbum_buttons}
                 <button class="dropdown-item" type="button" onclick="delete_post('${post.id}', '${div_id}')"><i class="fa fa-times text-danger" aria-hidden="true"></i> Delete Post</button>
                 <a class="yellow-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><button class="dropdown-item" type="button">🥳🥳 Surprise ?</button></a>
             </div>
@@ -199,6 +208,12 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
         })
     }
 
+    onclick="edit_post_modal({postId: '${post.id}', divId: '${div_id}'})"
+    if (typeof post.shares.id == 'undefined'){
+        $(`#editPost${post.id}`).unbind().click(function(e){
+            openUpdateModal(post)
+        })
+    }
 
 }
 

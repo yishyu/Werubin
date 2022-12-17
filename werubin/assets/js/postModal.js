@@ -3,11 +3,48 @@ function closePostModal(){
 }
 
 function openPostModal() {
-    $("#post-modal").modal('show');
+    $("#postForm").attr("method", "POST")
+    $("#postForm").attr("action", "/travels/api/post/add/")
+    $("#post-modal-title").html("Post your trip !")
+    openModal("post-modal")
+}
+
+function openModal(id){
+    $(`#${id}`).modal('show')
 }
 
 function closeModal(id){
     $(`#${id}`).modal('hide')
+}
+
+function openUpdateModal(post){
+    // Prefill Modal
+
+    // Title
+    $("#post-modal-title").html("Edit Your Trip !")
+
+    // Location
+    if (post.location.lat != ""){
+        $("#lat").val(post.location.lat)
+        $("#lng").val(post.location.lng)
+        $("#googleAutocomplete").val(post.location.name)
+    }
+    // Content
+    $("#postContent").val(post.content)
+    // Tags
+    $("#postTag0").val(post.tags[0].name)
+    for (var i=1; i < post.tags.length; i++){
+        var tagId = addNewTagField()
+        $(`#${tagId}`).val(post.tags[i].name)
+    }
+    // Api
+    $("#postForm").attr("method", "PUT")
+    $("#postForm").attr("action", "/travels/api/post/update/")
+
+    // open Modal
+    openModal("post-modal")
+
+
 }
 
 $("#postForm").submit(function(e) {
