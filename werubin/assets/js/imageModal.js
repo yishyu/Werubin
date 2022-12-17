@@ -29,7 +29,7 @@ function open_images({albumId, postId, title, imageArray, imageurl, postIds}){
     $("#image-modal").modal("show");
     $("#prev-img").unbind().click(function(e){switch_image(imageArray, false)})
     $("#next-img").unbind().click(function(e){switch_image(imageArray, true)})
-    
+
     if (!albumId) { // no albumid means it's the post image viewer
         $("#delete-image-button").unbind().click(function(e){delete_image_from_post({imageArray, postId})})
     } else { // albumid means it's the album image viewer
@@ -75,7 +75,7 @@ function remove_post_from_album({albumId, imageArray, postIds}) {
 }
 
 function delete_image_from_post({ imageArray, postId }) {
-    //image array from post image viewer has pic id but not the album one 
+    //image array from post image viewer has pic id but not the album one
     let current_index = getCurrentIndex(imageArray)
 
     $.ajax({
@@ -90,16 +90,8 @@ function delete_image_from_post({ imageArray, postId }) {
         },
         success: function () {
             closeModal('image-modal')
-            $.getJSON({
-                url: `/travels/api/post/get/${postId}`,
-                success: function (data) {
-                    images_html = ""
-                    for (var image of data.images){
-                        images_html += `<img class='post-img' id="postimg${image.id}" src=${image.image}>`
-                    }
-                    $(`#${postId}postDiv .post-image-div`).html(images_html)
-                }})
-            
+            $(`#postimg${imageArray[current_index].id}`).remove()
+            imageArray.splice(current_index, 1);
         }
     })
 }
