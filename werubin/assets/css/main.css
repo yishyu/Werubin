@@ -54,7 +54,8 @@ a:hover {
     justify-content: center;
     align-items: center;
 }
-.round{
+
+.round {
     border-radius: 50% !important;
 }
 
@@ -78,24 +79,6 @@ nav .align-self-center {
     display: flex !important;
     justify-content: center;
     align-self: center;
-}
-
-@media (max-width:768px) {
-    #searchBarButton {
-        height: 40px;
-        width: 100% !important
-    }
-}
-
-@media (min-width:768px) {
-    #searchBarButton {
-        height: 40px;
-        width: fit-content !important
-    }
-}
-
-nav form input {
-    height: 40px
 }
 
 .btn-outline-warning:hover {
@@ -156,39 +139,39 @@ nav form input {
 
 * {
     box-sizing: border-box;
-  }
+}
 
-  body {
+body {
     font: 16px Arial;
-  }
+}
 
 
-  /*the container must be positioned relative:*/
+/*the container must be positioned relative:*/
 
-  .autocomplete {
+.autocomplete {
     position: relative;
     display: inline-block;
-  }
+}
 
-  input {
+input {
     border: 1px solid transparent;
     background-color: #f1f1f1;
     padding: 10px;
     font-size: 16px;
-  }
+}
 
-  input[type=text] {
+input[type=text] {
     background-color: #f1f1f1;
     width: 100%;
-  }
+}
 
-  input[type=submit] {
+input[type=submit] {
     background-color: DodgerBlue;
     color: #fff;
     cursor: pointer;
-  }
+}
 
-  .autocomplete-items {
+.autocomplete-items {
     position: absolute;
     border: 1px solid #d4d4d4;
     border-bottom: none;
@@ -198,26 +181,32 @@ nav form input {
     top: 100%;
     left: 0;
     right: 0;
-  }
+}
 
-  .autocomplete-items div {
+.autocomplete-items div {
     padding: 10px;
     cursor: pointer;
     background-color: #fff;
+    border-bottom-left-radius: .375rem;
+    border-bottom-right-radius: .375rem;
     border-bottom: 1px solid #d4d4d4;
-  }
+}
 
 
-  /*when hovering an item:*/
+/*when hovering an item:*/
 
-  .autocomplete-items div:hover {
+.autocomplete-items div:hover {
     background-color: #e9e9e9;
-  }
+}
 
 
-  /*when navigating through the items using the arrow keys:*/
+/*when navigating through the items using the arrow keys:*/
 
-  .autocomplete-active {
+.autocomplete-active {
     background-color: DodgerBlue !important;
     color: #ffffff;
-  }
+}
+
+#searchBarInputautocomplete-list {
+    border-radius: .375rem;
+}
