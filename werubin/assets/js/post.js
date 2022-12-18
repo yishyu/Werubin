@@ -71,7 +71,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     var description = post.shares.id ? `shared post <a id=sharedPostLink${post.id} href="/travels/post/${post.shares.id}">${post.shares.id}</a> from ${post.shares.author.username}`: `was in <b ><u><a class="yellow-text" href="http://maps.google.com/?q=${post.location.name}" target="_blank">${post.location.name}</a></u></b>`
     var tags_html = ""
     for( var tag of post.tags){
-        tags_html += `<small><a href="/?type=SingleTag&tag=${tag.name}" class="yellow-link">#${tag.name}</a></small>`
+        tags_html += `<small><a href="/feed/${tag.name}" class="yellow-link">#${tag.name}</a></small>`
     }
     var location_html = post.location.lat != "" ? `<div class="map" id="map${post.id}"></div>`: ``
     var images_html = ""
