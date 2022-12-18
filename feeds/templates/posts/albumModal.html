@@ -4,29 +4,23 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
               <div class="modal-header">
-                <h5 id="album-modal-title" class="modal-title">"Create an album"</h5>
+                <h5 id="album-modal-title" class="modal-title">Create an album</h5>
                 <button type="button" class="close" onclick="closeAlbumModal()">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body" id="album-modal-body">
-                <form action="{% url 'travels:api:add_album'%}" id="albumForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
-                    {% csrf_token %}
-                    <span id="albumModalErrors" class="text-danger"></span>
-                    <div class="row">
-                        <label for="albumName" class="yellow-text form-label">Album name</label>
-                        <input name="albumName" type="text" class="form-control" id="albumName" required>
-                    </div>
-
-                    <div class="text-center mt-5">
-                        <button class="submit-button btn yellow-bg text-light" type="submit">
-                            Publish
-                        </button>
-                    </div>
-
-
-
-                </form>
+                  {% csrf_token %}
+                  <span id="albumModalErrors" class="text-danger"></span>
+                  <div class="row p-2">
+                      <label for="albumName" class="yellow-text form-label">Album name</label>
+                      <input name="albumName" type="text" class="form-control" id="albumName" required>
+                  </div>
+                  <div class="text-center mt-5">
+                      <button id="publishAlbumButton" class="submit-button btn yellow-bg text-light">
+                          Publish
+                      </button>
+                  </div>
               </div>
               <div class="modal-footer" id="album-modal-footer">
               </div>

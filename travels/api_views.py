@@ -178,7 +178,7 @@ def add_album(request):
         name=request.data["albumName"]
     )
     if not created:
-        return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": f"An album with the name {request.data['albumName']} already exist"})
+        return Response(status=status.HTTP_200_OK, data={"message": f"An album with the name '{request.data['albumName']}' already exists"})
     serializer = AlbumSerializer(album)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
 
