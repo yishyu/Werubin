@@ -5,13 +5,13 @@ function mergeArrays({arrayTags, arrayUsers}) {
       i, l = Math.min(arrayTags.length, arrayUsers.length);
 
   for (i = 0; i < l; i++) {
-      result.push({elt: arrayTags[i].name, type: "tag"}, {elt: arrayUsers[i].username, type: "user"});
+    result.push({elt: arrayTags[i].name, type: "tag"}, {elt: arrayUsers[i].username, type: "user", img: arrayUsers[i].profile_picture});
   }
   for (i = l; i < arrayTags.length; i++) {
     result.push({elt: arrayTags[i].name, type: "tag"})
   }
   for (i = l; i < arrayUsers.length; i++) {
-    result.push({elt: arrayUsers[i].username, type: "user"})
+    result.push({elt: arrayUsers[i].username, type: "user", img: arrayUsers[i].profile_picture})
   }
   return result
 }
@@ -57,9 +57,13 @@ async function autocomplete(inp) {
       if (arr[i].type == "tag") {
         b.innerHTML = "<strong class='blue-text'>#" + arr[i].elt.substr(0, val.length) + "</strong>";
       } else {
-        b.innerHTML = "<strong class='yellow-text'>" + arr[i].elt.substr(0, val.length) + "</strong>";
+        if (arr[i].img == null){
+          b.innerHTML = `<strong class='yellow-text'><img class="round" src='/static/img/profile_default.jpg' height=20 width=20/> ${arr[i].elt.substr(0, val.length)}</strong>`;
+        }else{
+          b.innerHTML = `<strong class='yellow-text'><img class="round" src='${arr[i].img}' height=20 width=20/> ${arr[i].elt.substr(0, val.length)}</strong>`;
+        }
       }
-      
+
       b.innerHTML += arr[i].elt.substr(val.length);
       /*insert a input field that will hold the current array item's value:*/
       b.innerHTML += "<input id='valueHidden' type='hidden' value='" + arr[i].elt + "'>";
@@ -70,7 +74,7 @@ async function autocomplete(inp) {
         console.log($(this).find("#valueHidden")[0].value)
         console.log(this.getElementsByTagName("input"))
         inp.value = $(this).find("#valueHidden")[0].value;
-        
+
         $("#searchBarInput").removeClass()
         if ($(this).find("#typeHidden")[0].value == "user") {
           $("#searchBarInput").addClass("yellow-text")
