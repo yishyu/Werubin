@@ -71,24 +71,25 @@ async function autocomplete(inp) {
         console.log(this.getElementsByTagName("input"))
         inp.value = $(this).find("#valueHidden")[0].value;
         
-        $("#myInput").removeClass()
+        $("#searchBarInput").removeClass()
         if ($(this).find("#typeHidden")[0].value == "user") {
-          $("#myInput").addClass("yellow-text")
+          $("#searchBarInput").addClass("yellow-text")
         } else {
-          $("#myInput").addClass("blue-text")
+          $("#searchBarInput").addClass("blue-text")
         }
 
         $("#searchHidden").val($(this).find("#typeHidden")[0].value)
         /*close the list of autocompleted values,
         (or any other open lists of autocompleted values:*/
         closeAllLists();
+        searchBarButton()
       });
       a.appendChild(b);
     }
   });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
-    $("#myInput").removeClass()
+    $("#searchBarInput").removeClass()
     $("#searchHidden").val("")
 
     var x = document.getElementById(this.id + "autocomplete-list");
@@ -149,15 +150,17 @@ async function autocomplete(inp) {
   });
 }
 
-$("#searchBarButton").unbind().click(function (){
+function searchBarButton() {
   if ($("#searchHidden").val() == "user") {
-    window.location.href = `/users/profile/${$("#myInput").val()}`;
+    window.location.href = `/users/profile/${$("#searchBarInput").val()}`;
     return false;
   } else if ($("#searchHidden").val() == "tag") {
-    window.location.href = `/feed/${$("#myInput").val()}`;
+    window.location.href = `/feed/${$("#searchBarInput").val()}`;
     return false;
   }
-})
+}
 
-/*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-autocomplete(document.getElementById("myInput"));
+$("#searchBarButton").unbind().click(() => searchBarButton())
+
+/*initiate the autocomplete function on the "searchBarInput" element, and pass along the countries array as possible autocomplete values:*/
+autocomplete(document.getElementById("searchBarInput"));
