@@ -18,4 +18,5 @@ urlpatterns = [
     path("post/toggle-like-comment/", views.toggle_like_comment, name="toggle_like_comment"),
     path("post/toggle-like-post/", views.toggle_like_post, name="toggle_like_post"),
     path("post/share/", views.share_post, name="share_post"),
+    path("search-autocomplete/", views.tag_user_autocomplete, name="tag_user_autocomplete"),
 ]

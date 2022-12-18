@@ -3,10 +3,11 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from travels.models import Post, Comment, PostImage, Tag, Location, Album
-from travels.serializers import PostSerializer, CommentSerializer, AlbumSerializer
+from travels.serializers import PostSerializer, CommentSerializer, AlbumSerializer, PostUserSerializer, TagSerializer
 from travels.forms import PostForm
 from django.shortcuts import get_object_or_404
 from travels.decorators import has_postid, has_commentId
+from users.models import User
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -311,3 +312,17 @@ def add_comment(request, postId):
     )
     serializer = CommentSerializer(comment)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@api_view(['GET'])
+def tag_user_autocomplete(request):
+    search = request.GET.get("search", None)
+    if not search:
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "search field missing in the request"})
+    users = PostUserSerializer(User.objects.filter(username__startswith=search), many=True).data
+    tags = TagSerializer(Tag.objects.filter(name__startswith=search), many=True).data
+
+    return Response(status=status.HTTP_200_OK, data={
+        "users": users,
+        "tags": tags
+    })
