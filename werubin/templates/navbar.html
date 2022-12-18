@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block navbar %}
 <nav class="navbar navbar-expand-md navbar-light bg-light p-2">
     <div class="container">
@@ -27,15 +29,21 @@
 
                 </div>
 
-                <form class="center form-inline col-12 col-md-9 order-md-1 px-0">
+                <div class="center col-12 col-md-9 order-md-1 px-0">
                     <div class="row center mx-1">
                         {%comment%}
                         TODO autocomplete search of tag and username
                         {%endcomment%}
-                        <input id="searchBar" class="col-12 col-md-8 m-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="center btn btn-outline-warning" type="submit">Search</button>
+
+                        <div class="col-12 col-md-8 m-2 autocomplete" style="width:300px;">
+                            <input id="myInput" type="text" placeholder="Country">
+                            <input id="searchHidden" type="hidden"/>
+                        </div>
+                        <button id="searchBarButton" class="center btn btn-outline-warning">Search</button>
+
+
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

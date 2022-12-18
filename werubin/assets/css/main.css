@@ -3,43 +3,44 @@ body {
 }
 
 .werubin-logo {
-    font-size:2em
+    font-size: 2em
 }
 
 .yellow-text {
-    color:#FFBA34
+    color: #FFBA34
 }
 
 .yellow-darker-text {
-    color:#764e00
+    color: #764e00
 }
 
 .blue-text {
-    color:#249EA0
-}
-
-.yellow-bg{
-    background:#FFBA34 !important
-}
-
-a{
-    text-decoration: none;
-}
-a:hover{
-    text-decoration: underline;
-    color:#14c4c7 !important
-}
-
-.yellow-link{
-    text-decoration: None;
-    color:#FFBA34;
-}
-
-.blue-text{
     color: #249EA0
 }
 
-.bg-grey{
+.yellow-bg {
+    background: #FFBA34 !important
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #14c4c7 !important
+}
+
+.yellow-link {
+    text-decoration: None;
+    color: #FFBA34;
+}
+
+.blue-text {
+    color: #249EA0
+}
+
+.bg-grey {
     background: #f8f9fa !important;
 }
 
@@ -77,14 +78,14 @@ nav .align-self-center {
 }
 
 @media (max-width:768px) {
-    nav form button {
+    #searchBarButton {
         height: 40px;
         width: 100% !important
     }
 }
 
 @media (min-width:768px) {
-    nav form button {
+    #searchBarButton {
         height: 40px;
         width: fit-content !important
     }
@@ -102,9 +103,11 @@ nav form input {
     color: #249EA0 !important;
 }
 
-.pac-container { z-index: 10000 !important; }
+.pac-container {
+    z-index: 10000 !important;
+}
 
-#searchBar {
+#myInput {
     border-radius: .375rem;
 }
 
@@ -115,6 +118,7 @@ nav form input {
     color: white;
     border-radius: .375rem;
 }
+
 .album-container img {
     border-radius: .375rem;
 }
@@ -136,8 +140,8 @@ nav form input {
 .album-container .check-mark {
     display: none;
     font-size: 2em;
-    height:100%;
-    width:100%;
+    height: 100%;
+    width: 100%;
     background-color: rgba(153, 255, 0, 0.5);
     border-radius: .375rem;
 }
@@ -145,3 +149,72 @@ nav form input {
 #delete-image-button {
     text-decoration: none;
 }
+
+
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font: 16px Arial;
+  }
+  
+  
+  /*the container must be positioned relative:*/
+  
+  .autocomplete {
+    position: relative;
+    display: inline-block;
+  }
+  
+  input {
+    border: 1px solid transparent;
+    background-color: #f1f1f1;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  input[type=text] {
+    background-color: #f1f1f1;
+    width: 100%;
+  }
+  
+  input[type=submit] {
+    background-color: DodgerBlue;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+  }
+  
+  
+  /*when hovering an item:*/
+  
+  .autocomplete-items div:hover {
+    background-color: #e9e9e9;
+  }
+  
+  
+  /*when navigating through the items using the arrow keys:*/
+  
+  .autocomplete-active {
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+  }
