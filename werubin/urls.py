@@ -24,6 +24,12 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+
+
+api_urlpatterns = [
+    path('', include(('feeds.urls', 'feeds'), namespace='feeds')),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+]
 schema_view = get_schema_view(
     openapi.Info(
         title="WERUBIN API Documentation",
@@ -38,12 +44,12 @@ schema_view = get_schema_view(
         contact=openapi.Contact(email="contact@snippets.local"),
         license=openapi.License(name="BSD License"),
     ),
+    patterns=api_urlpatterns,
     public=True,
-    permission_classes=[permissions.AllowAny],
+    permission_classes=[permissions.IsAuthenticated],
 )
+urlpatterns = api_urlpatterns + [
 
-urlpatterns = [
-    path('', include(('feeds.urls', 'feeds'), namespace='feeds')),
     path('travels/', include(('travels.urls', 'travels'), namespace='travels')),
     path("users/", include(("users.urls", "users"), namespace="users")),
     path('admin/', admin.site.urls),
@@ -61,5 +67,4 @@ urlpatterns = [
         template_name='addToAlbumModal.js',
         content_type='text/javascript')
     ),
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
