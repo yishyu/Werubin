@@ -58,8 +58,8 @@
                     </div>
 
                     <div class="col-md-8">
-                        <label for="validationCustomDate" class="yellow-text form-label">Birth date {{user.birthdate}}</label>
-                         <input name="birthdate" type="date" class="form-control" id="validationCustomDate" value=user.birthdate required>
+                        <label for="validationCustomDate" class="yellow-text form-label">Birth date {{user.birthdate_input}}</label>
+                         <input name="birthdate" type="date" class="form-control" id="validationCustomDate" value={{user.birthdate_input}} required>
                     </div>
                     <div class="text-center mt-5">
                         <button class="submit-button btn yellow-bg text-light" type="submit">
