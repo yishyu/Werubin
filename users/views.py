@@ -97,7 +97,6 @@ def profile(request, username):
             birthdate_day = birthdate.split("-")[2]
             birthdate_save = dt.date(int(birthdate_year), int(birthdate_month), int(birthdate_day))
 
-
             print("the data ", data)
             user.first_name = first_name
             user.last_name = last_name
@@ -108,7 +107,8 @@ def profile(request, username):
             messages.add_message(
                 request, messages.SUCCESS, "Your informations were successfully updated !"
             )
-        else: 
+            return HttpResponseRedirect(reverse("users:profile", args=[username]))
+        else:
             messages.add_message(
                 request, messages.ERROR, "You can not update the information of someone else !"
             )
