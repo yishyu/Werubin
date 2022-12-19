@@ -9,5 +9,4 @@ urlpatterns = [
     path("user_exists/", views.user_exists, name="user_exists"),
     path("email_exists/", views.email_exists, name="email_exists"),
     path("road_map/", views.road_map, name="road_map"),
-
 ]

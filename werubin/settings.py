@@ -52,10 +52,10 @@ LOGIN_REDIRECT_URL = "feeds:front_feed"
 LOGOUT_REDIRECT_URL = LOGIN_URL
 AUTH_USER_MODEL = 'users.User'
 
-EMAIL_HOST = "ssl0.ovh.net"
+EMAIL_HOST = 'ssl0.ovh.net'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = env("EMAIL_HOST")
-EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+EMAIL_HOST_USER = 'werubin.yueat'
+EMAIL_HOST_PASSWORD = 'ab'
 EMAIL_USE_TLS = True
 
 # Application definition

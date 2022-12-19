@@ -85,6 +85,23 @@ def resetpass(request, key):
 @login_required
 def profile(request, username):
     user = get_object_or_404(User, username=username)
+    print(user.birthdate)
+    if request.method == "POST":
+        data = request.POST
+        if request.user.id == user.id:
+            first_name = data['first_name']
+            last_name = data['last_name']
+            print("the data ", data)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+            messages.add_message(
+                request, messages.SUCCESS, "Your informations were successfully updated !"
+            )
+        else: 
+            messages.add_message(
+                request, messages.ERROR, "You can not update the information of someone else !"
+            )
     followers = User.objects.filter(followers=user)  # user who are following this user
     return render(request, 'userProfile.html', locals())
 
@@ -114,3 +131,4 @@ def register_tag(request):
                     tag_qs.first()
                 )
     return HttpResponseRedirect(reverse("feeds:front_feed"))
+

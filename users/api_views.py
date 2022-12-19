@@ -98,8 +98,3 @@ def road_map(request):
     # we might want to show post information on the map so we prefer returning the post information instead of the location
     serializer = PostSerializer(posts, many=True)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
-
-
-@api_view(["GET"])
-def notification(request):
-    return
