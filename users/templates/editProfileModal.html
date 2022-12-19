@@ -24,21 +24,34 @@
 
                     <div class="row">
                         <div class="form-group mb-3 col-12">
-                            <label for="pictures" class="form-label yellow-text">Pictures (it will change your current profile picture)</label>
+                            <label for="pictures" class="form-label yellow-text">Pictures <br> (it will change your current profile picture)</label>
                             <input class="form-control" id="editPictures" type="file" name="profile_picture" accept="image/png, image/jpg, image/gif, image/jpeg">
                         </div>
                     </div>
-                    <label for="tagInputs" class="form-label yellow-text">Tags</label>
-                    <div id="tagInputs" class="row col-12">
-                        <div class="row">
-                            {%for tag in user.tags.all %}
-                            <div class="form-check m-2" style="font-size:1.2em">
-                                <input value="{{tag.name}}" type="checkbox" class="form-check-input tag" id="validationFormCheck{{tag.id}}" name="tag">
-                                <label class="form-check-label yellow-text" for="validationFormCheck{{tag.id}}">{{tag.name}} ({{tag.used_count}} posts)</label>
+                    <label for="tagInputs" class="form-label col-2 yellow-text">Tags</label>
+                    <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField()">
+                        +
+                    </div>
+                    <div id="tagInputs" class="row col-12 my-2">
+                        <div class="row" id="postTag0Row">
+                            <div class="form-group col-9">
+                                <input class="tagInput center form-control" id="postTag0" type="text" name="postTag" placeholder="Enter a tag...">
                             </div>
-                           {% endfor %}
                         </div>
                     </div>
+                    {%for tag in user.tags.all %}
+                    <div id="{{forloop.counter0}}postTagRow" class="row col-12 my-2">
+                        <div class="row" id="postTag0Row">
+                            <div class="form-group col-9">
+                                <input class="tagInput center form-control" id="{{forloop.counter0}}postTag" type="text" name="{{forloop.counter0}}postTag" placeholder="Enter a tag..." value="{{tag.name}}">
+                            </div>
+                            <div id="deleteTag" class="center ml-1 col-1 btn btn-outline-danger" onclick="deleteTagField({tagRow: '{{forloop.counter0}}postTagRow'})">
+                                x
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+    
                     <div class="col-md-6">
                         <label class="yellow-text form-label">Gender</label>
                         <div class="form-check">
