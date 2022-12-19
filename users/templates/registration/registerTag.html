@@ -8,7 +8,8 @@
 
 <div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5 {%endif%}">
     <i class="bi bi-person-fill yellow-text"></i>
-    <h1 class="right-column-title yellow-text">Pick You Tags</h1>
+    <h1 class="right-column-title yellow-text">What are you interests ?</h1>
+    <h5 class="right-column-title yellow-text">Pick all the tags you want</h5>
 </div>
 <form action="{% url 'users:register_tag'%}" method="POST" class="row g-3">
     {%include 'message.html'%}

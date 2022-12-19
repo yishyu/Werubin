@@ -26,7 +26,7 @@ TODO Edit Information
                             {% if user.profile_picture %}
                                 <img class="rounded-image" width=100% src={{user.profile_picture.url}}>
                             {% else %}
-                                <img class="rounded-image" width=100% src={% static 'img/profile_default.jpg'%}>
+                                <img class="rounded-image" width=100% src={% static 'img/profile_default.png'%}>
                             {% endif %}
                         </div>
                         <div class="col-6">
@@ -45,10 +45,16 @@ TODO Edit Information
                             </p>
                             {% if user == request.user %}
                             <button class="center btn btn-outline-warning my-2" type="submit">Edit profile</button>
-                            <button class="center btn btn-outline-warning my-2" onclick="openAlbumModal()">Add album</button>
                             <a href="{%url 'users:logout'%}"><button class="center btn btn-danger" type="submit">Logout</button></a>
                             {% else %}
-                            <button class="center btn btn-outline-warning" type="submit">Follow</button>
+
+
+                                <button id='followCurrentUserButton'class="center btn btn-outline-warning" onclick="onFollowClick('{{user.id}}', 'followCurrentUserButton')">
+                                    {%if user in request.user.followers.all%}
+                                        Unfollow
+                                    {%else%}
+                                        Follow
+                                    {%endif%}</button>
                             {% endif %}
                         </div>
                     </div>
@@ -64,9 +70,12 @@ TODO Edit Information
 
                     <div class="collapse dont-collapse-sm show" id="collapseExample">
                         <div class="card-body">
+                            {% if user == request.user%} <button class="center btn btn-outline-warning" onclick="openAlbumModal()">Add album</button>{%endif %}
                             <p class="yellow-darker-text center m-0">
                                 {{user.username}}'s Albums
+
                             </p>
+
                             <div class="d-flex justify-content-center row">
                                 <div class="row">
                                     {% for album in user.album_set.all %}
@@ -122,7 +131,7 @@ TODO Edit Information
 <script src="{% static 'js/albumModal.js'%}"></script>
 <script>
     var userId = {{user.id}}
-    var noAlbumPictureUrl = "{% static 'img/profile_default.jpg' %}"
+    var noAlbumPictureUrl = "{% static 'img/default_album.png' %}"
 </script>
 <script src="{% static 'js/userProfile.js'%}"></script>
 <script src="{% static 'js/addTagInput.js'%}"></script>

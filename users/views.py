@@ -44,14 +44,14 @@ def forgotpass(request):
         validity = dt.datetime.now() + dt.timedelta(hours=24)
         if user_qs.count() > 0:
             passforgot_obj = PasswordForgottenRequest.objects.create(user=user_qs.first(), validity_end=validity)
-            if not settings.DEBUG:
-                send_mail(
-                    'Werubin Password Recovery',
-                    f"Dear User, we received your request for a password reinitialisation. Please click on this link to reset your password: https://{request.META['HTTP_HOST']}/users/reset-password/{passforgot_obj.link}",
-                    settings.EMAIL_HOST_USER,
-                    [email],
-                    fail_silently=False,
-                )
+            #if not settings.DEBUG:
+            send_mail(
+                'Werubin Password Recovery',
+                f"Dear User, we received your request for a password reinitialisation. Please click on this link to reset your password: https://{request.META['HTTP_HOST']}/users/reset-password/{passforgot_obj.link}",
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,
+            )
             messages.add_message(
                 request, messages.SUCCESS, f"An email has been sent to {email}"
             )
