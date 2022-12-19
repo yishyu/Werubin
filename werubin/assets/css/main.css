@@ -164,6 +164,10 @@ input[type=text] {
     width: 100%;
 }
 
+#albumModalErrors.alert {
+    display:block
+}
+
 input[type=submit] {
     background-color: DodgerBlue;
     color: #fff;

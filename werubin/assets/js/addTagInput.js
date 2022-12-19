@@ -1,9 +1,13 @@
 var currentTagFieldId = 1
+function reset_tags(){
+    for (currentTagFieldId; currentTagFieldId > 0; currentTagFieldId--){
+        $(`#postTag${currentTagFieldId}Row`).remove()
+    }
+    currentTagFieldId = 1
+}
 function addNewTagField() {
     let tagFieldId = "postTag" + currentTagFieldId
     currentTagFieldId += 1
-
-    // $("#addTag").remove()
 
     let postTagHTML = `
         <div id="${tagFieldId}Row" class="row mt-1">

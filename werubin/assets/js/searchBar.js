@@ -58,7 +58,7 @@ async function autocomplete(inp) {
         b.innerHTML = "<strong class='blue-text'>#" + arr[i].elt.substr(0, val.length) + "</strong>";
       } else {
         if (arr[i].img == null){
-          b.innerHTML = `<strong class='yellow-text'><img class="round" src='/static/img/profile_default.jpg' height=20 width=20/> ${arr[i].elt.substr(0, val.length)}</strong>`;
+          b.innerHTML = `<strong class='yellow-text'><img class="round" src='/static/img/profile_default.png' height=20 width=20/> ${arr[i].elt.substr(0, val.length)}</strong>`;
         }else{
           b.innerHTML = `<strong class='yellow-text'><img class="round" src='${arr[i].img}' height=20 width=20/> ${arr[i].elt.substr(0, val.length)}</strong>`;
         }

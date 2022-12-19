@@ -53,9 +53,11 @@ def update_post(request, postId):
     # create tag and add to post
     for key in request.data.keys():
         if "postTag" in key:
-            tag, _ = Tag.objects.get_or_create(name=request.data[key].strip().replace(' ', ''))
-            if tag not in post.tags.all():
-                post.tags.add(tag)
+            tag_name = request.data[key].strip().replace(' ', '')
+            if tag_name != '':
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                if tag not in post.tags.all():
+                    post.tags.add(tag)
 
     # save image
     for file in request.FILES.getlist('pictures'):
@@ -94,9 +96,11 @@ def add_post(request):
     # create tag and add to post
     for key in request.data.keys():
         if "postTag" in key:
-            tag, _ = Tag.objects.get_or_create(name=request.data[key].strip().replace(' ', ''))
-            if tag not in post.tags.all():
-                post.tags.add(tag)
+            tag_name = request.data[key].strip().replace(' ', '')
+            if tag_name != '':
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                if tag not in post.tags.all():
+                    post.tags.add(tag)
 
     # save image
     for file in request.FILES.getlist('pictures'):
@@ -178,7 +182,7 @@ def add_album(request):
         name=request.data["albumName"]
     )
     if not created:
-        return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": f"An album with the name {request.data['albumName']} already exist"})
+        return Response(status=status.HTTP_200_OK, data={"message": f"An album with the name '{request.data['albumName']}' already exists"})
     serializer = AlbumSerializer(album)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
 

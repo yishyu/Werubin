@@ -19,7 +19,7 @@ class Post(models.Model):
             - has tags
     """
     MAX_LENGTH = 300
-    content = models.TextField("Text content")
+    content = models.TextField("Text content", blank=True, null=True)
     creation_date = models.DateTimeField("creation date", auto_now=False, auto_now_add=True)
     last_edited = models.DateTimeField("Last edit", auto_now=True, auto_now_add=False)
     author = models.ForeignKey("users.User", verbose_name="User", on_delete=models.CASCADE, related_name="author")
