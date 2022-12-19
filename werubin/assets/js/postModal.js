@@ -59,6 +59,7 @@ $('#post-modal').on('hidden.bs.modal', function () {
     $("#locate-me").prop('disabled', false);
     $("#postModalErrors").empty()
     $(".form-control").val("")
+    reset_tags()
 });
 
 $("#postForm").unbind().submit(function(e) {

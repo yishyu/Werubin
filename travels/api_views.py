@@ -53,9 +53,11 @@ def update_post(request, postId):
     # create tag and add to post
     for key in request.data.keys():
         if "postTag" in key:
-            tag, _ = Tag.objects.get_or_create(name=request.data[key].strip().replace(' ', ''))
-            if tag not in post.tags.all():
-                post.tags.add(tag)
+            tag_name = request.data[key].strip().replace(' ', '')
+            if tag_name != '':
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                if tag not in post.tags.all():
+                    post.tags.add(tag)
 
     # save image
     for file in request.FILES.getlist('pictures'):
@@ -94,9 +96,11 @@ def add_post(request):
     # create tag and add to post
     for key in request.data.keys():
         if "postTag" in key:
-            tag, _ = Tag.objects.get_or_create(name=request.data[key].strip().replace(' ', ''))
-            if tag not in post.tags.all():
-                post.tags.add(tag)
+            tag_name = request.data[key].strip().replace(' ', '')
+            if tag_name != '':
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                if tag not in post.tags.all():
+                    post.tags.add(tag)
 
     # save image
     for file in request.FILES.getlist('pictures'):
