@@ -10,7 +10,7 @@
                 </button>
               </div>
               <div class="modal-body" id="edit-profile-modal-body">
-                <form id="editProfileForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
+                <form enctype="multipart/form-data" id="editProfileForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
                     {% csrf_token %}
                     <div class="col-md-6">
                         <label for="validationCustom02" class="yellow-text form-label">First name</label>
@@ -25,13 +25,13 @@
                     <div class="row">
                         <div class="form-group mb-3 col-12">
                             <label for="pictures" class="form-label yellow-text">Pictures</label>
-                            <input value="{{user.profile_picture}}"class="form-control" id="editPictures" type="file" name="profile_picture" accept="image/png, image/jpg, image/gif, image/jpeg">
+                            <input class="form-control" id="editPictures" type="file" name="profile_picture" accept="image/png, image/jpg, image/gif, image/jpeg">
                         </div>
                     </div>
                     <label for="tagInputs" class="form-label yellow-text">Tags</label>
                     <div id="tagInputs" class="row col-12">
                         <div class="row">
-                            {%for tag in user.postTag%}
+                            {%for tag in user.tags.all %}
                             <div class="form-check m-2" style="font-size:1.2em">
                                 <input value="{{tag.name}}" type="checkbox" class="form-check-input tag" id="validationFormCheck{{tag.id}}" name="tag">
                                 <label class="form-check-label yellow-text" for="validationFormCheck{{tag.id}}">{{tag.name}} ({{tag.used_count}} posts)</label>
@@ -59,7 +59,7 @@
 
                     <div class="col-md-8">
                         <label for="validationCustomDate" class="yellow-text form-label">Birth date</label>
-                         <input name="birthdate" type="date" class="form-control" id="validationCustomDate" value={{user.birthdate_input}} required>
+                         <input name="birthdate" type="date" class="form-control" id="validationCustomDate" value='{{user.birthdate_input}}' required>
                     </div>
                     <div class="text-center mt-5">
                         <button class="submit-button btn yellow-bg text-light" type="submit">

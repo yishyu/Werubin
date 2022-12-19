@@ -103,10 +103,8 @@ def profile(request, username):
             user.last_name = last_name
             user.birthdate = birthdate_save
             user.gender = data['gender']
-            user.profile_picture = data['profile_picture']
+            user.profile_picture = request.FILES.get('profile_picture')
             
-    
-        
             #user.postTag = data['postTag']
             print("done")
             user.save()
