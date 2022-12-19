@@ -1,7 +1,9 @@
 {% load static %}
 
 <div id="albumContainer" class="album-container" onclick="albumModal({albumId: '{{album.id}}', title: '{{album.name}}', postids: '{% for i in album.posts.all %}{{i.id}} {% endfor %}'})">
-    <img width="100%" width="100%" src={% if album.posts.first.postimage_set.count == 0 or album.posts.all.count == 0 %}{% static 'img/default_album.png' %}{% else %}{{album.posts.first.postimage_set.first.image.url}}{% endif %}>
+    <img class="album-image" width="100%" width="100%" src={% if album.posts.first.postimage_set.count == 0 or album.posts.all.count == 0 %}{% static 'img/default_album.png' %}{% else %}{{album.posts.first.postimage_set.first.image.url}}{% endif %}>
     <div class="check-mark centered"><i class="fa fa-check-circle centered" aria-hidden="true"></i></div>
-    <div class="top-left">{{album.name}}</div>
+    <div class="middle">
+        <div class="album-name">{{album.name}}</div>
+    </div>
 </div>
