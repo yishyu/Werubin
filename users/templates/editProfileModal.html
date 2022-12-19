@@ -42,15 +42,15 @@
                     <div class="col-md-6">
                         <label class="yellow-text form-label">Gender</label>
                         <div class="form-check">
-                            <input value="F" type="radio" class="form-check-input" id="validationFormCheck1" name="gender" required>
+                            <input value="F" type="radio" class="form-check-input" id="validationFormCheck1" name="gender" required {%if user.gender == "F"%} checked {%endif%}>
                             <label class="form-check-label yellow-text" for="validationFormCheck1">Female</label>
                         </div>
                         <div class="form-check">
-                            <input value="M" type="radio" class="form-check-input" id="validationFormCheck2" name="gender" required>
+                            <input value="M" type="radio" class="form-check-input" id="validationFormCheck2" name="gender" required {%if user.gender == "M"%} checked {%endif%}>
                             <label class="form-check-label yellow-text" for="validationFormCheck2">Male</label>
                         </div>
                         <div class="form-check mb-3">
-                            <input value="O" type="radio" class="form-check-input" id="validationFormCheck3" name="gender" required>
+                            <input value="O" type="radio" class="form-check-input" id="validationFormCheck3" name="gender" required {%if user.gender == "O"%} checked {%endif%}>
                             <label class="form-check-label yellow-text" for="validationFormCheck3">Other</label>
                             <div class="invalid-feedback">Please select something.</div>
                         </div>
@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="col-md-8">
-                        <label for="validationCustomDate" class="yellow-text form-label">Birth date {{user.birthdate_input}}</label>
+                        <label for="validationCustomDate" class="yellow-text form-label">Birth date</label>
                          <input name="birthdate" type="date" class="form-control" id="validationCustomDate" value={{user.birthdate_input}} required>
                     </div>
                     <div class="text-center mt-5">

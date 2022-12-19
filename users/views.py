@@ -91,9 +91,19 @@ def profile(request, username):
         if request.user.id == user.id:
             first_name = data['first_name']
             last_name = data['last_name']
+            birthdate = data['birthdate']
+            birthdate_year = birthdate.split("-")[0]
+            birthdate_month = birthdate.split("-")[1]
+            birthdate_day = birthdate.split("-")[2]
+            birthdate_save = dt.date(int(birthdate_year), int(birthdate_month), int(birthdate_day))
+
+
             print("the data ", data)
             user.first_name = first_name
             user.last_name = last_name
+            user.birthdate = birthdate_save
+            user.gender = data['gender']
+            print("done")
             user.save()
             messages.add_message(
                 request, messages.SUCCESS, "Your informations were successfully updated !"
