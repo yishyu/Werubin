@@ -24,6 +24,8 @@ async function autocomplete(inp) {
   inp.addEventListener("input", async function(e) {
     var a, b, i, val = this.value;
 
+    if (!val) {return}
+
     let arrRaw = await $.ajax({
       url: `/travels/api/search-autocomplete/?search=${val}`,
       headers: {
@@ -31,17 +33,11 @@ async function autocomplete(inp) {
       }
     })
 
-    console.log(arrRaw)
-
     let arr = mergeArrays({arrayTags: arrRaw.tags, arrayUsers: arrRaw.users})
-
-    console.log(arr)
 
     /*close any already open lists of autocompleted values*/
     closeAllLists();
-    if (!val) {
-      return false;
-    }
+
     currentFocus = -1;
     /*create a DIV element that will contain the items (values):*/
     a = document.createElement("DIV");
@@ -71,8 +67,6 @@ async function autocomplete(inp) {
       /*execute a function when someone clicks on the item value (DIV element):*/
       b.addEventListener("click", function(e) {
         /*insert the value for the autocomplete text field:*/
-        console.log($(this).find("#valueHidden")[0].value)
-        console.log(this.getElementsByTagName("input"))
         inp.value = $(this).find("#valueHidden")[0].value;
 
         $("#searchBarInput").removeClass()
