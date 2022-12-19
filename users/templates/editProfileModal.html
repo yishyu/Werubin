@@ -1,0 +1,78 @@
+{% load static %}
+
+<div class="modal" id="edit-profile-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+              <div class="modal-header">
+                <h5 id="edit-profile-modal-title" class="modal-title">"Edit your profile"</h5>
+                <button type="button" class="close" onclick="closeEditProfileModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="edit-profile-modal-body">
+                <form id="editProfileForm" method="POST" {% if request.user_agent.is_mobile %} style="text-align:left" {% else %}class="ml-5 mr-5" {% endif %}>
+                    {% csrf_token %}
+                    <div class="col-md-6">
+                        <label for="validationCustom02" class="yellow-text form-label">First name</label>
+                        <input name="first_name" pattern="[a-zA-Z\s]{1,}" type="text" class="form-control" id="validationCustom02" value='{{user.first_name}}' required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="validationCustom02" class="yellow-text form-label">Last name</label>
+                        <input name="last_name" pattern="[a-zA-Z\s]{1,}" type="text" class="form-control" id="validationCustom02" value='{{user.last_name}}' required>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group mb-3 col-12">
+                            <label for="postPictures" class="form-label yellow-text">Pictures</label>
+                            <input value="{{user.postPictures}}"class="form-control" id="postPictures" type="file" name="pictures" multiple accept="image/png, image/gif, image/jpeg">
+                        </div>
+                    </div>
+                    <label for="tagInputs" class="form-label yellow-text">Tags</label>
+                    <div id="tagInputs" class="row col-12">
+                        <div class="row">
+                            <div class="form-group col-10">
+                                <input value="{{user.tagInputs}}" class="tagInput center form-control" id="postTag" type="text" name="postTag" placeholder="Enter a tag..." required>
+                            </div>
+                            <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField()">
+                                +
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="yellow-text form-label">Gender</label>
+                        <div class="form-check">
+                            <input value="F" type="radio" class="form-check-input" id="validationFormCheck1" name="gender" required>
+                            <label class="form-check-label yellow-text" for="validationFormCheck1">Female</label>
+                        </div>
+                        <div class="form-check">
+                            <input value="M" type="radio" class="form-check-input" id="validationFormCheck2" name="gender" required>
+                            <label class="form-check-label yellow-text" for="validationFormCheck2">Male</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input value="O" type="radio" class="form-check-input" id="validationFormCheck3" name="gender" required>
+                            <label class="form-check-label yellow-text" for="validationFormCheck3">Other</label>
+                            <div class="invalid-feedback">Please select something.</div>
+                        </div>
+                        <span class="text-danger">{{form.errors.gender}}</span>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label for="validationCustomDate" class="yellow-text form-label">Birth date {{user.birthdate}}</label>
+                         <input name="birthdate" type="date" class="form-control" id="validationCustomDate" value=user.birthdate required>
+                    </div>
+                    <div class="text-center mt-5">
+                        <button class="submit-button btn yellow-bg text-light" type="submit">
+                            Publish
+                        </button>
+                    </div>
+
+
+
+                </form>
+              </div>
+              <div class="modal-footer" id="edit-profile-modal-footer">
+              </div>
+        </div>
+    </div>
+</div>
