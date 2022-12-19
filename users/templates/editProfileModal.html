@@ -24,19 +24,19 @@
 
                     <div class="row">
                         <div class="form-group mb-3 col-12">
-                            <label for="postPictures" class="form-label yellow-text">Pictures</label>
-                            <input value="{{user.postPictures}}"class="form-control" id="postPictures" type="file" name="pictures" multiple accept="image/png, image/gif, image/jpeg">
+                            <label for="pictures" class="form-label yellow-text">Pictures</label>
+                            <input value="{{user.profile_picture}}"class="form-control" id="editPictures" type="file" name="profile_picture" accept="image/png, image/jpg, image/gif, image/jpeg">
                         </div>
                     </div>
                     <label for="tagInputs" class="form-label yellow-text">Tags</label>
                     <div id="tagInputs" class="row col-12">
                         <div class="row">
-                            <div class="form-group col-10">
-                                <input value="{{user.tagInputs}}" class="tagInput center form-control" id="postTag" type="text" name="postTag" placeholder="Enter a tag..." required>
+                            {%for tag in user.postTag%}
+                            <div class="form-check m-2" style="font-size:1.2em">
+                                <input value="{{tag.name}}" type="checkbox" class="form-check-input tag" id="validationFormCheck{{tag.id}}" name="tag">
+                                <label class="form-check-label yellow-text" for="validationFormCheck{{tag.id}}">{{tag.name}} ({{tag.used_count}} posts)</label>
                             </div>
-                            <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField()">
-                                +
-                            </div>
+                           {% endfor %}
                         </div>
                     </div>
                     <div class="col-md-6">
