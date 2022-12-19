@@ -95,7 +95,7 @@ class PostImage(models.Model):
         so that they don't overwrite another image having the same filename
     """
     post = models.ForeignKey("travels.Post", verbose_name="post", on_delete=models.CASCADE)
-    image = models.ImageField("image", upload_to="post/images", height_field=None, width_field=None, max_length=None, blank=True, null=True)
+    image = models.ImageField("image", upload_to="post/images", height_field=None, width_field=None, max_length=300, blank=True, null=True)
 
 
 class Album(models.Model):
