@@ -4,6 +4,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
               <div class="modal-header">
+                <h5 id="image-modal-title" class="modal-title"></h5>
                 <button type="button" class="close" onclick="closeModal('image-modal')">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,7 +19,15 @@
                             <i class="fa fa-arrow-circle-left fa-3x yellow-text" ></i>
                         </a>
                     </div>
-                    <div class="col-8"></div>
+                    <div class="col-3"></div>
+                    <div class="col-2">
+                        {% if user == request.user %}
+                        <a id="delete-image-button" href="javascript:void(0);" >
+                            <i class="fa fa-trash fa-3x center yellow-text" aria-hidden="true"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    <div class="col-3"></div>
                     <div class="col-2" id="next-button">
                         <a id="next-img" href="javascript:void(0);" >
                             <i class="fa fa-arrow-circle-right fa-3x yellow-text"></i>

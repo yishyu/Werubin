@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, get_list_or_404
@@ -9,8 +9,10 @@ from users.models import User
 from travels.models import Post, Comment
 from travels.decorators import has_postid
 
+from rest_framework.permissions import AllowAny
+from users.decorators import no_user
 
-@login_required
+
 @api_view(['GET'])
 def get_users(request):
     """
@@ -43,14 +45,12 @@ def get_users(request):
     return Response(status=status.HTTP_200_OK, data=data)
 
 
-@login_required
 @api_view(["GET"])
 def current_user(request):
     data = UserSerializer(request.user).data
     return Response(status=status.HTTP_200_OK, data=data)
 
 
-@login_required
 @api_view(["PUT"])
 def follow_user(request):
 
@@ -68,6 +68,7 @@ def follow_user(request):
 
 
 @api_view(["PUT"])
+@permission_classes([AllowAny, ])
 def user_exists(request):
     if User.objects.filter(username=request.data["username"]).count() > 0:
         data = {"user_exists": True}
@@ -76,7 +77,16 @@ def user_exists(request):
     return Response(status=status.HTTP_200_OK, data=data)
 
 
-@login_required
+@api_view(["PUT"])
+@permission_classes([AllowAny, ])
+def email_exists(request):
+    if User.objects.filter(email=request.data["email"].lower()).count() > 0:
+        data = {"email_exists": True}
+    else:
+        data = {"email_exists": False}
+    return Response(status=status.HTTP_200_OK, data=data)
+
+
 @api_view(["GET"])
 def road_map(request):
     """

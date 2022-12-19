@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block navbar %}
 <nav class="navbar navbar-expand-md navbar-light bg-light p-2">
     <div class="container">
         <div class="row center col-6 col-md-3">
-            <a style="font-size:2em" class="row yellow-link center" href="{% url 'feeds:front_feed'%}">
+            <a class="werubin-logo row yellow-link center" href="{% url 'feeds:front_feed'%}">
                 {%comment%}
                 TODO put an svg logo here
                 {%endcomment%}
@@ -27,17 +29,18 @@
 
                 </div>
 
-                <form class="center form-inline col-12 col-md-9 order-md-1 px-0">
+                <div class="center col-12 col-md-9 order-md-1 px-0">
                     <div class="row center mx-1">
-                        {%comment%}
-                        TODO autocomplete search of tag and username
-                        {%endcomment%}
-                        <input class="col-12 col-md-8 m-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="center btn btn-outline-warning" type="submit">Search</button>
+                        <div class="col-12 col-md-8 m-2 p-0 autocomplete">
+                            <input id="searchBarInput" type="text" placeholder="Enter a tag or a username here...">
+                            <input id="searchHidden" type="hidden"/>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
   </nav>
+  <script src="{% static 'js/searchBar.js' %}"></script>
+
   {%endblock%}

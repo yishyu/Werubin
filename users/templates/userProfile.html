@@ -1,0 +1,142 @@
+{% extends "navbar.html" %}
+{% load static %}
+{% block extrahead %}
+
+<!-- CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="{% static 'css/singlePostPage.css' %}">
+
+{% endblock %}
+{% block content %}
+{%comment %}
+TODO Edit Information
+{%endcomment%}
+<div class="container">
+    {%include 'message.html'%}
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-5">
+            <div class="row">
+                <div class="my-3 py-3 card">
+                    <div class="row" >
+                        <div class="col-6">
+                            {% if user.profile_picture %}
+                                <img class="rounded-image" width=100% src='{{user.profile_picture.url}}'>
+                            {% else %}
+                                <img class="rounded-image" width=100% src={% static 'img/profile_default.png'%}>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            <h3 class="yellow-darker-text">{{user.username}}</h3>
+                            <h6 class="yellow-darker-text">{{user.first_name}} {{user.last_name}}</h6>
+                            <p class="yellow-darker-text">
+                                Member since
+                                <br>
+                                {{user.date_joined}}
+                                <br>
+                                <br>
+                                <a class="yellow-link" onclick="openLikeShareModal({ modalType: 'followers', id: '{{user.id}}', username: '{{user.username}}'})" href="javascript:void(0);">{{followers.count}} follower{% if followers.count > 1 %}s{% endif %}</a>
+                                <br>
+                                <a class="yellow-link" onclick="openLikeShareModal({ modalType: 'following', id: '{{user.id}}', username: '{{user.username}}'})" href="javascript:void(0);">{{user.followers.all.count}} follow{% if user.followers.all.count > 1 %}s{% endif %}</a>
+                                <br>
+                            </p>
+                            {% if user == request.user %}
+                            <button class="center btn btn-outline-warning my-2" type="submit" onclick="openEditProfileModal()">Edit profile</button>
+
+                            <a href="{%url 'users:logout'%}"><button class="center btn btn-danger" type="submit">Logout</button></a>
+                            {% else %}
+
+
+                                <button id='followCurrentUserButton'class="center btn btn-outline-warning" onclick="onFollowClick('{{user.id}}', 'followCurrentUserButton')">
+                                    {%if user in request.user.followers.all%}
+                                        Unfollow
+                                    {%else%}
+                                        Follow
+                                    {%endif%}</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-0">
+                    <div class="card-header d-block d-md-none border-bottom-0">
+                        <h2>
+                            <button id="albumButton" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <i id="caret-icon" class="bi bi-caret-down"></i> Albums
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div class="collapse dont-collapse-sm show" id="collapseExample">
+                        <div class="card-body">
+                            {% if user == request.user%} <button class="center btn btn-outline-warning" onclick="openAlbumModal()">Add album</button>{%endif %}
+                            <p class="yellow-darker-text center m-0">
+                                {{user.username}}'s Albums
+
+                            </p>
+
+                            <span class="d-flex justify-content-center row">
+                                <div class="row">
+                                    {% for album in user.album_set.all %}
+
+                                    {% if forloop.counter0|divisibleby:3 %}
+                                </div>
+                                <div class="row">
+                                    {% endif %}
+                                    <div class="col-4 p-1">
+                                    {% include "album.html" %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-12 col-md-7">
+            <div class="card mt-4 p-1 bg-grey text-center">
+                <h1 class="yellow-text">
+                    <i class="fa fa-map-signs" aria-hidden="true"></i>
+                    Road Map
+                    <i class="fa fa-map-signs" aria-hidden="true"></i>
+                    </h1>
+                <div class="map" id="roadMap"></div>
+            </div>
+
+            {% if user == request.user %}
+                {% include "posts/postButton.html" %}
+                {% include "posts/albumModal.html"%}
+                {% include "editProfileModal.html"%}
+            {% endif %}
+            <div id="posts">
+            </div>
+            {% include "posts/postModal.html" %}
+            {% include "posts/likesSharesModal.html" %}
+            {% include "posts/imageModal.html"%}
+         </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+{% include "posts/post.html" %}
+<script src="{% static 'js/postModal.js'%}"></script>
+<script src="{% static 'js/imageModal.js'%}"></script>
+<script src="{% static 'js/albumModal.js'%}"></script>
+<script src="{% static 'js/editProfileModal.js'%}"></script>
+<script>
+    var userId = {{user.id}}
+    var noAlbumPictureUrl = "{% static 'img/default_album.png' %}"
+</script>
+<script src="{% static 'js/userProfile.js'%}"></script>
+<script src="{% static 'js/addTagInput.js'%}"></script>
+{% endblock %}

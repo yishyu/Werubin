@@ -1,0 +1,40 @@
+{% extends "registration/users.html" %}
+{% load static %}
+
+{% block title %}Registration Tag Page{% endblock title %}
+
+{% block second_part %}
+
+
+<div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5 {%endif%}">
+    <i class="bi bi-person-fill yellow-text"></i>
+    <h1 class="right-column-title yellow-text">What are you interests ?</h1>
+    <h5 class="right-column-title yellow-text">Pick all the tags you want</h5>
+</div>
+<form action="{% url 'users:register_tag'%}" method="POST" class="row g-3">
+    {%include 'message.html'%}
+
+    {% csrf_token %}
+
+    <div class="col-md-6">
+        {%for tag in tags%}
+            <div class="form-check m-2" style="font-size:1.2em">
+                <input value="{{tag.name}}" type="checkbox" class="form-check-input tag" id="validationFormCheck{{tag.id}}" name="tag">
+                <label class="form-check-label yellow-text" for="validationFormCheck{{tag.id}}">{{tag.name}} ({{tag.used_count}} posts)</label>
+            </div>
+        {% endfor %}
+        <span class="text-danger">{{form.errors.gender}}</span>
+    </div>
+
+    <div class="text-center mt-5">
+        <button class="submit-button yellow-bg text-light btn btn-primary" type="submit">Next</button>
+    </div>
+
+</form>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/addTagInput.js'%}"></script>
+<script src="{% static 'js/registration.js'%}"></script>
+{% endblock %}

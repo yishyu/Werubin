@@ -22,7 +22,6 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -48,13 +47,15 @@ CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS]
 
 ROOT_URLCONF = "werubin.urls"
 LOGIN_URL = "users:login"
+LOGOUT_URL = "users:logout"
 LOGIN_REDIRECT_URL = "feeds:front_feed"
+LOGOUT_REDIRECT_URL = LOGIN_URL
 AUTH_USER_MODEL = 'users.User'
 
-EMAIL_HOST = "ssl0.ovh.net"
+EMAIL_HOST = 'ssl0.ovh.net'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = env("EMAIL_HOST")
-EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+EMAIL_HOST_USER = 'werubin.yueat'
+EMAIL_HOST_PASSWORD = 'ab'
 EMAIL_USE_TLS = True
 
 # Application definition
@@ -74,7 +75,20 @@ INSTALLED_APPS = [
     'werubin',
     'rest_framework',
     'django_user_agents',
+    'drf_yasg',
+    'rest_framework.authtoken',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

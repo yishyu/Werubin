@@ -18,7 +18,8 @@ class Post(models.Model):
             - has a location
             - has tags
     """
-    content = models.TextField("Text content")
+    MAX_LENGTH = 300
+    content = models.TextField("Text content", blank=True, null=True)
     creation_date = models.DateTimeField("creation date", auto_now=False, auto_now_add=True)
     last_edited = models.DateTimeField("Last edit", auto_now=True, auto_now_add=False)
     author = models.ForeignKey("users.User", verbose_name="User", on_delete=models.CASCADE, related_name="author")
@@ -46,6 +47,10 @@ class Post(models.Model):
 
 class Tag(models.Model):
     name = models.CharField("name", max_length=50)
+
+    @property
+    def used_count(self):
+        return self.post_set.all().count()
 
     def __str__(self):
         return self.name

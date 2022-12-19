@@ -7,6 +7,6 @@ urlpatterns = [
     path("current_user/", views.current_user, name="current_user"),
     path("follow_user/", views.follow_user, name="follow_user"),
     path("user_exists/", views.user_exists, name="user_exists"),
+    path("email_exists/", views.email_exists, name="email_exists"),
     path("road_map/", views.road_map, name="road_map"),
-
 ]

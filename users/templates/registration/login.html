@@ -25,12 +25,14 @@
             <a class="yellow-text" href="{% url 'users:forgotpass' %}">Forgot Password ?</a>
         </div>
     </div>
+    <span class="text-danger">{{form.non_field_errors}}</span>
+
     <div class="text-center mt-5">
         <button class="submit-button btn yellow-bg text-light" type="submit">
             LOGIN
         </button>
     </div>
-    <div class="text-center mt-5">
+    <div class="text-center mt-5 mb-5">
         <a class="yellow-text" href="{% url 'users:register' %}">
             Create an account
         </a>

@@ -26,11 +26,7 @@ Variables used:
 
             {% include "posts/postButton.html" %}
 
-            <div class="feeds-buttons row justify-content-center">
-                <a id="ForYou" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #For you</h4></a>
-                <a id="Explore" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #Explore</h4></a>
-                <a id="Followers" href="javascript:void(0);" class="feed col-4 text-center yellow-text"><h4> #Followers</h4></a>
-            </div>
+            <h1 class="yellow-darker-text">#{{tag.name}}</h1>
             <div id="posts">
             </div>
 
@@ -42,8 +38,9 @@ Variables used:
 
 {% endblock %}
 {% block extra_js %}
+<script>var tag = '{{tag.name}}'</script>
 <script src="{% static 'js/postModal.js'%}"></script>
 <script src="{% static 'js/addTagInput.js'%}"></script>
-<script src="{% static 'js/feed.js'%}"></script>
+<script src="{% static 'js/tagFeed.js'%}"></script>
 {%include 'posts/post.html'%}
 {%endblock %}

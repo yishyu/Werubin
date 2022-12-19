@@ -5,29 +5,31 @@
 
 {% block second_part %}
 
+
 <div class="text-center {% if not request.user_agent.is_mobile %} mb-5 mt-5 {%endif%}">
     <i class="bi bi-person-fill yellow-text"></i>
     <h1 class="right-column-title yellow-text">REGISTRATION</h1>
 </div>
-<form class="row g-3 needs-validation" novalidate>
+<form action="{% url 'users:register'%}" method="POST" class="row g-3 needs-validation" novalidate>
+    {% csrf_token %}
     <div class="col-md-6">
         <label for="validationCustomUsername" class="yellow-text form-label">Username</label>
         <input onkeyup="userNameKeyPressed()" name="username" pattern="[a-zA-Z0-9][^-\s]{0,}" type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
-                required>
+                value='{{form.username.value|default_if_none:"" }}' required>
         <div class="valid-feedback">
             Looks good!
         </div>
         <div class="invalid-feedback">
             Please choose a username using only letters and digits. If this is the case, this username is already taken.
         </div>
+        <span class="text-danger">{{form.errors.username}}</span>
     </div>
     <div class="col-md-6">
         <label for="validationCustomEmail" class="yellow-text form-label">E-mail address</label>
         <div class="input-group has-validation">
             <span class="input-group-text" id="inputGroupPrepend">@</span>
-            <!--TODO extract css-->
-            <input name="email" style="border-top-right-radius: .375rem; border-bottom-right-radius: .375rem" type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend"
-                required>
+            <input onkeyup="emailKeyPressed()" name="email" type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend"
+                value='{{form.email.value|default_if_none:"" }}' required>
             <div class="valid-feedback">
                 Looks good!
             </div>
@@ -35,27 +37,30 @@
                 Please provide a valid e-mail address.
             </div>
         </div>
+        <div id='emailAlreadyTaken' class="text-danger">{{form.errors.email}}</div>
     </div>
-    
+
     <div class="col-md-6">
         <label for="validationCustom01" class="yellow-text form-label">First name</label>
-        <input name="first_name" pattern="[a-zA-Z\s]{1,}" type="text" class="form-control" id="validationCustom01" required>
+        <input name="first_name" pattern="[a-zA-Z\s]{1,}" type="text" class="form-control" id="validationCustom01" value='{{form.first_name.value|default_if_none:"" }}' required>
         <div class="valid-feedback">
             Looks good!
         </div>
         <div class="invalid-feedback">
             Please provide your first name using only use letters and spaces.
         </div>
+        <span class="text-danger">{{form.errors.first_name}}</span>
     </div>
     <div class="col-md-6">
         <label for="validationCustom02" class="yellow-text form-label">Last name</label>
-        <input name="last_name" pattern="[a-zA-Z\s]{1,}" type="text" class="form-control" id="validationCustom02" required>
+        <input name="last_name" pattern="[a-zA-Z\s]{1,}" type="text" class="form-control" id="validationCustom02" value='{{form.last_name.value|default_if_none:"" }}' required>
         <div class="valid-feedback">
             Looks good!
         </div>
         <div class="invalid-feedback">
             Please provide your last name only use letters and spaces.
         </div>
+        <span class="text-danger">{{form.errors.last_name}}</span>
     </div>
     <div class="col-md-6">
         <label class="yellow-text form-label">Gender</label>
@@ -72,17 +77,19 @@
             <label class="form-check-label yellow-text" for="validationFormCheck3">Other</label>
             <div class="invalid-feedback">Please select something.</div>
         </div>
+        <span class="text-danger">{{form.errors.gender}}</span>
     </div>
 
     <div class="col-md-6">
         <label for="validationCustomDate" class="yellow-text form-label">Birth date</label>
-        <input name="birthdate" type="date" class="form-control" id="validationCustomDate" required>
+        <input name="birthdate" type="date" class="form-control" id="validationCustomDate" value='{{form.birthdate.value|default_if_none:"" }}' required>
         <div class="valid-feedback">
             Looks good!
         </div>
         <div class="invalid-feedback">
             Please provide your birth date.
         </div>
+        <span class="text-danger">{{form.errors.birthdate}}</span>
     </div>
     <div class="col-md-6">
         <label for="validationCustomPw1" class="yellow-text form-label">Password</label>
@@ -93,6 +100,7 @@
         <div class="invalid-feedback">
             Please provide a password.
         </div>
+        <span class="text-danger">{{form.errors.password1}}</span>
     </div>
     <div class="col-md-6">
         <label for="validationCustomPw2" class="yellow-text form-label">Confirm Password</label>
@@ -103,10 +111,10 @@
         <div class="invalid-feedback">
             The passwords have to match.
         </div>
+        <span class="text-danger">{{form.errors.password2}}</span>
     </div>
-    
 
-
+    {% comment %}
     <label for="tagInputs" class="form-label yellow-text">Tags</label>
     <div id="tagInputs" class="row col-12">
         <div class="row">
@@ -119,20 +127,19 @@
                     Please enter at least one tag.
                 </div>
             </div>
-            <div id="addTag" style="height:fit-content" class="col-1 btn btn-outline-warning" onclick="addNewTagField()">
+            <div id="addTag" class="col-1 btn btn-outline-warning" onclick="addNewTagField()">
                 +
             </div>
         </div>
     </div>
+    {% endcomment %}
 
-
-    
     <div class="text-center mt-5">
         <button class="submit-button yellow-bg text-light btn btn-primary" type="submit">REGISTER</button>
     </div>
 
 </form>
-<div class="text-center mt-5">
+<div class="text-center mt-5 mb-5">
     <a class="yellow-text" href="{% url 'users:login' %}">
         I already have an account
     </a>
@@ -142,61 +149,5 @@
 
 {% block extra_js %}
 <script src="{% static 'js/addTagInput.js'%}"></script>
-<script>
-
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-
-    function comparePasswords() {
-        if ($("#password").val() != $("#confirmPassword").val()) {
-            $("#confirmPassword")[0].setCustomValidity("non")
-        } else {
-            $("#confirmPassword")[0].setCustomValidity("")
-        }
-    }
-
-    function userNameKeyPressed() {
-        var un = $("#validationCustomUsername").val()
-        let url = "{% url 'users:api:user_exists' %}"
-
-        $.ajax({
-            url: url,
-            type: 'PUT',
-            data: {
-                "username": un
-            },
-            headers: {
-                'X-CSRFToken': '{{csrf_token}}'
-            },
-            // username IS found => not ok
-            success: function (data) {
-                if (data["user_exists"]) {
-                    $("#validationCustomUsername")[0].setCustomValidity("pn")
-                } else {
-                    $("#validationCustomUsername")[0].setCustomValidity("")
-                }
-            }
-        })
-    }
-
-</script>
-
+<script src="{% static 'js/registration.js'%}"></script>
 {% endblock %}

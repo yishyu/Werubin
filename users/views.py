@@ -11,6 +11,9 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from users.decorators import no_user
+from django.contrib.auth import logout as django_logout
+from travels.models import Tag
+import os
 
 
 # Sign Up View
@@ -21,7 +24,7 @@ def registration(request):
         if form.is_valid():
             user = form.save()
             user.set_password(form.cleaned_data['password1'])
-            user.email = form.cleaned_data['email']
+            user.email = form.cleaned_data['email'].lower()
             user.save()
             authuser = authenticate(username=user.username, password=form.cleaned_data['password1'])
             if authuser:
@@ -29,8 +32,8 @@ def registration(request):
             return HttpResponseRedirect(reverse("feeds:front_feed"))
         else:
             return render(request, 'registration/registration.html', locals())
-
-    form = RegistrationForm()
+    else:
+        form = RegistrationForm()
     return render(request, 'registration/registration.html', locals())
 
 
@@ -42,14 +45,14 @@ def forgotpass(request):
         validity = dt.datetime.now() + dt.timedelta(hours=24)
         if user_qs.count() > 0:
             passforgot_obj = PasswordForgottenRequest.objects.create(user=user_qs.first(), validity_end=validity)
-            if not settings.DEBUG:
-                send_mail(
-                    'Werubin Password Recovery',
-                    f"Dear User, we received your request for a password reinitialisation. Please click on this link to reset your password: https://{request.META['HTTP_HOST']}/users/reset-password/{passforgot_obj.link}",
-                    settings.EMAIL_HOST_USER,
-                    [email],
-                    fail_silently=False,
-                )
+            #if not settings.DEBUG:
+            send_mail(
+                'Werubin Password Recovery',
+                f"Dear User, we received your request for a password reinitialisation. Please click on this link to reset your password: https://{request.META['HTTP_HOST']}/users/reset-password/{passforgot_obj.link}",
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,
+            )
             messages.add_message(
                 request, messages.SUCCESS, f"An email has been sent to {email}"
             )
@@ -58,7 +61,7 @@ def forgotpass(request):
             messages.add_message(
                 request, messages.ERROR, f"The email you entered ({email}) doesn't match any user in our database."
             )
-    return render(request, 'registration/forgotpass.html', locals())
+    return render(request, 'registration/forgotPass.html', locals())
 
 
 @no_user
@@ -74,14 +77,82 @@ def resetpass(request, key):
             )
             return HttpResponseRedirect(reverse("users:login"))
         else:
-            return render(request, 'registration/resetpass.html', locals())
+            return render(request, 'registration/resetPass.html', locals())
 
     form = ResetPasswordForm(user)
-    return render(request, 'registration/resetpass.html', locals())
+    return render(request, 'registration/resetPass.html', locals())
 
 
 @login_required
 def profile(request, username):
     user = get_object_or_404(User, username=username)
+    print(user.birthdate)
+    if request.method == "POST":
+        data = request.POST
+        if request.user.id == user.id:
+            birthdate = data['birthdate']
+            birthdate_year = birthdate.split("-")[0]
+            birthdate_month = birthdate.split("-")[1]
+            birthdate_day = birthdate.split("-")[2]
+            birthdate_save = dt.date(int(birthdate_year), int(birthdate_month), int(birthdate_day))
+            user.birthdate = birthdate_save
+
+            user.gender = data['gender']
+            user.first_name = data['first_name']
+            user.last_name = data['last_name']
+            if request.FILES.get('profile_picture'):
+                user.profile_picture = request.FILES.get('profile_picture')
+            # keys that contains postTag substring and for which the value is not an empty string
+            tag_keys = [key for key in data.keys() if ('postTag' in key and data[key].strip().replace(' ', '') != '')]
+
+            if len(tag_keys) == 0:
+                messages.add_message(
+                    request, messages.ERROR, "You need to choose at least one tag !"
+                )
+                return HttpResponseRedirect(reverse("users:profile", args=[username]))
+
+            user.tags.clear()
+            for key in tag_keys:      
+                tag_name = data[key].strip().replace(' ', '')
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                if tag not in user.tags.all():
+                    user.tags.add(tag)
+            user.save()
+            messages.add_message(
+                request, messages.SUCCESS, "Your informations were successfully updated !"
+            )
+            return HttpResponseRedirect(reverse("users:profile", args=[username]))
+        else:
+            messages.add_message(
+                request, messages.ERROR, "You can not update the information of someone else !"
+            )
     followers = User.objects.filter(followers=user)  # user who are following this user
-    return render(request, 'self_profile.html', locals())
+    return render(request, 'userProfile.html', locals())
+
+
+@login_required
+def logout(request):
+    messages.add_message(
+        request, messages.SUCCESS, "You were successfully logged out. We hope to see you soon !"
+    )
+    django_logout(request)
+    return HttpResponseRedirect(reverse("users:login"))
+
+
+@login_required
+def register_tag(request):
+    if request.method == "POST":
+        if len(request.POST.getlist('tag')) == 0:
+            messages.add_message(
+                request, messages.ERROR, "You need to at least pick one tag"
+            )
+            return HttpResponseRedirect(reverse("feeds:front_feed"))
+
+        for tag in request.POST.getlist('tag'):
+            tag_qs = Tag.objects.filter(name=tag)
+            if tag_qs.count() > 0:
+                request.user.tags.add(
+                    tag_qs.first()
+                )
+    return HttpResponseRedirect(reverse("feeds:front_feed"))
+

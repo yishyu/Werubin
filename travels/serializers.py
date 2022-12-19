@@ -11,6 +11,14 @@ class PostImageSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
+    posts = serializers.SerializerMethodField()
+
+    def get_posts(self, obj):
+        return PostSerializer(
+            obj.posts.all(),
+            many=True,
+        ).data
+
     class Meta:
         model = Album
         fields = "__all__"

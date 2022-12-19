@@ -1,0 +1,119 @@
+/*{% load static %}*/
+.users-section {
+    background: #ffffff;
+    height:100%;
+}
+
+.users-section .left-panel {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    
+}
+
+.users-section .left-panel .caption {
+    position: fixed;
+    min-width:50vw;
+    min-height:100vh;
+    position: fixed;
+    bottom: 20%;
+    top: 20%;
+    left: 0;
+    
+    /*transform: translate( -50%, 0% );*/
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.werubin-title {
+    font-weight:600;
+    font-size:5em;
+}
+
+.werubin-subtitle {
+    font-weight:400;
+    font-size:2em;
+    margin-top:25vh;
+}
+
+
+.users-section .desktop-right-panel {
+    height:80%;
+}
+
+@media (max-width:768px) {
+    .users-section {
+        background: rgba(0,0,0,0);
+    }
+}
+
+
+#rightPanelContainer {
+    width:80%;
+    height:100vh;
+    box-sizing:unse;
+}
+
+.users-section .bi-person-fill {
+    font-size:4em;
+}
+
+.users-section .right-column-title {
+    font-weight:600;
+}
+
+.users-section .forgot-pass-form {
+    text-align: left;
+}
+
+.users-section .submit-button {
+    width:80%;
+    font-weight: bold;
+    font-size:1.2em
+}
+
+/*https://stackoverflow.com/questions/43333495/text-over-image-responsive*/
+@media (max-width:768px) {
+    .users-section .left-panel .thumbnail {
+        background: url("{% static 'img/van.jpg'%}") left / cover no-repeat, var(--bs-white);
+        filter: brightness(50%);
+        display:float;
+
+        z-index: -1;
+        min-width:100vw;
+        min-height:100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+}
+
+@media (min-width:768px) {
+    .users-section .left-panel .thumbnail {
+        background: url("{% static 'img/van.jpg'%}") left / cover no-repeat, var(--bs-white);
+        filter: brightness(50%);
+        display:float;
+
+        min-width:50vw;
+        min-height:100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+}
+
+#validationCustomEmail {
+    border-top-right-radius: .375rem; 
+    border-bottom-right-radius: .375rem;
+}
+
+.resetpass-submit {
+    width: 80%;
+    font-weight: bold;
+    font-size: 1.2em
+}
+
+#addTag {
+    height: fit-content
+}

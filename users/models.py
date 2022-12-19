@@ -15,6 +15,13 @@ class User(AbstractUser):
     followers = models.ManyToManyField("User", verbose_name="Followers", blank=True)
     tags = models.ManyToManyField("travels.Tag", verbose_name="Preferred tags")
 
+    @property
+    def birthdate_input(self):
+        if self.birthdate:
+            
+            return f"{self.birthdate.year}-{self.birthdate.month:02d}-{self.birthdate.day:02d}"
+        return ""
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
