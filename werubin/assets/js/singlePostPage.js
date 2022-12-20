@@ -10,4 +10,3 @@ function single_post(){
         }
     })
 }
-single_post();
