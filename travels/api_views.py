@@ -4,7 +4,6 @@ from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from travels.models import Post, Comment, PostImage, Tag, Location, Album
 from travels.serializers import PostSerializer, CommentSerializer, AlbumSerializer, PostUserSerializer, TagSerializer
-from travels.forms import PostForm
 from django.shortcuts import get_object_or_404
 from travels.decorators import has_postid, has_commentId
 from users.models import User
