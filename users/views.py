@@ -67,6 +67,11 @@ def forgotpass(request):
 @no_user
 def resetpass(request, key):
     passforgot_obj = PasswordForgottenRequest.objects.get(link=key)  # 404 if not found
+    if dt.datetime.now() > passforgot_obj.validity_end:
+        messages.add_message(
+            request, messages.ERROR, "Sorry, this link has expired !"
+        )
+        return HttpResponseRedirect(reverse("users:login"))
     user = passforgot_obj.user
     if request.method == "POST":
         form = ResetPasswordForm(user, request.POST)
@@ -112,7 +117,7 @@ def profile(request, username):
                 return HttpResponseRedirect(reverse("users:profile", args=[username]))
 
             user.tags.clear()
-            for key in tag_keys:      
+            for key in tag_keys:
                 tag_name = data[key].strip().replace(' ', '')
                 tag, _ = Tag.objects.get_or_create(name=tag_name)
                 if tag not in user.tags.all():
