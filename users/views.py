@@ -91,7 +91,6 @@ def resetpass(request, key):
 @login_required
 def profile(request, username):
     user = get_object_or_404(User, username=username)
-    print(user.birthdate)
     if request.method == "POST":
         data = request.POST
         if request.user.id == user.id:
@@ -108,7 +107,7 @@ def profile(request, username):
             if request.FILES.get('profile_picture'):
                 user.profile_picture = request.FILES.get('profile_picture')
             # keys that contains postTag substring and for which the value is not an empty string
-            tag_keys = [key for key in data.keys() if ('postTag' in key and data[key].strip().replace(' ', '') != '')]
+            tag_keys = [key for key in data.keys() if ('userTag' in key and data[key].strip().replace(' ', '') != '')]
 
             if len(tag_keys) == 0:
                 messages.add_message(
