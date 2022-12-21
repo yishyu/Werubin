@@ -1,15 +1,21 @@
-var currentTagFieldId = 1
-function reset_tags(){
-    for (currentTagFieldId; currentTagFieldId > 0; currentTagFieldId--){
-        $(`#postTag${currentTagFieldId}Row`).remove()
-    }
-    currentTagFieldId = 1
+var ids = {
+    'user': 1,
+    'post': 1
 }
-function addNewTagField() {
-    let tagFieldId = "postTag" + currentTagFieldId
-    currentTagFieldId += 1
+function reset_tags(type){
+    let currentTagFieldId = ids[type]
+    for (currentTagFieldId; currentTagFieldId > 0; currentTagFieldId--){
+        $(`#${type}Tag${currentTagFieldId}Row`).remove()
+    }
+    ids[type] = 1
+}
 
-    let postTagHTML = `
+function addNewTagField(type) {
+    let currentTagFieldId = ids[type]
+    let tagFieldId = `${type}Tag${currentTagFieldId}`
+    ids[type] += 1
+
+    let TagHTML = `
         <div id="${tagFieldId}Row" class="row mt-1">
             <div class="form-group col-9">
                 <input class="tagInput center form-control" id="${tagFieldId}" type="text" name="${tagFieldId}" placeholder="Enter a tag...">
@@ -20,7 +26,7 @@ function addNewTagField() {
         </div>
     `
 
-    $("#tagInputs").append(postTagHTML)
+    $(`#${type}TagInputs`).append(TagHTML)
     return tagFieldId
 
 }
@@ -28,22 +34,3 @@ function addNewTagField() {
 function deleteTagField({tagRow}) {
     $(`#${tagRow}`).remove()
 }
-
-// https://stackoverflow.com/questions/46260312/how-to-submit-a-list-of-items-in-an-html-form
-
-$(document).ready(function() {
-    // on user clicks submit button, this code will be executed first
-    $('postForm').submit(function() {
-        // we'll take all values of the Two dropdown and put them in 1 string
-        var all_values = '';
-        for (let i = 0; i < currentTagFieldId; i++) {
-            let tagFieldId = "postTag" + currentTagFieldId
-            if(all_values !== '') {
-                all_values += $(tagFieldId).val();
-            } else {
-                all_values += ',' + $(tagFieldId).val();
-            }
-        }
-        $('#tags').val(all_values);
-    });
-});

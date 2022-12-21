@@ -29,29 +29,29 @@
                         </div>
                     </div>
                     <label for="tagInputs" class="form-label col-2 yellow-text">Tags</label>
-                    <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField()">
+                    <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField('user')">
                         +
                     </div>
-                    <div id="tagInputs" class="row col-12 my-2">
-                        <div class="row" id="postTag0Row">
+                    <div id="userTagInputs" class="row col-12 my-2">
+                        <div class="row" id="userTag0Row">
                             <div class="form-group col-9">
-                                <input class="tagInput center form-control" id="postTag0" type="text" name="postTag" placeholder="Enter a tag...">
+                                <input class="tagInput center form-control" id="userTag0" type="text" name="userTag" placeholder="Enter a tag...">
                             </div>
                         </div>
                     </div>
                     {%for tag in user.tags.all %}
-                    <div id="{{forloop.counter0}}postTagRow" class="row col-12 my-2">
-                        <div class="row" id="postTag0Row">
+                    <div id="{{forloop.counter0}}userTagRow" class="row col-12 my-2">
+                        <div class="row" id="userTag0Row">
                             <div class="form-group col-9">
-                                <input class="tagInput center form-control" id="{{forloop.counter0}}postTag" type="text" name="{{forloop.counter0}}postTag" placeholder="Enter a tag..." value="{{tag.name}}">
+                                <input class="tagInput center form-control" id="{{forloop.counter0}}userTag" type="text" name="{{forloop.counter0}}userTag" placeholder="Enter a tag..." value="{{tag.name}}">
                             </div>
-                            <div id="deleteTag" class="center ml-1 col-1 btn btn-outline-danger" onclick="deleteTagField({tagRow: '{{forloop.counter0}}postTagRow'})">
+                            <div id="deleteTag" class="center ml-1 col-1 btn btn-outline-danger" onclick="deleteTagField({tagRow: '{{forloop.counter0}}userTagRow'})">
                                 x
                             </div>
                         </div>
                     </div>
                     {% endfor %}
-    
+
                     <div class="col-md-6">
                         <label class="yellow-text form-label">Gender</label>
                         <div class="form-check">

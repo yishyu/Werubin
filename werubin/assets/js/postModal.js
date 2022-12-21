@@ -58,8 +58,8 @@ function openUpdateModal(post){
 $('#post-modal').on('hidden.bs.modal', function () {
     $("#locate-me").prop('disabled', false);
     $("#postModalErrors").empty()
-    $(".form-control").val("")
-    reset_tags()
+    $("#post-modal .form-control").val("")
+    reset_tags('post')
 });
 
 $("#postForm").unbind().submit(function(e) {
