@@ -42,7 +42,7 @@ function openUpdateModal(post){
     // Tags
     $("#postTag0").val(post.tags[0].name)
     for (var i=1; i < post.tags.length; i++){
-        var tagId = addNewTagField()
+        var tagId = addNewTagField('post')
         $(`#${tagId}`).val(post.tags[i].name)
     }
     // Api

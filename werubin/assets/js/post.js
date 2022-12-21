@@ -59,10 +59,6 @@ function delete_post(postid, divpostid){
 
 }
 
-function edit_post_modal({postId, divId}){
-    openPostModal();
-}
-
 function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
     /*
         Adds a single post to the DOM
@@ -208,7 +204,6 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
         })
     }
 
-    onclick="edit_post_modal({postId: '${post.id}', divId: '${div_id}'})"
     if (typeof post.shares.id == 'undefined'){
         $(`#editPost${post.id}`).unbind().click(function(e){
             openUpdateModal(post)
