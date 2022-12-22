@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 from users.decorators import no_user
 from django.contrib.auth import logout as django_logout
 from travels.models import Tag
+import os
 
 
 # Sign Up View
@@ -89,16 +90,39 @@ def profile(request, username):
     if request.method == "POST":
         data = request.POST
         if request.user.id == user.id:
-            first_name = data['first_name']
-            last_name = data['last_name']
-            print("the data ", data)
-            user.first_name = first_name
-            user.last_name = last_name
+            birthdate = data['birthdate']
+            birthdate_year = birthdate.split("-")[0]
+            birthdate_month = birthdate.split("-")[1]
+            birthdate_day = birthdate.split("-")[2]
+            birthdate_save = dt.date(int(birthdate_year), int(birthdate_month), int(birthdate_day))
+            user.birthdate = birthdate_save
+
+            user.gender = data['gender']
+            user.first_name = data['first_name']
+            user.last_name = data['last_name']
+            if request.FILES.get('profile_picture'):
+                user.profile_picture = request.FILES.get('profile_picture')
+            # keys that contains postTag substring and for which the value is not an empty string
+            tag_keys = [key for key in data.keys() if ('postTag' in key and data[key].strip().replace(' ', '') != '')]
+
+            if len(tag_keys) == 0:
+                messages.add_message(
+                    request, messages.ERROR, "You need to choose at least one tag !"
+                )
+                return HttpResponseRedirect(reverse("users:profile", args=[username]))
+
+            user.tags.clear()
+            for key in tag_keys:      
+                tag_name = data[key].strip().replace(' ', '')
+                tag, _ = Tag.objects.get_or_create(name=tag_name)
+                if tag not in user.tags.all():
+                    user.tags.add(tag)
             user.save()
             messages.add_message(
                 request, messages.SUCCESS, "Your informations were successfully updated !"
             )
-        else: 
+            return HttpResponseRedirect(reverse("users:profile", args=[username]))
+        else:
             messages.add_message(
                 request, messages.ERROR, "You can not update the information of someone else !"
             )

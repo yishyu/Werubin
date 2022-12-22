@@ -18,7 +18,8 @@ class User(AbstractUser):
     @property
     def birthdate_input(self):
         if self.birthdate:
-            return f"{self.birthdate.year}-{self.birthdate.month}-{self.birthdate.day}"
+            
+            return f"{self.birthdate.year}-{self.birthdate.month:02d}-{self.birthdate.day:02d}"
         return ""
 
     def __str__(self):

@@ -57,7 +57,7 @@ class Tag(models.Model):
 
 
 class Location(models.Model):
-    name = models.CharField("Location Place Name", max_length=50)
+    name = models.CharField("Location Place Name", max_length=250)
     lat = models.CharField("latitude", max_length=50, null=True, blank=True)
     lng = models.CharField("longitude", max_length=50, null=True, blank=True)
 
@@ -95,7 +95,7 @@ class PostImage(models.Model):
         so that they don't overwrite another image having the same filename
     """
     post = models.ForeignKey("travels.Post", verbose_name="post", on_delete=models.CASCADE)
-    image = models.ImageField("image", upload_to="post/images", height_field=None, width_field=None, max_length=None, blank=True, null=True)
+    image = models.ImageField("image", upload_to="post/images", height_field=None, width_field=None, max_length=300, blank=True, null=True)
 
 
 class Album(models.Model):
@@ -104,5 +104,5 @@ class Album(models.Model):
 
     """
     user = models.ForeignKey("users.User", verbose_name="User", on_delete=models.CASCADE)
-    name = models.CharField("Title", max_length=100)
+    name = models.CharField("Title", max_length=250)
     posts = models.ManyToManyField("travels.Post", verbose_name="posts")
