@@ -65,7 +65,7 @@ function delete_post(postid, divpostid){
 
 }
 
-function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
+function addPost(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
     /*
         Adds a post to the DOM
 
