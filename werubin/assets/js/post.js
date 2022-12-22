@@ -157,7 +157,7 @@ function addPost(post, append){  // if append is false, we prepend, all new post
                 <div class="d-flex justify-content-between align-items-center yellow-text">
                     <div class="row media-buttons d-flex align-items-center text-center">
                         <span class="col">
-                            <a id="like-button${post.id}" href="javascript:void(0);" onclick="like_post(${post.id})" class="col ${like_color}">
+                            <a id="like-button${post.id}" href="javascript:void(0);" onclick="likePost(${post.id})" class="col ${like_color}">
                                 <i class="bi bi-hand-thumbs-up-fill"></i>Like
                             </a>
                         </span>
@@ -167,7 +167,7 @@ function addPost(post, append){  // if append is false, we prepend, all new post
                             </a>
                         </span>
                         <span class="col">
-                            <a id="share-button${post.id}" href="javascript:void(0);" onclick="share_post(${post.id})" class="col ${share_color}">
+                            <a id="share-button${post.id}" href="javascript:void(0);" onclick="sharePost(${post.id})" class="col ${share_color}">
                                 <i class="fa fa-share"></i>Share
                             </a>
                         </span>
@@ -222,7 +222,7 @@ function addPost(post, append){  // if append is false, we prepend, all new post
 
 }
 
-function like_post(postId){
+function likePost(postId){
     /*
         Toggle like on a post
         Sends the request to the backend and dynamically renders the frontend
@@ -261,7 +261,7 @@ function like_post(postId){
     })
 }
 
-function share_post(postId){
+function sharePost(postId){
     /*
         Share a post by sending the request to the backend, gets the new shared post
         and renders it dynamically in the feed
@@ -300,7 +300,7 @@ function share_post(postId){
     })
 }
 
-function add_comment(postId, comment){
+function addComment(postId, comment){
     /*
         Add one row for one comment inside one post
     */
@@ -312,7 +312,7 @@ function add_comment(postId, comment){
             <span class="name"><a href="#" class="yellow-link"><u>${comment.author.username}</u></a></span>
             <span class="comment-text yellow-darker-text">${comment.content}</span>
             <div class="d-flex flex-row align-items-center status yellow-text">
-                <small><a id="comment-like-button${comment.id}" href="javascript:void(0);" onclick="like_comment(${comment.id})" class="${like_color}"><i class="bi bi-hand-thumbs-up-fill"></i> Like</a></small>
+                <small><a id="comment-like-button${comment.id}" href="javascript:void(0);" onclick="likeComment(${comment.id})" class="${like_color}"><i class="bi bi-hand-thumbs-up-fill"></i> Like</a></small>
                 <small class="yellow-darker-text">${comment.time_ago}</small>
                 <small>
                     <a id="comment-like-count${comment.id}"class="yellow-link" onclick="openLikeShareModal({ modalType: 'comment-liked', id: '${comment.id}', username: '${comment.author.username}'})" href="javascript:void(0);">
@@ -337,7 +337,7 @@ function toggle_comment(postId){
             success: function(data){
                 $(`#Comments${postId}`).empty() // empty comments
                 for (var comment of data ){
-                    add_comment(postId, comment)
+                    addComment(postId, comment)
                 }
                 $(`#collapseComment${postId}`).collapse('show');
             }
@@ -366,13 +366,13 @@ function send_comment(postId){
             'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
         },
         success: function(comment){
-            add_comment(postId, comment)
+            addComment(postId, comment)
             $(`#comment-input${postId}`).val("");
         }
     })
 }
 
-function like_comment(commentId){
+function likeComment(commentId){
     /*
         Same logic as the post like but with comments
     */
@@ -407,7 +407,7 @@ function like_comment(commentId){
     })
 }
 
-function paginated_feed({feed_type, offset, limit, parameters=""}){
+function paginatedFeed({feed_type, offset, limit, parameters=""}){
     /*
         Loads posts with offset and limit
     */

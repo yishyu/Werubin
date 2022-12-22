@@ -1,25 +1,7 @@
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-        })
-})()
-
 function comparePasswords() {
+    /**
+     * compares the 2 passwords for the 2 input fields
+     */
     if ($("#password").val() != $("#confirmPassword").val()) {
         $("#confirmPassword")[0].setCustomValidity("Passwords must match")
     } else {
@@ -28,6 +10,9 @@ function comparePasswords() {
 }
 
 function userNameKeyPressed() {
+    /**
+     * check if the username is available each time a keyup event is fired
+     */
     var un = $("#validationCustomUsername").val()
     let url = "/users/api/user_exists/"
 
@@ -50,7 +35,11 @@ function userNameKeyPressed() {
         }
     })
 }
+
 function emailKeyPressed() {
+    /**
+     * check if the email is available each time a keyup event is fired
+     */
     var un = $("#validationCustomEmail").val()
     let url = "/users/api/email_exists/"
 
