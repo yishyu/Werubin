@@ -14,6 +14,9 @@ function feed(feed_type){
 }
 
 function get_feed_type(){
+    /*
+        Get the feed type from the anchor
+    */
     var hash = $(location).attr('hash');
     if (hash === ""){
         history.pushState(null,null, '#ForYou');

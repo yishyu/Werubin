@@ -17,13 +17,15 @@ function initMap(post) {
         }
     );
     var infoWindow = new google.maps.InfoWindow();
+    // Create a marker and set its position based on the post location
     var marker = new google.maps.Marker({
         id: post.id,
         position: position,
         title: post.location.name,
         map: map,
     })
-
+    // When the user clicks on the marker, the map zooms in and the info window is shown
+    // containing information about the current weather at the location and information about the post
     marker.addListener("click", () => {
         map.setZoom(16)
         map.panTo(marker.getPosition())
@@ -41,6 +43,10 @@ function initMap(post) {
 }
 
 function delete_post(postid, divpostid){
+    /*
+        Deletes a post from the DOM and from the database
+        asks for confirmation before deleting
+    */
     if (confirm('Are you sure you want to delete this post? This action is not reversible')) {
         $.ajax({
             url: '/travels/api/post/delete/',
@@ -65,7 +71,8 @@ function edit_post_modal({postId, divId}){
 
 function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
     /*
-        Adds a single post to the DOM
+        Adds a post to the DOM
+
     */
     var picture  = post.author.profile_picture ? post.author.profile_picture: defaultProfilePictureUrl
     var description = post.shares.id ? `shared post <a id=sharedPostLink${post.id} href="/travels/post/${post.shares.id}">${post.shares.id}</a> from ${post.shares.author.username}`: `was in <b ><u><a class="yellow-text" href="http://maps.google.com/?q=${post.location.name}" target="_blank">${post.location.name}</a></u></b>`
@@ -208,7 +215,6 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
         })
     }
 
-    onclick="edit_post_modal({postId: '${post.id}', divId: '${div_id}'})"
     if (typeof post.shares.id == 'undefined'){
         $(`#editPost${post.id}`).unbind().click(function(e){
             openUpdateModal(post)

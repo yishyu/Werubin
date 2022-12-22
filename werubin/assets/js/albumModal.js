@@ -7,6 +7,9 @@ function openAlbumModal() {
 }
 
 $("#publishAlbumButton").unbind().click(async function () {
+    /*
+        Add a new album to the database
+    */
     let albumName = $("#albumName").val()
     let response = await $.ajax({
         url: "/travels/api/post/add-album/",
@@ -19,6 +22,9 @@ $("#publishAlbumButton").unbind().click(async function () {
         }
     })
     if (response.message) {
+        /*
+            Display message if there is an error
+         */
         $("#albumModalErrors").removeClass()
         $("#albumModalErrors").addClass("alert alert-danger")
         $("#albumModalErrors").html(response.message)

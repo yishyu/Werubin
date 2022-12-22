@@ -1,6 +1,13 @@
 var autocomplete;
 
 function initGoogle(){
+    /*
+    * This function is called when the google maps api is loaded
+    * It initializes the autocomplete input
+    * It also adds a listener on the locate me button
+    * When the button is clicked, it gets the current location and fills the input with the address
+    * It also fills the lat and lng hidden inputs that are needed for the post
+    */
     initAutocomplete();
     $("#locate-me").unbind().click(() => {
         var onError = function(error) {
@@ -28,6 +35,7 @@ function initGoogle(){
     })
 }
 function initAutocomplete() {
+
     autocomplete = new google.maps.places.Autocomplete(
         document.getElementById('googleAutocomplete'));
     // add listener on the input
@@ -35,6 +43,10 @@ function initAutocomplete() {
 }
 
 function checkAddress() {
+    /*
+    * This function is called when the user selects an address in the autocomplete input
+    * It gets the lat and lng of the address and fills the hidden inputs
+    */
     // Get the place details from the autocomplete object.
     $("#locate-me").prop('disabled', false);
     var place = autocomplete.getPlace();
@@ -54,6 +66,9 @@ function checkAddress() {
 
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    /*
+    * This function is called when the geolocation service fails
+    */
     var error = browserHasGeolocation ? "Error: The Geolocation service failed." : "Error: Your browser doesn't support geolocation."
     console.log(error)
 }

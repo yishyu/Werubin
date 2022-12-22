@@ -1,11 +1,17 @@
 var currentTagFieldId = 1
 function reset_tags(){
+    /*
+        Remove all tag fields in the modal form
+    */
     for (currentTagFieldId; currentTagFieldId > 0; currentTagFieldId--){
         $(`#postTag${currentTagFieldId}Row`).remove()
     }
     currentTagFieldId = 1
 }
 function addNewTagField() {
+    /*
+        Add a new tag field to the modal form
+    */
     let tagFieldId = "postTag" + currentTagFieldId
     currentTagFieldId += 1
 
@@ -26,24 +32,8 @@ function addNewTagField() {
 }
 
 function deleteTagField({tagRow}) {
+    /*
+        Delete a tag field from the modal form
+    */
     $(`#${tagRow}`).remove()
 }
-
-// https://stackoverflow.com/questions/46260312/how-to-submit-a-list-of-items-in-an-html-form
-
-$(document).ready(function() {
-    // on user clicks submit button, this code will be executed first
-    $('postForm').submit(function() {
-        // we'll take all values of the Two dropdown and put them in 1 string
-        var all_values = '';
-        for (let i = 0; i < currentTagFieldId; i++) {
-            let tagFieldId = "postTag" + currentTagFieldId
-            if(all_values !== '') {
-                all_values += $(tagFieldId).val();
-            } else {
-                all_values += ',' + $(tagFieldId).val();
-            }
-        }
-        $('#tags').val(all_values);
-    });
-});
