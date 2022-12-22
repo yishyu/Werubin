@@ -17,13 +17,15 @@ function initMap(post) {
         }
     );
     var infoWindow = new google.maps.InfoWindow();
+    // Create a marker and set its position based on the post location
     var marker = new google.maps.Marker({
         id: post.id,
         position: position,
         title: post.location.name,
         map: map,
     })
-
+    // When the user clicks on the marker, the map zooms in and the info window is shown
+    // containing information about the current weather at the location and information about the post
     marker.addListener("click", () => {
         map.setZoom(16)
         map.panTo(marker.getPosition())
@@ -41,6 +43,10 @@ function initMap(post) {
 }
 
 function delete_post(postid, divpostid){
+    /*
+        Deletes a post from the DOM and from the database
+        asks for confirmation before deleting
+    */
     if (confirm('Are you sure you want to delete this post? This action is not reversible')) {
         $.ajax({
             url: '/travels/api/post/delete/',
@@ -61,8 +67,11 @@ function delete_post(postid, divpostid){
 
 function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
     /*
-        Adds a single post to the DOM
+        Adds a post to the DOM
+
     */
+
+    // get all the values needed to display a post
     var picture  = post.author.profile_picture ? post.author.profile_picture: defaultProfilePictureUrl
     var description = post.shares.id ? `shared post <a id=sharedPostLink${post.id} href="/travels/post/${post.shares.id}">${post.shares.id}</a> from ${post.shares.author.username}`: `was in <b ><u><a class="yellow-text" href="http://maps.google.com/?q=${post.location.name}" target="_blank">${post.location.name}</a></u></b>`
     var tags_html = ""
@@ -86,13 +95,13 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     <button class="dropdown-item" type="button" onclick="openAddToAlbumModal({postId: '${post.id}'})"><i class="fa fa-plus-square yellow-text" aria-hidden="true"></i> Add to album </button>
     <button class="dropdown-item" type="button" id="editPost${post.id}"><i class="fa fa-pencil-square-o yellow-text" aria-hidden="true"></i> Edit Post </button>
     ` : ``
-
+    // inject variables into HTML that is repeated to create a feed
     var edit_post = (post.author.id == requestUserId) ? `
         <div class="btn-group dropright">
                 <i class="fa fa-ellipsis-h yellow-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <div class="dropdown-menu">
                 ${edit_addalbum_buttons}
-                <button class="dropdown-item" type="button" onclick="delete_post('${post.id}', '${div_id}')"><i class="fa fa-times text-danger" aria-hidden="true"></i> Delete Post</button>
+                <button class="dropdown-item" type="button" onclick="deletePost('${post.id}', '${div_id}')"><i class="fa fa-times text-danger" aria-hidden="true"></i> Delete Post</button>
                 <a class="yellow-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><button class="dropdown-item" type="button">🥳🥳 Surprise ?</button></a>
             </div>
         </div>
@@ -148,7 +157,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
                 <div class="d-flex justify-content-between align-items-center yellow-text">
                     <div class="row media-buttons d-flex align-items-center text-center">
                         <span class="col">
-                            <a id="like-button${post.id}" href="javascript:void(0);" onclick="like_post(${post.id})" class="col ${like_color}">
+                            <a id="like-button${post.id}" href="javascript:void(0);" onclick="likePost(${post.id})" class="col ${like_color}">
                                 <i class="bi bi-hand-thumbs-up-fill"></i>Like
                             </a>
                         </span>
@@ -158,7 +167,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
                             </a>
                         </span>
                         <span class="col">
-                            <a id="share-button${post.id}" href="javascript:void(0);" onclick="share_post(${post.id})" class="col ${share_color}">
+                            <a id="share-button${post.id}" href="javascript:void(0);" onclick="sharePost(${post.id})" class="col ${share_color}">
                                 <i class="fa fa-share"></i>Share
                             </a>
                         </span>
@@ -200,7 +209,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     // img modal events
     for (var image of post.images){
         $(`#postimg${image.id}`).unbind().click(function(e){
-            open_images({postId: post.id, title: post.author.username + " was in " + post.location.name, imageArray: post.images, imageurl: $(this).attr('src')})
+            openImages({postId: post.id, title: post.author.username + " was in " + post.location.name, imageArray: post.images, imageurl: $(this).attr('src')})
         })
     }
 
@@ -212,7 +221,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
 
 }
 
-function like_post(postId){
+function likePost(postId){
     /*
         Toggle like on a post
         Sends the request to the backend and dynamically renders the frontend
@@ -251,7 +260,7 @@ function like_post(postId){
     })
 }
 
-function share_post(postId){
+function sharePost(postId){
     /*
         Share a post by sending the request to the backend, gets the new shared post
         and renders it dynamically in the feed
@@ -283,14 +292,14 @@ function share_post(postId){
                 msg += " share"
 
             share_display_obj.text(msg)
-            add_post(data, false)
+            addPost(data, false)
 
 
         }
     })
 }
 
-function add_comment(postId, comment){
+function addComment(postId, comment){
     /*
         Add one row for one comment inside one post
     */
@@ -302,7 +311,7 @@ function add_comment(postId, comment){
             <span class="name"><a href="/users/profile/${comment.author.username}" class="yellow-link"><u>${comment.author.username}</u></a></span>
             <span class="comment-text yellow-darker-text">${comment.content}</span>
             <div class="d-flex flex-row align-items-center status yellow-text">
-                <small><a id="comment-like-button${comment.id}" href="javascript:void(0);" onclick="like_comment(${comment.id})" class="${like_color}"><i class="bi bi-hand-thumbs-up-fill"></i> Like</a></small>
+                <small><a id="comment-like-button${comment.id}" href="javascript:void(0);" onclick="likeComment(${comment.id})" class="${like_color}"><i class="bi bi-hand-thumbs-up-fill"></i> Like</a></small>
                 <small class="yellow-darker-text">${comment.time_ago}</small>
                 <small>
                     <a id="comment-like-count${comment.id}"class="yellow-link" onclick="openLikeShareModal({ modalType: 'comment-liked', id: '${comment.id}', username: '${comment.author.username}'})" href="javascript:void(0);">
@@ -327,7 +336,7 @@ function toggle_comment(postId){
             success: function(data){
                 $(`#Comments${postId}`).empty() // empty comments
                 for (var comment of data ){
-                    add_comment(postId, comment)
+                    addComment(postId, comment)
                 }
                 $(`#collapseComment${postId}`).collapse('show');
             }
@@ -356,13 +365,13 @@ function send_comment(postId){
             'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
         },
         success: function(comment){
-            add_comment(postId, comment)
+            addComment(postId, comment)
             $(`#comment-input${postId}`).val("");
         }
     })
 }
 
-function like_comment(commentId){
+function likeComment(commentId){
     /*
         Same logic as the post like but with comments
     */
@@ -397,7 +406,7 @@ function like_comment(commentId){
     })
 }
 
-function paginated_feed({feed_type, offset, limit, parameters=""}){
+function paginatedFeed({feed_type, offset, limit, parameters=""}){
     /*
         Loads posts with offset and limit
     */
@@ -405,7 +414,7 @@ function paginated_feed({feed_type, offset, limit, parameters=""}){
         url: `/api/feed/?type=${feed_type}&offset=${offset}&limit=${limit}${parameters}`,
         success: function(data){
             for (var post of data){
-                add_post(post, true)
+                addPost(post, true)
             }
             if (data.length > 0){
                 $(`#${post.id}postDiv`).addClass("bottomPost")  // last post gets tagged bottomPost

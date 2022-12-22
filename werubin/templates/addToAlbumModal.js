@@ -22,6 +22,7 @@ async function openAddToAlbumModal({ postId }) {
 
     let albumHtml = `<div class="col-4 p-1">{% include "album.html" %}</div>`
     let i = 0;
+    // shows all the albums and binds functions to them
     for (; i < albumsArray.length; i++) {
         let pic = (albumsArray[i].posts.length == 0 || albumsArray[i].posts[0].images.length == 0) ? noAlbumPictureUrl : albumsArray[i].posts[0].images[0].image
         let rowId = "addToAlbumRow_" + postId
@@ -45,9 +46,10 @@ async function openAddToAlbumModal({ postId }) {
         
         let albumId = albumsArray[i].id
 
+        // toggle the selection icon on click
         $(`#${containerId}`).unbind().click(async () => {
             if ($(`#${containerId} img`).hasClass("selected")) {
-                if (! await $.ajax({
+                if (! await $.ajax({ // if no error
                     url: "/travels/api/post/remove-post-from-album/",
                     type: 'PUT',
                     data:{
@@ -62,7 +64,7 @@ async function openAddToAlbumModal({ postId }) {
                     $(`#${containerId} .check-mark`).hide()
                 }
             } else {
-                if (! await $.ajax({
+                if (! await $.ajax({ // if no error
                     url: "/travels/api/post/add-post-to-album/",
                     type: 'PUT',
                     data:{

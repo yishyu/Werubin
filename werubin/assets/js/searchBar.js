@@ -1,6 +1,10 @@
 //from https://stackoverflow.com/questions/67353099/how-to-create-an-autocomplete-search-box-in-bootstrap
 
 function mergeArrays({arrayTags, arrayUsers}) {
+  /**
+   * Combines the user and tag arrays, alternating between the two types,
+   * So if there are 100 tag results, users are shown too and vice-versa
+   */
   var result = [],
       i, l = Math.min(arrayTags.length, arrayUsers.length);
 
@@ -17,8 +21,10 @@ function mergeArrays({arrayTags, arrayUsers}) {
 }
 
 async function autocomplete(inp) {
-  /*the autocomplete function takes two arguments,
-  the text field element and an array of possible autocompleted values:*/
+  /*
+   * the autocomplete function takes two arguments,
+   * the text field element and an array of possible autocompleted values
+   */
   var currentFocus;
   /*execute a function when someone writes in the text field:*/
   inp.addEventListener("input", async function(e) {

@@ -6,7 +6,7 @@ function single_post(){
         url: $('#postidurl').val(),
         success: function(data){
             $("#posts").empty()
-            add_post(data, true)
+            addPost(data, true)
         }
     })
 }

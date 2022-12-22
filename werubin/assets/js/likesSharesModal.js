@@ -3,6 +3,10 @@ function closeLikeShareModal(){
 }
 
 function openLikeShareModal({ modalType, id, username }) {
+    /**
+     * modal used in 5 different cases to display the users who shared, liked a post, follow a user, are followed by a user
+     * Gives the good information to the toggleLikeShareModal
+     */
     let modalTitle;
     let url = "/users/api/get/";
 
@@ -30,7 +34,7 @@ function openLikeShareModal({ modalType, id, username }) {
         default:
             break;
     }
-
+    // fetch the users from the server
     $.get({
           url: url
         , success: function(data) {
@@ -45,6 +49,11 @@ function openLikeShareModal({ modalType, id, username }) {
 }
 
 function toggleLikeShareModal({ modalTitle, data }){
+    /**
+     * Displays the modal showing the users who liked/shared/...
+     * with a follow or unfollow button depending on whether or not the
+     * user is already followed
+     */
     let output = ""
     let url = "/users/api/current_user"
     $.getJSON({
@@ -54,6 +63,7 @@ function toggleLikeShareModal({ modalTitle, data }){
         }
     }).then(
         current_user => {
+            // loop through the users and add them to the modal
             for (user of data) {
                 let picture = user.profile_picture ? user.profile_picture : defaultProfilePictureUrl
                 let follow_text = current_user.followers.includes(user.id) ? "Unfollow" : "Follow"
@@ -84,6 +94,9 @@ function toggleLikeShareModal({ modalTitle, data }){
 }
 
 function onFollowClick(userId, userObjId) {
+    /*
+        Follow or unfollow a user when the follow button is clicked
+    */
     let userObj= $(`#${userObjId}`)
     let url = "/users/api/follow_user/"
     $.ajax({
@@ -93,6 +106,7 @@ function onFollowClick(userId, userObjId) {
             "user-id": userId
         },
         headers: {
+            // get the csrf token from the page
             'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
         },
         success: function(data){

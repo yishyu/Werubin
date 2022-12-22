@@ -1,14 +1,20 @@
 var LIMIT = 5
 var OFFSET = 0
 
-function tag_posts(tag){
+function tagPosts(tag){
+    /**
+     * displays a paginated feed of tagged posts
+     */
     $("#posts").empty()
-    paginated_feed({feed_type: "SingleTag", offset: OFFSET, limit: LIMIT, parameters:`&tag=${tag}`});
+    paginatedFeed({feed_type: "SingleTag", offset: OFFSET, limit: LIMIT, parameters:`&tag=${tag}`});
     OFFSET += LIMIT
 }
 
 $( document ).ready(function(){
-    tag_posts(tag)
+    /**
+     * handles the load of next posts when scrolling to the bottom of the feed
+     */
+    tagPosts(tag)
     // load next post at the bottom of the page
     var $win = $(window)
     $(window).scroll(function() {
@@ -19,7 +25,7 @@ $( document ).ready(function(){
             windowScrTp = $(this).scrollTop();
             if (windowScrTp > (divTop+divHeight-wHeight-100)){
                 $('.bottomPost').first().removeClass("bottomPost")
-                paginated_feed({feed_type: "SingleTag", offset: OFFSET, limit: LIMIT, parameters:`&tag=${tag}`});
+                paginatedFeed({feed_type: "SingleTag", offset: OFFSET, limit: LIMIT, parameters:`&tag=${tag}`});
                 OFFSET += LIMIT
             }
         }

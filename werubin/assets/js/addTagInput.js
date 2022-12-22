@@ -32,5 +32,8 @@ function addNewTagField(type) {
 }
 
 function deleteTagField({tagRow}) {
+    /*
+        Delete a tag field from the modal form
+    */
     $(`#${tagRow}`).remove()
 }

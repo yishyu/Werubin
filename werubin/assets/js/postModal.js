@@ -55,6 +55,7 @@ function openUpdateModal(post){
 
 }
 
+// reset modal when closed
 $('#post-modal').on('hidden.bs.modal', function () {
     $("#locate-me").prop('disabled', false);
     $("#postModalErrors").empty()
@@ -62,8 +63,9 @@ $('#post-modal').on('hidden.bs.modal', function () {
     reset_tags('post')
 });
 
-$("#postForm").unbind().submit(function(e) {
 
+$("#postForm").unbind().submit(function(e) {
+    // Execute this function before submitting
     e.preventDefault(); // avoid to execute the actual submit of the form.
 
     var form = $(this);
@@ -84,10 +86,11 @@ $("#postForm").unbind().submit(function(e) {
                 $(`#${data.get('post-id')}postDiv`).remove()
             }
             closePostModal();
-            add_post(post, false);
+            addPost(post, false);
 
         },
         error: function (xhr, ajaxOptions, thrownError) {
+            // show errors
             let text = ''
             for (var missing_key of xhr.responseJSON["Missing Keys"]){
                 text += `${missing_key} <br>`
