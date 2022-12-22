@@ -9,7 +9,7 @@ function feed(feed_type){
     $(`#${feed_type}`).removeClass('yellow-text').addClass('blue-text')
     $("#posts").empty()
     OFFSET = 0 // first load with offset 0 because we are changing feed
-    paginated_feed({feed_type: feed_type, offset: OFFSET, limit: LIMIT});
+    paginatedFeed({feed_type: feed_type, offset: OFFSET, limit: LIMIT});
     OFFSET += LIMIT
 }
 
@@ -45,7 +45,7 @@ $( document ).ready(function(){
             if (windowScrTp > (divTop+divHeight-wHeight-100)){
                 $('.bottomPost').first().removeClass("bottomPost")
                 let current_feed_type = this.getFeedType()
-                paginated_feed({feed_type: current_feed_type, offset: OFFSET, limit: LIMIT});
+                paginatedFeed({feed_type: current_feed_type, offset: OFFSET, limit: LIMIT});
                 OFFSET += LIMIT
             }
         }

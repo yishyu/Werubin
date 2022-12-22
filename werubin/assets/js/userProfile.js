@@ -79,16 +79,19 @@ function addToMap(map, post) {
 var LIMIT = 2
 var OFFSET = 0
 
-function user_posts(map){
+function userPosts(map){
+    /**
+     * displays a paginated feed of user posts
+     */
     $("#posts").empty()
-    paginated_feed({feed_type: "User", offset: OFFSET, limit: LIMIT, parameters:`&id=${userId}`});
+    paginatedFeed({feed_type: "User", offset: OFFSET, limit: LIMIT, parameters:`&id=${userId}`});
     OFFSET += LIMIT
 }
 
 function setRoadMap(map){
     /*
         Sets the markers on the roadmap
-        Use of a different function because user_posts will be paginated
+        Use of a different function because userPosts will be paginated
         but on the roadmap we want all the locations
     */
     var url = `/users/api/road_map/?user-id=${userId}`
@@ -103,8 +106,11 @@ function setRoadMap(map){
 }
 
 $( document ).ready(function(){
+    /**
+     * initiates the roadmap and the loading of more posts when scrolling to the bottom of the page
+     */
     var map = initRoadMap()
-    user_posts()
+    userPosts()
     setRoadMap(map)
     // load next post at the bottom of the page
     var $win = $(window)
@@ -116,7 +122,7 @@ $( document ).ready(function(){
             windowScrTp = $(this).scrollTop();
             if (windowScrTp > (divTop+divHeight-wHeight-100)){
                 $('.bottomPost').first().removeClass("bottomPost")
-                paginated_feed({feed_type: "User", offset: OFFSET, limit: LIMIT,parameters:`&id=${userId}`});
+                paginatedFeed({feed_type: "User", offset: OFFSET, limit: LIMIT,parameters:`&id=${userId}`});
                 OFFSET += LIMIT
             }
         }
@@ -125,6 +131,9 @@ $( document ).ready(function(){
 });
 
 $('#albumButton').unbind().click(function(){
+    /**
+     * changes the icon when the accordion is deployed
+     */
     if ($('#caret-icon').hasClass("bi-caret-down")) {
         $('#caret-icon').removeClass("bi-caret-down").addClass("bi-caret-up")
     } else {
@@ -133,6 +142,9 @@ $('#albumButton').unbind().click(function(){
 });
 
 async function albumModal({albumId, title, postids}) {
+    /**
+     * this function is called when an album is clicked to show an album modal
+     */
     var ids = postids.split(" ").filter((s) => s !== "")
     var images = []
     var postIds = []
