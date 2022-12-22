@@ -46,6 +46,10 @@ class PostSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField()
     time_ago = serializers.SerializerMethodField()
     was_shared = serializers.SerializerMethodField()
+    content = serializers.SerializerMethodField()
+
+    def get_content(self, obj):
+        return obj.content if obj.content else ''
 
     def get_was_shared(self, obj):
         return Post.objects.filter(shares=obj.id).values_list("author", flat=True)

@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+# Parameters for the feed api
 type_param = openapi.Parameter('type', openapi.IN_QUERY, description="[Followers, Explore, ForYou, SingleTag, User]", type=openapi.TYPE_STRING, required=True)
 tag_param = openapi.Parameter('tag', openapi.IN_QUERY, description="a tag name (for type SingleTag only)", type=openapi.TYPE_STRING)
 user_param = openapi.Parameter('id', openapi.IN_QUERY, description="a user id (for type User only)", type=openapi.TYPE_STRING)

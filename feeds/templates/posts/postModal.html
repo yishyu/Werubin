@@ -31,17 +31,17 @@
                     <div class="row">
                         <div class="form-group mb-3 col-12">
                             <label for="postPictures" class="form-label yellow-text">Pictures</label>
-                            <input class="form-control" id="postPictures" type="file" name="pictures" multiple accept="image/png, image/gif, image/jpeg">
+                            <input class="form-control" id="postPictures" type="file" name="pictures" multiple accept="image/png, image/gif, image/jpeg, image/jpg">
                         </div>
                     </div>
                     <div class="row mb-2">
                         <label for="tagInputs" class="col-2 form-label yellow-text">Tags</label>
-                        <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField()">
+                        <div id="addTag" class="center col-1 btn btn-outline-warning" onclick="addNewTagField('post')">
                             +
                         </div>
                     </div>
 
-                    <div id="tagInputs" class="row col-12">
+                    <div id="postTagInputs" class="row col-12">
                         <div class="row" id="postTag0Row">
                             <div class="form-group col-9">
                                 <input class="tagInput center form-control" id="postTag0" type="text" name="postTag" placeholder="Enter a tag..." required>

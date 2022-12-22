@@ -34,6 +34,9 @@ class Post(models.Model):
 
     @property
     def time_ago(self):
+        """
+            Returns the time since the post was created
+        """
         time = datetime.datetime.now() - self.creation_date
         if time.days > 0:
             if time.days > 7:
@@ -77,6 +80,9 @@ class Comment(models.Model):
 
     @property
     def time_ago(self):
+        """
+            Returns the time since the comment was created
+        """
         time = datetime.datetime.now() - self.creation_date
         if time.days > 0:
             if time.days > 7:

@@ -1,22 +1,21 @@
-var currentTagFieldId = 1
-function reset_tags(){
-    /*
-        Remove all tag fields in the modal form
-    */
+var ids = {
+    'user': 1,
+    'post': 1
+}
+function reset_tags(type){
+    let currentTagFieldId = ids[type]
     for (currentTagFieldId; currentTagFieldId > 0; currentTagFieldId--){
-        $(`#postTag${currentTagFieldId}Row`).remove()
+        $(`#${type}Tag${currentTagFieldId}Row`).remove()
     }
-    currentTagFieldId = 1
+    ids[type] = 1
 }
 
-function addNewTagField() {
-    /*
-        Add a new tag field to the modal form
-    */
-    let tagFieldId = "postTag" + currentTagFieldId
-    currentTagFieldId += 1
+function addNewTagField(type) {
+    let currentTagFieldId = ids[type]
+    let tagFieldId = `${type}Tag${currentTagFieldId}`
+    ids[type] += 1
 
-    let postTagHTML = `
+    let TagHTML = `
         <div id="${tagFieldId}Row" class="row mt-1">
             <div class="form-group col-9">
                 <input class="tagInput center form-control" id="${tagFieldId}" type="text" name="${tagFieldId}" placeholder="Enter a tag...">
@@ -27,7 +26,7 @@ function addNewTagField() {
         </div>
     `
 
-    $("#tagInputs").append(postTagHTML)
+    $(`#${type}TagInputs`).append(TagHTML)
     return tagFieldId
 
 }

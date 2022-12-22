@@ -65,11 +65,7 @@ function delete_post(postid, divpostid){
 
 }
 
-function edit_post_modal({postId, divId}){
-    openPostModal();
-}
-
-function addPost(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
+function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
     /*
         Adds a post to the DOM
 
@@ -312,7 +308,7 @@ function addComment(postId, comment){
     comment = `
     <div class="d-flex flex-row mb-2"> <img src="${picture}" width=50 height=50 class="rounded-image">
         <div class="d-flex flex-column ml-2">
-            <span class="name"><a href="#" class="yellow-link"><u>${comment.author.username}</u></a></span>
+            <span class="name"><a href="/users/profile/${comment.author.username}" class="yellow-link"><u>${comment.author.username}</u></a></span>
             <span class="comment-text yellow-darker-text">${comment.content}</span>
             <div class="d-flex flex-row align-items-center status yellow-text">
                 <small><a id="comment-like-button${comment.id}" href="javascript:void(0);" onclick="likeComment(${comment.id})" class="${like_color}"><i class="bi bi-hand-thumbs-up-fill"></i> Like</a></small>

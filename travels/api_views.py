@@ -4,7 +4,6 @@ from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from travels.models import Post, Comment, PostImage, Tag, Location, Album
 from travels.serializers import PostSerializer, CommentSerializer, AlbumSerializer, PostUserSerializer, TagSerializer
-from travels.forms import PostForm
 from django.shortcuts import get_object_or_404
 from travels.decorators import has_postid, has_commentId
 from users.models import User
@@ -59,7 +58,7 @@ def update_post(request, postId):
                 if tag not in post.tags.all():
                     post.tags.add(tag)
 
-    # save image
+    # save images
     for file in request.FILES.getlist('pictures'):
         postimage = PostImage.objects.create(post=post)
         postimage.image.save(
@@ -177,6 +176,9 @@ def share_post(request, postId):
 
 @api_view(['POST'])
 def add_album(request):
+    """
+        Adding an album to the user and returns it
+    """
     album, created = Album.objects.get_or_create(
         user=request.user,
         name=request.data["albumName"]
@@ -189,6 +191,9 @@ def add_album(request):
 
 @api_view(['DELETE'])
 def delete_album(request):
+    """
+        Delete an album
+    """
     album_qs = Album.objects.filter(
         user=request.user,
         id=request.data["albumId"]
@@ -201,6 +206,10 @@ def delete_album(request):
 
 @api_view(['PUT'])
 def add_post_to_album(request):
+    """
+        Add a post to an album
+    """
+    # check if the post and the album exist
     post_qs = Post.objects.filter(
         author=request.user,
         id=request.data["postId"]
@@ -224,6 +233,10 @@ def add_post_to_album(request):
 
 @api_view(['PUT'])
 def remove_post_from_album(request):
+    """
+        Remove a post from an album
+    """
+    # check if the post and the album exist
     post_qs = Post.objects.filter(
         author=request.user,
         id=request.data["postId"]
@@ -247,6 +260,10 @@ def remove_post_from_album(request):
 
 @api_view(['PUT'])
 def remove_image_from_post(request):
+    """
+        Remove an image from a post
+    """
+    # check if the post and the image exist
     post_qs = Post.objects.filter(
         author=request.user,
         id=request.data["postId"]
@@ -269,6 +286,9 @@ def remove_image_from_post(request):
 
 @api_view(['GET'])
 def get_albums(request):
+    """
+        Get all the albums of the user
+    """
     albums = Album.objects.filter(user=request.user)
     serializer = AlbumSerializer(albums, many=True)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
@@ -277,6 +297,9 @@ def get_albums(request):
 @api_view(['GET'])
 @has_postid
 def get_comments(request, postId):
+    """
+        Get all the comments of a post
+    """
     post = get_object_or_404(Post, id=postId)
 
     serializer = CommentSerializer(post.comment_set.all().order_by("creation_date"), many=True)
@@ -302,6 +325,10 @@ def toggle_like_comment(request, commentId):
 @api_view(['POST'])
 @has_postid
 def add_comment(request, postId):
+    """
+        Add a comment to a post
+    """
+    # check if the post exists and if the content is not too long
     if "content" not in request.data:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "no content"})
     content = request.data["content"]
@@ -320,6 +347,9 @@ def add_comment(request, postId):
 
 @api_view(['GET'])
 def tag_user_autocomplete(request):
+    """
+        Get all the users and tags that start with the search string
+    """
     search = request.GET.get("search", None)
     if not search:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "search field missing in the request"})

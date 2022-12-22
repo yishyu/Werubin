@@ -42,7 +42,7 @@ function openUpdateModal(post){
     // Tags
     $("#postTag0").val(post.tags[0].name)
     for (var i=1; i < post.tags.length; i++){
-        var tagId = addNewTagField()
+        var tagId = addNewTagField('post')
         $(`#${tagId}`).val(post.tags[i].name)
     }
     // Api
@@ -59,8 +59,8 @@ function openUpdateModal(post){
 $('#post-modal').on('hidden.bs.modal', function () {
     $("#locate-me").prop('disabled', false);
     $("#postModalErrors").empty()
-    $(".form-control").val("")
-    resetTags()
+    $("#post-modal .form-control").val("")
+    reset_tags('post')
 });
 
 
