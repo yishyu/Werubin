@@ -60,7 +60,7 @@ function openImages({albumId, postId, title, imageArray, imageurl, postIds}){
     )
 }
 
-function remove_post_from_album({albumId, imageArray, postIds}) {
+function removePostFromAlbum({albumId, imageArray, postIds}) {
     /*
         Removes the post from the album
         by sending a PUT request to the server

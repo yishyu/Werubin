@@ -60,7 +60,7 @@ $('#post-modal').on('hidden.bs.modal', function () {
     $("#locate-me").prop('disabled', false);
     $("#postModalErrors").empty()
     $("#post-modal .form-control").val("")
-    reset_tags('post')
+    resetTags('post')
 });
 
 
