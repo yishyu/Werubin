@@ -8,6 +8,7 @@ function reset_tags(){
     }
     currentTagFieldId = 1
 }
+
 function addNewTagField() {
     /*
         Add a new tag field to the modal form

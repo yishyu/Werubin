@@ -69,11 +69,13 @@ function edit_post_modal({postId, divId}){
     openPostModal();
 }
 
-function add_post(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
+function addPost(post, append){  // if append is false, we prepend, all new post is prepended and all past posts are appended
     /*
         Adds a post to the DOM
 
     */
+
+    // get all the values needed to display a post
     var picture  = post.author.profile_picture ? post.author.profile_picture: defaultProfilePictureUrl
     var description = post.shares.id ? `shared post <a id=sharedPostLink${post.id} href="/travels/post/${post.shares.id}">${post.shares.id}</a> from ${post.shares.author.username}`: `was in <b ><u><a class="yellow-text" href="http://maps.google.com/?q=${post.location.name}" target="_blank">${post.location.name}</a></u></b>`
     var tags_html = ""
@@ -97,13 +99,13 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     <button class="dropdown-item" type="button" onclick="openAddToAlbumModal({postId: '${post.id}'})"><i class="fa fa-plus-square yellow-text" aria-hidden="true"></i> Add to album </button>
     <button class="dropdown-item" type="button" id="editPost${post.id}"><i class="fa fa-pencil-square-o yellow-text" aria-hidden="true"></i> Edit Post </button>
     ` : ``
-
+    // inject variables into HTML that is repeated to create a feed
     var edit_post = (post.author.id == requestUserId) ? `
         <div class="btn-group dropright">
                 <i class="fa fa-ellipsis-h yellow-text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <div class="dropdown-menu">
                 ${edit_addalbum_buttons}
-                <button class="dropdown-item" type="button" onclick="delete_post('${post.id}', '${div_id}')"><i class="fa fa-times text-danger" aria-hidden="true"></i> Delete Post</button>
+                <button class="dropdown-item" type="button" onclick="deletePost('${post.id}', '${div_id}')"><i class="fa fa-times text-danger" aria-hidden="true"></i> Delete Post</button>
                 <a class="yellow-link" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><button class="dropdown-item" type="button">🥳🥳 Surprise ?</button></a>
             </div>
         </div>
@@ -211,7 +213,7 @@ function add_post(post, append){  // if append is false, we prepend, all new pos
     // img modal events
     for (var image of post.images){
         $(`#postimg${image.id}`).unbind().click(function(e){
-            open_images({postId: post.id, title: post.author.username + " was in " + post.location.name, imageArray: post.images, imageurl: $(this).attr('src')})
+            openImages({postId: post.id, title: post.author.username + " was in " + post.location.name, imageArray: post.images, imageurl: $(this).attr('src')})
         })
     }
 
@@ -294,7 +296,7 @@ function share_post(postId){
                 msg += " share"
 
             share_display_obj.text(msg)
-            add_post(data, false)
+            addPost(data, false)
 
 
         }
@@ -416,7 +418,7 @@ function paginated_feed({feed_type, offset, limit, parameters=""}){
         url: `/api/feed/?type=${feed_type}&offset=${offset}&limit=${limit}${parameters}`,
         success: function(data){
             for (var post of data){
-                add_post(post, true)
+                addPost(post, true)
             }
             if (data.length > 0){
                 $(`#${post.id}postDiv`).addClass("bottomPost")  // last post gets tagged bottomPost

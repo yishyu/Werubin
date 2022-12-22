@@ -3,11 +3,10 @@ function closeLikeShareModal(){
 }
 
 function openLikeShareModal({ modalType, id, username }) {
-    /*
-        Open the modal to display users who liked or shared a post
-        addtionnaly it is also used to display users who follow or are followed by a user
-        it fetches the data from the server and then calls toggleLikeShareModal
-    */
+    /**
+     * modal used in 5 different cases to display the users who shared, liked a post, follow a user, are followed by a user
+     * Gives the good information to the toggleLikeShareModal
+     */
     let modalTitle;
     let url = "/users/api/get/";
 
@@ -50,9 +49,11 @@ function openLikeShareModal({ modalType, id, username }) {
 }
 
 function toggleLikeShareModal({ modalTitle, data }){
-    /*
-        Display the modal with the users who liked or shared a post
-    */
+    /**
+     * Displays the modal showing the users who liked/shared/...
+     * with a follow or unfollow button depending on whether or not the
+     * user is already followed
+     */
     let output = ""
     let url = "/users/api/current_user"
     $.getJSON({

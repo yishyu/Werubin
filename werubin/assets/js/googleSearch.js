@@ -35,7 +35,6 @@ function initGoogle(){
     })
 }
 function initAutocomplete() {
-
     autocomplete = new google.maps.places.Autocomplete(
         document.getElementById('googleAutocomplete'));
     // add listener on the input
