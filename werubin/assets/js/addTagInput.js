@@ -2,7 +2,7 @@ var ids = {
     'user': 1,
     'post': 1
 }
-function reset_tags(type){
+function resetTags(type){
     let currentTagFieldId = ids[type]
     for (currentTagFieldId; currentTagFieldId > 0; currentTagFieldId--){
         $(`#${type}Tag${currentTagFieldId}Row`).remove()

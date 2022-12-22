@@ -71,7 +71,7 @@ function addToMap(map, post) {
             </div>
             `
         infoWindow.setContent(contentString);
-        set_weather(position.lat, position.lng, weather_id);
+        setWeather(position.lat, position.lng, weather_id);
         infoWindow.open(marker.getMap(), marker);
         });
 }

@@ -37,12 +37,12 @@ function initMap(post) {
         <h5 id="firstHeading" class="blue-text firstHeading">${marker.getTitle()}</h5>
         `
         infoWindow.setContent(contentString);
-        set_weather(position.lat, position.lng, weather_id);
+        setWeather(position.lat, position.lng, weather_id);
         infoWindow.open(marker.getMap(), marker);
         });
 }
 
-function delete_post(postid, divpostid){
+function deletePost(postid, divpostid){
     /*
         Deletes a post from the DOM and from the database
         asks for confirmation before deleting
@@ -140,7 +140,7 @@ function addPost(post, append){  // if append is false, we prepend, all new post
                     </div>
                     <div class="col-9 d-flex flex-row muted-color justify-content-end">
                         <span class="mr-2">
-                            <a class="yellow-link"  href="javascript:void(0);" onclick="toggle_comment(${post.id})" role="button" aria-expanded="false" id="collapseCommentCount${post.id}">
+                            <a class="yellow-link"  href="javascript:void(0);" onclick="toggleComment(${post.id})" role="button" aria-expanded="false" id="collapseCommentCount${post.id}">
                                 ${comment_text}
                             </a>
                         </span>
@@ -162,7 +162,7 @@ function addPost(post, append){  // if append is false, we prepend, all new post
                             </a>
                         </span>
                         <span class="col">
-                            <a class="col yellow-link" role="button" aria-expanded="false" href="javascript:void(0)" onclick="toggle_comment(${post.id})" id="collapseCommentButton${post.id}">
+                            <a class="col yellow-link" role="button" aria-expanded="false" href="javascript:void(0)" onclick="toggleComment(${post.id})" id="collapseCommentButton${post.id}">
                                 <i class="bi bi-chat-dots-fill"></i> Comment
                             </a>
                         </span>
@@ -179,7 +179,7 @@ function addPost(post, append){  // if append is false, we prepend, all new post
                     <div id="Comments${post.id}"></div>
                     <div class="comment-input">
                         <input id="comment-input${post.id}" type="text" class="form-control comment-input-box" maxlength="150" placeholder="max 150 characters.">
-                        <div class="fonts"><a id="comment-push${post.id}" class="yellow-link" href="javascript:void(0);" onclick="send_comment(${post.id})"><i class="fa fa-paper-plane" aria-hidden="true"></i></a></div>
+                        <div class="fonts"><a id="comment-push${post.id}" class="yellow-link" href="javascript:void(0);" onclick="sendComment(${post.id})"><i class="fa fa-paper-plane" aria-hidden="true"></i></a></div>
                     </div>
                 </div>
             </div>
@@ -324,7 +324,7 @@ function addComment(postId, comment){
     $(`#Comments${postId}`).append(comment)
 }
 
-function toggle_comment(postId){
+function toggleComment(postId){
     /*
         Display all the comments of a single post
     */
@@ -345,7 +345,7 @@ function toggle_comment(postId){
 
 }
 
-function send_comment(postId){
+function sendComment(postId){
     /*
         Send a comment to the backend
     */

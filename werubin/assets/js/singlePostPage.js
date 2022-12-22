@@ -1,4 +1,4 @@
-function single_post(){
+function singlePost(){
     /*
         only shows a single post based on the url
     */
