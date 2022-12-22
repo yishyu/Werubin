@@ -19,6 +19,9 @@ import os
 # Sign Up View
 @no_user
 def registration(request):
+    """
+        This view is used to register a new user
+    """
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -39,12 +42,17 @@ def registration(request):
 
 @no_user
 def forgotpass(request):
+    """
+        This view is used to send an email to the user to reset his password
+    """
     if request.method == "POST":
         email = request.POST["email"].lower().strip()
         user_qs = User.objects.filter(email=email)
+        # sets the validity of the link to 24 hours
         validity = dt.datetime.now() + dt.timedelta(hours=24)
         if user_qs.count() > 0:
             passforgot_obj = PasswordForgottenRequest.objects.create(user=user_qs.first(), validity_end=validity)
+            # send the email only if not in debug mode
             if not settings.DEBUG:
                 send_mail(
                     'Werubin Password Recovery',
@@ -66,7 +74,11 @@ def forgotpass(request):
 
 @no_user
 def resetpass(request, key):
+    """
+        This view is used to reset the password of a user
+    """
     passforgot_obj = PasswordForgottenRequest.objects.get(link=key)  # 404 if not found
+    # check if the link is still valid
     if dt.datetime.now() > passforgot_obj.validity_end:
         messages.add_message(
             request, messages.ERROR, "Sorry, this link has expired !"
@@ -90,10 +102,15 @@ def resetpass(request, key):
 
 @login_required
 def profile(request, username):
+    """
+        This view is used to display the profile of a user
+        but also to edit it
+    """
     user = get_object_or_404(User, username=username)
     if request.method == "POST":
         data = request.POST
         if request.user.id == user.id:
+            # convert the date to a datetime date object
             birthdate = data['birthdate']
             birthdate_year = birthdate.split("-")[0]
             birthdate_month = birthdate.split("-")[1]
@@ -116,6 +133,7 @@ def profile(request, username):
                 return HttpResponseRedirect(reverse("users:profile", args=[username]))
 
             user.tags.clear()
+            # create the tags if they don't exist and add them to the user
             for key in tag_keys:
                 tag_name = data[key].strip().replace(' ', '')
                 tag, _ = Tag.objects.get_or_create(name=tag_name)
@@ -136,6 +154,9 @@ def profile(request, username):
 
 @login_required
 def logout(request):
+    """
+        This view is used to logout a user
+    """
     messages.add_message(
         request, messages.SUCCESS, "You were successfully logged out. We hope to see you soon !"
     )
@@ -145,6 +166,10 @@ def logout(request):
 
 @login_required
 def register_tag(request):
+    """
+        This view is used to add tag for a user
+        It is used only if the user has no tag
+    """
     if request.method == "POST":
         if len(request.POST.getlist('tag')) == 0:
             messages.add_message(

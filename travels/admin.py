@@ -1,6 +1,8 @@
 from django.contrib import admin
 from travels.models import Post, Comment, PostImage, Album, Tag, Location
 
+# Register models in the admin panel
+
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):

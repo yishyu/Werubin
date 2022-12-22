@@ -3,6 +3,10 @@ from rest_framework import status
 
 
 def has_postid(func):
+    """
+        This decorator is used to check if the request has a post-id
+        and pass it to the function
+    """
     def wrapper(*args, **kwargs):
         request = args[0]
         data = request.GET if request.method == "GET" else request.data
@@ -13,6 +17,10 @@ def has_postid(func):
 
 
 def has_commentId(func):
+    """
+        This decorator is used to check if the request has a comment-id
+        and pass it to the function
+    """
     def wrapper(*args, **kwargs):
         request = args[0]
         data = request.GET if request.method == "GET" else request.data

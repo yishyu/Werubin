@@ -16,6 +16,7 @@ from users.decorators import no_user
 @api_view(['GET'])
 def get_users(request):
     """
+        Returns a list of users based on the search query
         Params: - type (followers, following, shared, liked)
                 - id   (userId   , userId   , postId, postId)
     """
@@ -47,13 +48,18 @@ def get_users(request):
 
 @api_view(["GET"])
 def current_user(request):
+    """
+        Returns the current logged in user
+    """
     data = UserSerializer(request.user).data
     return Response(status=status.HTTP_200_OK, data=data)
 
 
 @api_view(["PUT"])
 def follow_user(request):
-
+    """
+        Follows or unfollows a user
+    """
     user = get_object_or_404(User, id=request.data['user-id'])
     if request.user.id == user.id:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={"message": "You may like yourself a lot but unfortunately you cannot follow yourself"})
@@ -70,6 +76,10 @@ def follow_user(request):
 @api_view(["PUT"])
 @permission_classes([AllowAny, ])
 def user_exists(request):
+    """
+        Checks if a user exists
+        Used in the registration form
+    """
     if User.objects.filter(username=request.data["username"]).count() > 0:
         data = {"user_exists": True}
     else:
@@ -80,6 +90,10 @@ def user_exists(request):
 @api_view(["PUT"])
 @permission_classes([AllowAny, ])
 def email_exists(request):
+    """
+        Checks if an email exists
+        Used in the registration form
+    """
     if User.objects.filter(email=request.data["email"].lower()).count() > 0:
         data = {"email_exists": True}
     else:
