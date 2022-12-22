@@ -1,6 +1,9 @@
 var autocomplete;
 
 function initGoogle(){
+    /**
+     * Initiate the localisation services
+     */
     initAutocomplete();
     $("#locate-me").unbind().click(() => {
         var onError = function(error) {
@@ -28,6 +31,9 @@ function initGoogle(){
     })
 }
 function initAutocomplete() {
+    /**
+     * Creates the listener for the autocomplete
+     */
     autocomplete = new google.maps.places.Autocomplete(
         document.getElementById('googleAutocomplete'));
     // add listener on the input
@@ -35,7 +41,9 @@ function initAutocomplete() {
 }
 
 function checkAddress() {
-    // Get the place details from the autocomplete object.
+    /**
+     * Get the place details from the autocomplete object.
+     */
     $("#locate-me").prop('disabled', false);
     var place = autocomplete.getPlace();
     document.getElementById("addressMissingElements").innerHTML = ""

@@ -145,8 +145,8 @@ async function albumModal({albumId, title, postids}) {
 
     }
     if (images.length == 0) {
-        open_images({title: title, imageArray: [noAlbumPictureUrl], imageurl: noAlbumPictureUrl})
+        openImages({title: title, imageArray: [noAlbumPictureUrl], imageurl: noAlbumPictureUrl})
     } else {
-        open_images({albumId: albumId, title: title, imageArray: images, imageurl: images[0].image, postIds: postIds})
+        openImages({albumId: albumId, title: title, imageArray: images, imageurl: images[0].image, postIds: postIds})
     }
 }

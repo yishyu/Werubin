@@ -59,7 +59,7 @@ $('#post-modal').on('hidden.bs.modal', function () {
     $("#locate-me").prop('disabled', false);
     $("#postModalErrors").empty()
     $(".form-control").val("")
-    reset_tags()
+    resetTags()
 });
 
 $("#postForm").unbind().submit(function(e) {
@@ -84,7 +84,7 @@ $("#postForm").unbind().submit(function(e) {
                 $(`#${data.get('post-id')}postDiv`).remove()
             }
             closePostModal();
-            add_post(post, false);
+            addPost(post, false);
 
         },
         error: function (xhr, ajaxOptions, thrownError) {

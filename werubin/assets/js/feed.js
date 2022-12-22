@@ -13,7 +13,10 @@ function feed(feed_type){
     OFFSET += LIMIT
 }
 
-function get_feed_type(){
+function getFeedType(){
+    /**
+     * Displays the right feed when the page is loaded
+     */
     var hash = $(location).attr('hash');
     if (hash === ""){
         history.pushState(null,null, '#ForYou');
@@ -28,7 +31,7 @@ $( document ).ready(function(){
         Loads the field corresponding to the anchor
     */
     // first feed load
-    const feed_type = get_feed_type()
+    const feed_type = getFeedType()
     feed(feed_type)
 
     // load next post at the bottom of the page
@@ -41,7 +44,7 @@ $( document ).ready(function(){
             windowScrTp = $(this).scrollTop();
             if (windowScrTp > (divTop+divHeight-wHeight-100)){
                 $('.bottomPost').first().removeClass("bottomPost")
-                let current_feed_type = this.get_feed_type()
+                let current_feed_type = this.getFeedType()
                 paginated_feed({feed_type: current_feed_type, offset: OFFSET, limit: LIMIT});
                 OFFSET += LIMIT
             }

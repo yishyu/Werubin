@@ -1,11 +1,19 @@
 var currentTagFieldId = 1
-function reset_tags(){
+
+function resetTags(){
+    /*
+        removes all tag fields
+    */
     for (currentTagFieldId; currentTagFieldId > 0; currentTagFieldId--){
         $(`#postTag${currentTagFieldId}Row`).remove()
     }
     currentTagFieldId = 1
 }
+
 function addNewTagField() {
+    /*
+        adds a new tag input field
+    */
     let tagFieldId = "postTag" + currentTagFieldId
     currentTagFieldId += 1
 
@@ -26,13 +34,16 @@ function addNewTagField() {
 }
 
 function deleteTagField({tagRow}) {
+    /*
+        removes a tag field
+    */
     $(`#${tagRow}`).remove()
 }
 
 // https://stackoverflow.com/questions/46260312/how-to-submit-a-list-of-items-in-an-html-form
 
 $(document).ready(function() {
-    // on user clicks submit button, this code will be executed first
+    // when user clicks submit button, this code will be executed first
     $('postForm').submit(function() {
         // we'll take all values of the Two dropdown and put them in 1 string
         var all_values = '';
